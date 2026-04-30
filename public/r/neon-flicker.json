@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "neon-flicker",
+  "title": "Neon Flicker",
+  "description": "Neon glow with irregular flicker. Pure CSS, infinite loop.",
+  "files": [
+    {
+      "path": "registry/default/neon-flicker/neon-flicker.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface NeonFlickerProps {\n  children: React.ReactNode;\n  /** Neon glow color (any CSS color). Default warm pink. */\n  color?: string;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function NeonFlicker({\n  children,\n  color = 'oklch(72% 0.22 350)',\n  as: Component = 'span',\n  className\n}: NeonFlickerProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-neon-flicker', className)}\n      style={{\n        color,\n        textShadow: `0 0 4px ${color}, 0 0 12px ${color}, 0 0 32px ${color}`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/neon-flicker.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-neon-flicker": "trickle-neon-flicker 3s linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-neon-flicker": {
+      "0%, 7%, 11%, 35%, 41%, 65%, 70%, 87%, 92%, 100%": {
+        "opacity": "1",
+        "filter": "brightness(1.1)"
+      },
+      "8%, 10%": {
+        "opacity": "0.35",
+        "filter": "brightness(0.55)"
+      },
+      "36%, 40%": {
+        "opacity": "0.6",
+        "filter": "brightness(0.8)"
+      },
+      "66%, 69%": {
+        "opacity": "0.4",
+        "filter": "brightness(0.6)"
+      },
+      "88%, 91%": {
+        "opacity": "0.7",
+        "filter": "brightness(0.85)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-neon-flicker": {
+        "animation": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

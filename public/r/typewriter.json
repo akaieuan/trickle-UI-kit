@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typewriter",
+  "title": "Typewriter",
+  "description": "Character-by-character typing with optional blinking caret and multi-string cycling.",
+  "registryDependencies": [
+    "@trickle/text-root"
+  ],
+  "files": [
+    {
+      "path": "registry/default/typewriter/typewriter.tsx",
+      "content": "'use client';\n\nimport { useEffect, useState, type ElementType } from 'react';\nimport { cn } from '@/lib/cn';\nimport { useTextRoot } from '@/registry/default/text-root/text-root';\n\nexport interface TypewriterProps {\n  /** Single string to type. Use `strings` for multi-string cycling. */\n  text?: string;\n  /** Multiple strings to cycle through. Overrides `text` if provided. */\n  strings?: string[];\n  /** Delay between each character, in ms. */\n  charDelay?: number;\n  /** Delay before typing starts (or before each new string in cycle), in ms. */\n  delay?: number;\n  /** When cycling `strings`, ms to hold the fully-typed string before deleting. */\n  holdDuration?: number;\n  /** When cycling, ms between delete characters. */\n  deleteDelay?: number;\n  /** Show a blinking caret. */\n  cursor?: boolean;\n  /** Loop through `strings` indefinitely. Ignored when only `text` is set. */\n  loop?: boolean;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  cursorClassName?: string;\n  trigger?: 'mount' | 'view';\n}\n\nexport function Typewriter({\n  text,\n  strings,\n  charDelay = 80,\n  delay = 200,\n  holdDuration = 1500,\n  deleteDelay = 40,\n  cursor = true,\n  loop = false,\n  as: Component = 'span',\n  className,\n  cursorClassName,\n  trigger = 'mount'\n}: TypewriterProps) {\n  const { ready, prefersReducedMotion, setRef } = useTextRoot({ trigger, delay });\n  const targets = strings && strings.length > 0 ? strings : text ? [text] : [];\n  const finalText = targets[0] ?? '';\n\n  const [displayed, setDisplayed] = useState('');\n  const [stringIdx, setStringIdx] = useState(0);\n  const [deleting, setDeleting] = useState(false);\n\n  useEffect(() => {\n    if (!ready || targets.length === 0) return;\n    if (prefersReducedMotion) {\n      setDisplayed(finalText);\n      return;\n    }\n\n    const current = targets[stringIdx % targets.length] ?? '';\n    let timer: number;\n\n    if (!deleting && displayed.length < current.length) {\n      timer = window.setTimeout(\n        () => setDisplayed(current.slice(0, displayed.length + 1)),\n        charDelay\n      );\n    } else if (!deleting && displayed.length === current.length) {\n      if (targets.length > 1 && loop) {\n        timer = window.setTimeout(() => setDeleting(true), holdDuration);\n      }\n    } else if (deleting && displayed.length > 0) {\n      timer = window.setTimeout(\n        () => setDisplayed(current.slice(0, displayed.length - 1)),\n        deleteDelay\n      );\n    } else if (deleting && displayed.length === 0) {\n      setDeleting(false);\n      setStringIdx((i) => (i + 1) % targets.length);\n    }\n\n    return () => window.clearTimeout(timer);\n  }, [ready, prefersReducedMotion, displayed, deleting, stringIdx, targets, finalText, charDelay, deleteDelay, holdDuration, loop]);\n\n  return (\n    <Component ref={setRef} className={cn('inline', className)}>\n      <span aria-hidden='true'>{displayed}</span>\n      <span className='sr-only'>{finalText}</span>\n      {cursor && (\n        <span\n          aria-hidden='true'\n          className={cn(\n            'ml-0.5 inline-block w-[0.08em] -mb-0.5 h-[1em] translate-y-[0.1em] bg-current align-baseline animate-trickle-caret-blink',\n            cursorClassName\n          )}\n        />\n      )}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/typewriter.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-caret-blink": "trickle-caret-blink 1s step-end infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-caret-blink": {
+      "0%, 50%": {
+        "opacity": "1"
+      },
+      "51%, 100%": {
+        "opacity": "0"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-caret-blink": {
+        "animation": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

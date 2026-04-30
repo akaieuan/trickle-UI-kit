@@ -1,0 +1,114 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glitch-split",
+  "title": "Glitch Split",
+  "description": "RGB-channel-split glitch effect via twin pseudo-elements with clip-path. Loop or hover trigger.",
+  "files": [
+    {
+      "path": "registry/default/glitch-split/glitch-split.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface GlitchSplitProps {\n  children: string;\n  /** RGB-split colors as [red-channel, blue-channel]. Default cyan + magenta. */\n  colors?: [string, string];\n  /** Trigger source: `loop` (default) or `hover`. */\n  trigger?: 'loop' | 'hover';\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function GlitchSplit({\n  children,\n  colors = ['oklch(75% 0.22 200)', 'oklch(70% 0.27 320)'],\n  trigger = 'loop',\n  as: Component = 'span',\n  className\n}: GlitchSplitProps) {\n  const [a, b] = colors;\n\n  return (\n    <Component\n      data-text={children}\n      className={cn(\n        'trickle-glitch-split relative inline-block',\n        trigger === 'loop' && 'trickle-glitch-loop',\n        className\n      )}\n      style={\n        {\n          ['--trickle-glitch-a' as string]: a,\n          ['--trickle-glitch-b' as string]: b\n        } as CSSProperties\n      }\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/glitch-split.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-glitch-a": "trickle-glitch-a 3s steps(1) infinite",
+      "--animate-trickle-glitch-b": "trickle-glitch-b 3s steps(1) infinite"
+    }
+  },
+  "css": {
+    ".trickle-glitch-split::before, .trickle-glitch-split::after": {
+      "content": "attr(data-text)",
+      "position": "absolute",
+      "inset": "0",
+      "pointer-events": "none",
+      "opacity": "0"
+    },
+    ".trickle-glitch-split::before": {
+      "color": "var(--trickle-glitch-a, oklch(75% 0.22 200))"
+    },
+    ".trickle-glitch-split::after": {
+      "color": "var(--trickle-glitch-b, oklch(70% 0.27 320))"
+    },
+    ".trickle-glitch-loop::before": {
+      "animation": "trickle-glitch-a 3s steps(1) infinite"
+    },
+    ".trickle-glitch-loop::after": {
+      "animation": "trickle-glitch-b 3s steps(1) infinite"
+    },
+    ".trickle-glitch-split:hover::before": {
+      "animation": "trickle-glitch-a 0.4s steps(1) 1"
+    },
+    ".trickle-glitch-split:hover::after": {
+      "animation": "trickle-glitch-b 0.4s steps(1) 1"
+    },
+    "@keyframes trickle-glitch-a": {
+      "0%, 89%, 100%": {
+        "opacity": "0",
+        "transform": "translate(0, 0)",
+        "clip-path": "inset(0)"
+      },
+      "90%": {
+        "opacity": "1",
+        "transform": "translate(-2px, 0)",
+        "clip-path": "inset(20% 0 60% 0)"
+      },
+      "92%": {
+        "opacity": "1",
+        "transform": "translate(2px, -1px)",
+        "clip-path": "inset(60% 0 10% 0)"
+      },
+      "94%": {
+        "opacity": "1",
+        "transform": "translate(-1px, 1px)",
+        "clip-path": "inset(40% 0 30% 0)"
+      },
+      "96%": {
+        "opacity": "0"
+      },
+      "98%": {
+        "opacity": "1",
+        "transform": "translate(1px, 0)",
+        "clip-path": "inset(10% 0 70% 0)"
+      }
+    },
+    "@keyframes trickle-glitch-b": {
+      "0%, 89%, 100%": {
+        "opacity": "0",
+        "transform": "translate(0, 0)",
+        "clip-path": "inset(0)"
+      },
+      "90%": {
+        "opacity": "1",
+        "transform": "translate(2px, 1px)",
+        "clip-path": "inset(60% 0 20% 0)"
+      },
+      "92%": {
+        "opacity": "1",
+        "transform": "translate(-2px, 0)",
+        "clip-path": "inset(10% 0 70% 0)"
+      },
+      "94%": {
+        "opacity": "1",
+        "transform": "translate(1px, -1px)",
+        "clip-path": "inset(50% 0 30% 0)"
+      },
+      "96%": {
+        "opacity": "0"
+      },
+      "98%": {
+        "opacity": "1",
+        "transform": "translate(-1px, 0)",
+        "clip-path": "inset(70% 0 10% 0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".trickle-glitch-loop::before, .trickle-glitch-loop::after, .trickle-glitch-split:hover::before, .trickle-glitch-split:hover::after": {
+        "animation": "none",
+        "opacity": "0"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

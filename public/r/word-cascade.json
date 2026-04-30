@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "word-cascade",
+  "title": "Word Cascade",
+  "description": "Words slide in from below, staggered. Reads like a careful reveal of a sentence.",
+  "files": [
+    {
+      "path": "registry/default/word-cascade/word-cascade.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface WordCascadeProps {\n  text: string;\n  /** Delay before the first word reveals, in ms. */\n  delay?: number;\n  /** Delay between successive words, in ms. */\n  stagger?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  /** Per-word className applied to each animated span. */\n  wordClassName?: string;\n}\n\nexport function WordCascade({\n  text,\n  delay = 0,\n  stagger = 80,\n  as: Component = 'span',\n  className,\n  wordClassName\n}: WordCascadeProps) {\n  const words = text.split(/(\\s+)/);\n\n  return (\n    <Component\n      className={cn('inline-block overflow-hidden align-baseline', className)}\n      aria-label={text}\n    >\n      {words.map((word, i) => {\n        if (word.match(/^\\s+$/)) {\n          return (\n            <span key={i} aria-hidden='true'>\n              {word}\n            </span>\n          );\n        }\n        return (\n          <span\n            key={i}\n            aria-hidden='true'\n            className={cn('inline-block animate-trickle-cascade', wordClassName)}\n            style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n          >\n            {word}\n          </span>\n        );\n      })}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/word-cascade.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-cascade": "trickle-cascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-cascade": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(0.5em)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateY(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-cascade": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

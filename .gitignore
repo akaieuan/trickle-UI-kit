@@ -1,0 +1,40 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+coverage
+
+# next.js
+.next/
+out/
+build
+dist
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# claude code session locks (keep launch.json, ignore the rest)
+.claude/scheduled_tasks.lock
+.claude/*.lock

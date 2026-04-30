@@ -1,0 +1,43 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stretch",
+  "title": "Stretch",
+  "description": "Letters stretch wide-and-short, then settle to their natural size. Per-char stagger.",
+  "files": [
+    {
+      "path": "registry/default/stretch/stretch.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface StretchProps {\n  children: React.ReactNode;\n  /** Delay before the stretch begins, in ms. */\n  delay?: number;\n  /** Duration of the stretch, in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Stretch({\n  children,\n  delay = 0,\n  duration = 900,\n  as: Component = 'span',\n  className\n}: StretchProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-stretch [transform-origin:50%_50%]', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/stretch.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-stretch": "trickle-stretch 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-stretch": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scaleX(0.2) scaleY(1.4)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "scaleX(1.1) scaleY(0.95)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "scaleX(1) scaleY(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-stretch": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

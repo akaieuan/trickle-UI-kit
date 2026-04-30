@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "echo",
+  "title": "Echo",
+  "description": "Ghost trailing copies fade behind the text. Cyberpunk / synthwave vibe.",
+  "files": [
+    {
+      "path": "registry/default/echo/echo.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface EchoProps {\n  children: React.ReactNode;\n  /** Number of ghost copies that ripple outward. Default 5. */\n  ghostCount?: number;\n  /** Pixel distance the outermost ghost travels. */\n  ghostDistance?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Echo({\n  children,\n  ghostCount = 5,\n  ghostDistance = 32,\n  as: Component = 'span',\n  className\n}: EchoProps) {\n  return (\n    <Component className={cn('relative inline-block', className)}>\n      {Array.from({ length: ghostCount }).map((_, i) => {\n        const layer = i + 1;\n        const distance = (layer / ghostCount) * ghostDistance;\n        const scale = 1 + (layer / ghostCount) * 0.18;\n        return (\n          <span\n            key={`ghost-${i}`}\n            aria-hidden='true'\n            className='pointer-events-none absolute inset-0 inline-block animate-trickle-echo'\n            style={{\n              animationDelay: `${i * 180}ms`,\n              animationDuration: `${1600 + i * 150}ms`,\n              ['--trickle-echo-opacity' as string]: `${0.55 - i * 0.05}`,\n              ['--trickle-echo-x' as string]: `${distance}px`,\n              ['--trickle-echo-scale' as string]: `${scale}`\n            } as CSSProperties}\n          >\n            {children}\n          </span>\n        );\n      })}\n      <span className='relative inline-block'>{children}</span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/echo.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-echo": "trickle-echo 1.4s ease-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-echo": {
+      "0%": {
+        "opacity": "var(--trickle-echo-opacity, 0.5)",
+        "transform": "translate(0, 0)"
+      },
+      "100%": {
+        "opacity": "0",
+        "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0))"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-echo": {
+        "animation": "none",
+        "opacity": "0"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

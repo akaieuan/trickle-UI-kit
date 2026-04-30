@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "float",
+  "title": "Float",
+  "description": "Letters bob gently up and down with phase-offset stagger.",
+  "files": [
+    {
+      "path": "registry/default/float/float.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface FloatProps {\n  text: string;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Phase offset between adjacent characters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Float({\n  text,\n  duration = 3000,\n  stagger = 100,\n  as: Component = 'span',\n  className\n}: FloatProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-float'\n          style={{\n            animationDelay: `${i * stagger}ms`,\n            animationDuration: `${duration}ms`\n          } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/float.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-float": "trickle-float 3s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-float": {
+      "0%, 100%": {
+        "transform": "translateY(0)"
+      },
+      "50%": {
+        "transform": "translateY(-0.18em)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-float": {
+        "animation": "none",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

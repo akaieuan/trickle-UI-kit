@@ -1,0 +1,42 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confetti-text",
+  "title": "Confetti Text",
+  "description": "One-shot burst of small colored squares emitting from each character on mount.",
+  "files": [
+    {
+      "path": "registry/default/confetti-text/confetti-text.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ConfettiTextProps {\n  text: string;\n  /** Confetti pieces emitted per character. */\n  piecesPerChar?: number;\n  /** Delay before the burst, in ms. */\n  delay?: number;\n  /** Burst duration, in ms. */\n  duration?: number;\n  /** Confetti colors, cycled deterministically. */\n  colors?: string[];\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst DEFAULT_COLORS = [\n  'oklch(72% 0.2 30)',\n  'oklch(72% 0.18 80)',\n  'oklch(72% 0.2 130)',\n  'oklch(72% 0.18 220)',\n  'oklch(72% 0.22 290)'\n];\n\nconst PRIMES = [73, 19, 41, 53, 89];\n\nfunction det(seed: number, mod: number, offset = 0): number {\n  return (Math.abs((seed + 1) * (PRIMES[seed % PRIMES.length] ?? 73)) + offset) % mod;\n}\n\ninterface Piece {\n  charIdx: number;\n  pieceIdx: number;\n  x: number;\n  y: number;\n  r: number;\n  color: string;\n}\n\nfunction generatePieces(text: string, piecesPerChar: number, colors: string[]): Piece[] {\n  const out: Piece[] = [];\n  for (let c = 0; c < text.length; c++) {\n    if (text[c] === ' ') continue;\n    for (let p = 0; p < piecesPerChar; p++) {\n      const seed = c * piecesPerChar + p;\n      out.push({\n        charIdx: c,\n        pieceIdx: p,\n        x: det(seed, 120, -60),\n        y: -1 * (40 + det(seed + 1, 80)),\n        r: det(seed + 2, 720) - 360,\n        color: colors[det(seed, colors.length)] ?? colors[0] ?? '#000'\n      });\n    }\n  }\n  return out;\n}\n\nexport function ConfettiText({\n  text,\n  piecesPerChar = 4,\n  delay = 0,\n  duration = 1000,\n  colors = DEFAULT_COLORS,\n  as: Component = 'span',\n  className\n}: ConfettiTextProps) {\n  const pieces = generatePieces(text, piecesPerChar, colors);\n  const charCount = Math.max(text.length, 1);\n\n  return (\n    <Component\n      className={cn('relative inline-block', className)}\n      aria-label={text}\n    >\n      <span aria-hidden='true' className='relative inline-block'>\n        {text}\n      </span>\n      <span aria-hidden='true' className='pointer-events-none absolute inset-0 inline-block'>\n        {pieces.map(({ charIdx, pieceIdx, x, y, r, color }) => (\n          <span\n            key={`${charIdx}-${pieceIdx}`}\n            className='absolute h-1.5 w-1.5 animate-trickle-confetti rounded-[1px]'\n            style={{\n              left: `${(charIdx + 0.5) * (100 / charCount)}%`,\n              top: '50%',\n              backgroundColor: color,\n              animationDuration: `${duration}ms`,\n              animationDelay: `${delay + pieceIdx * 30}ms`,\n              ['--trickle-confetti-x' as string]: `${x}px`,\n              ['--trickle-confetti-y' as string]: `${y}px`,\n              ['--trickle-confetti-r' as string]: `${r}deg`\n            } as CSSProperties}\n          />\n        ))}\n      </span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/confetti-text.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-confetti": "trickle-confetti 1s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-confetti": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scale(0.4) translate(0, 0)"
+      },
+      "8%": {
+        "opacity": "1",
+        "transform": "scale(1) translate(0, 0)"
+      },
+      "100%": {
+        "opacity": "0",
+        "transform": "scale(0.7) translate(var(--trickle-confetti-x, 60px), var(--trickle-confetti-y, -80px)) rotate(var(--trickle-confetti-r, 180deg))"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-confetti": {
+        "animation": "none",
+        "opacity": "0"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

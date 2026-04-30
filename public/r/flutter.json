@@ -1,0 +1,42 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "flutter",
+  "title": "Flutter",
+  "description": "Subtle random tremor per character — like nervous text. Pure CSS infinite loop.",
+  "files": [
+    {
+      "path": "registry/default/flutter/flutter.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface FlutterProps {\n  text: string;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Phase offset between adjacent characters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst PRIMES = [73, 19, 41, 53, 89];\n\nfunction det(seed: number, range: number, offset = 0): number {\n  return ((Math.abs((seed + 1) * (PRIMES[seed % PRIMES.length] ?? 73)) % range) + offset);\n}\n\nexport function Flutter({\n  text,\n  duration = 2400,\n  stagger = 70,\n  as: Component = 'span',\n  className\n}: FlutterProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => {\n        const xRange = det(i * 5, 6, -3);\n        const yRange = det(i * 7, 8, -4);\n        return (\n          <span\n            key={i}\n            aria-hidden='true'\n            className='inline-block whitespace-pre animate-trickle-flutter'\n            style={\n              {\n                animationDelay: `${i * stagger}ms`,\n                animationDuration: `${duration}ms`,\n                ['--trickle-flutter-x' as string]: `${xRange}px`,\n                ['--trickle-flutter-y' as string]: `${yRange}px`\n              } as CSSProperties\n            }\n          >\n            {char}\n          </span>\n        );\n      })}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/flutter.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-flutter": "trickle-flutter 2.4s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-flutter": {
+      "0%, 100%": {
+        "transform": "translate(0, 0)"
+      },
+      "25%": {
+        "transform": "translate(var(--trickle-flutter-x, 2px), var(--trickle-flutter-y, -1px))"
+      },
+      "50%": {
+        "transform": "translate(0, 0)"
+      },
+      "75%": {
+        "transform": "translate(calc(var(--trickle-flutter-x, 2px) * -1), calc(var(--trickle-flutter-y, -1px) * -1))"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-flutter": {
+        "animation": "none",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

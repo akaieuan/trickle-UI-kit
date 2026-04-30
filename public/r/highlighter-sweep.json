@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "highlighter-sweep",
+  "title": "Highlighter Sweep",
+  "description": "Sequential word highlight reveal driven by a CSS background-size keyframe.",
+  "files": [
+    {
+      "path": "registry/default/highlighter-sweep/highlighter-sweep.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface HighlighterSegment {\n  text: string;\n  highlight?: boolean;\n  /**\n   * Highlight color as any CSS color value (e.g. `'rgb(254 243 199 / 0.7)'`,\n   * `'oklch(80% 0.18 80 / 0.45)'`, `'#fef3c7'`). Overrides the component-level `color`.\n   */\n  color?: string;\n  /** Extra Tailwind classes for this highlighted segment (does NOT control the highlight color). */\n  highlightClassName?: string;\n}\n\nexport interface HighlighterSweepProps {\n  segments: HighlighterSegment[];\n  /** Default highlight color (any CSS color). Per-segment `color` overrides this. */\n  color?: string;\n  /** Delay before the first highlight begins, in ms. */\n  delay?: number;\n  /** Interval between successive highlights, in ms. */\n  interval?: number;\n  /** Element tag to render. Defaults to `h1`. */\n  as?: ElementType;\n  className?: string;\n  /** Extra classes applied to every highlighted segment. */\n  highlightClassName?: string;\n}\n\nexport function HighlighterSweep({\n  segments,\n  color,\n  delay = 0,\n  interval = 180,\n  as: Component = 'h1',\n  className,\n  highlightClassName\n}: HighlighterSweepProps) {\n  let highlightIdx = 0;\n  return (\n    <Component className={className}>\n      {segments.map((seg, i) => {\n        if (!seg.highlight) {\n          return <span key={i}>{seg.text}</span>;\n        }\n        const idx = highlightIdx++;\n        const segColor = seg.color ?? color;\n        const style: CSSProperties = { animationDelay: `${delay + idx * interval}ms` };\n        if (segColor) {\n          (style as Record<string, string | number>)['--trickle-hl'] = segColor;\n        }\n        return (\n          <span\n            key={i}\n            className={cn(\n              'trickle-highlight-word animate-trickle-highlighter-sweep',\n              seg.highlightClassName ?? highlightClassName\n            )}\n            style={style}\n          >\n            {seg.text}\n          </span>\n        );\n      })}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/highlighter-sweep.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-highlighter-sweep": "trickle-highlighter-sweep 0.35s ease-out both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-highlighter-sweep": {
+      "0%": {
+        "background-size": "0% 100%"
+      },
+      "100%": {
+        "background-size": "100% 100%"
+      }
+    },
+    ".trickle-highlight-word": {
+      "--trickle-hl": "oklch(80% 0.18 80 / 0.45)",
+      "padding": "0 0.125rem",
+      "margin": "0 -0.125rem",
+      "border-radius": "0.125rem",
+      "box-decoration-break": "clone",
+      "-webkit-box-decoration-break": "clone",
+      "background-image": "linear-gradient(to right, var(--trickle-hl), var(--trickle-hl))",
+      "background-repeat": "no-repeat",
+      "background-position": "left center",
+      "background-size": "0% 100%"
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-highlighter-sweep": {
+        "animation": "none",
+        "background-size": "100% 100%"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

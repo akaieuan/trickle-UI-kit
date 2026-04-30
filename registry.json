@@ -1,0 +1,1095 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "trickle",
+  "homepage": "https://trickle.dev",
+  "items": [
+    {
+      "name": "text-root",
+      "type": "registry:hook",
+      "title": "TextRoot",
+      "description": "Hydration-safe orchestration shell for trickle text animations. Handles 'mount' / 'view' triggers, delay, and prefers-reduced-motion. Required by every other trickle component.",
+      "files": [
+        {
+          "path": "registry/default/text-root/text-root.tsx",
+          "type": "registry:hook",
+          "target": "components/trickle/text-root.tsx"
+        }
+      ]
+    },
+    {
+      "name": "highlighter-sweep",
+      "type": "registry:ui",
+      "title": "Highlighter Sweep",
+      "description": "Sequential word highlight reveal driven by a CSS background-size keyframe.",
+      "files": [
+        {
+          "path": "registry/default/highlighter-sweep/highlighter-sweep.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/highlighter-sweep.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-highlighter-sweep": "trickle-highlighter-sweep 0.35s ease-out both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-highlighter-sweep": {
+          "0%": { "background-size": "0% 100%" },
+          "100%": { "background-size": "100% 100%" }
+        },
+        ".trickle-highlight-word": {
+          "--trickle-hl": "oklch(80% 0.18 80 / 0.45)",
+          "padding": "0 0.125rem",
+          "margin": "0 -0.125rem",
+          "border-radius": "0.125rem",
+          "box-decoration-break": "clone",
+          "-webkit-box-decoration-break": "clone",
+          "background-image": "linear-gradient(to right, var(--trickle-hl), var(--trickle-hl))",
+          "background-repeat": "no-repeat",
+          "background-position": "left center",
+          "background-size": "0% 100%"
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-highlighter-sweep": {
+            "animation": "none",
+            "background-size": "100% 100%"
+          }
+        }
+      }
+    },
+    {
+      "name": "typo-correct",
+      "type": "registry:ui",
+      "title": "Typo Correct",
+      "description": "A word flies in chaotically, lands misspelled, then corrects itself character-by-character.",
+      "registryDependencies": ["@trickle/text-root"],
+      "files": [
+        {
+          "path": "registry/default/typo-correct/typo-correct.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/typo-correct.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-letter-fly-1": "trickle-letter-fly-1 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+          "--animate-trickle-letter-fly-2": "trickle-letter-fly-2 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+          "--animate-trickle-letter-fly-3": "trickle-letter-fly-3 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+          "--animate-trickle-letter-fly-4": "trickle-letter-fly-4 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+          "--animate-trickle-letter-land": "trickle-letter-land 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+          "--animate-trickle-precise": "trickle-precise 0.4s cubic-bezier(0.16, 1, 0.3, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-letter-fly-1": {
+          "0%": { "transform": "translate(-200px, -120px) rotate(-180deg)", "opacity": "0" },
+          "60%": { "opacity": "1" },
+          "100%": { "transform": "translate(0, 0) rotate(0)", "opacity": "1" }
+        },
+        "@keyframes trickle-letter-fly-2": {
+          "0%": { "transform": "translate(180px, 90px) rotate(220deg)", "opacity": "0" },
+          "60%": { "opacity": "1" },
+          "100%": { "transform": "translate(0, 0) rotate(0)", "opacity": "1" }
+        },
+        "@keyframes trickle-letter-fly-3": {
+          "0%": { "transform": "translate(-150px, 100px) rotate(150deg)", "opacity": "0" },
+          "60%": { "opacity": "1" },
+          "100%": { "transform": "translate(0, 0) rotate(0)", "opacity": "1" }
+        },
+        "@keyframes trickle-letter-fly-4": {
+          "0%": { "transform": "translate(220px, -80px) rotate(-200deg)", "opacity": "0" },
+          "60%": { "opacity": "1" },
+          "100%": { "transform": "translate(0, 0) rotate(0)", "opacity": "1" }
+        },
+        "@keyframes trickle-letter-land": {
+          "0%": { "transform": "translateY(-4px)" },
+          "60%": { "transform": "translateY(2px)" },
+          "100%": { "transform": "translateY(0)" }
+        },
+        "@keyframes trickle-precise": {
+          "0%": { "opacity": "0", "transform": "scale(0.5)" },
+          "40%": { "opacity": "0.3", "transform": "scale(0.8)" },
+          "70%": { "opacity": "0.8", "transform": "scale(1.05)" },
+          "100%": { "opacity": "1", "transform": "scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          "[class*=\"animate-trickle-letter-fly\"], .animate-trickle-letter-land, .animate-trickle-precise": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "text-reveal",
+      "type": "registry:ui",
+      "title": "Text Reveal",
+      "description": "Fade-up, blur, slide, or scale reveal. Optionally split by word or character for staggered effect.",
+      "files": [
+        {
+          "path": "registry/default/text-reveal/text-reveal.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/text-reveal.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-fade-up": "trickle-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-fade-blur": "trickle-fade-blur 0.7s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-fade-slide": "trickle-fade-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-fade-scale": "trickle-fade-scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-fade-up": {
+          "from": { "opacity": "0", "transform": "translateY(20px)" },
+          "to": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@keyframes trickle-fade-blur": {
+          "from": { "opacity": "0", "filter": "blur(12px)" },
+          "to": { "opacity": "1", "filter": "blur(0)" }
+        },
+        "@keyframes trickle-fade-slide": {
+          "from": { "opacity": "0", "transform": "translateX(-24px)" },
+          "to": { "opacity": "1", "transform": "translateX(0)" }
+        },
+        "@keyframes trickle-fade-scale": {
+          "from": { "opacity": "0", "transform": "scale(0.8)" },
+          "to": { "opacity": "1", "transform": "scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-fade-up, .animate-trickle-fade-blur, .animate-trickle-fade-slide, .animate-trickle-fade-scale": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none",
+            "filter": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:ui",
+      "title": "Typewriter",
+      "description": "Character-by-character typing with optional blinking caret and multi-string cycling.",
+      "registryDependencies": ["@trickle/text-root"],
+      "files": [
+        {
+          "path": "registry/default/typewriter/typewriter.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/typewriter.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-caret-blink": "trickle-caret-blink 1s step-end infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-caret-blink": {
+          "0%, 50%": { "opacity": "1" },
+          "51%, 100%": { "opacity": "0" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-caret-blink": {
+            "animation": "none",
+            "opacity": "1"
+          }
+        }
+      }
+    },
+    {
+      "name": "word-cascade",
+      "type": "registry:ui",
+      "title": "Word Cascade",
+      "description": "Words slide in from below, staggered. Reads like a careful reveal of a sentence.",
+      "files": [
+        {
+          "path": "registry/default/word-cascade/word-cascade.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/word-cascade.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-cascade": "trickle-cascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-cascade": {
+          "from": { "opacity": "0", "transform": "translateY(0.5em)" },
+          "to": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-cascade": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "char-stagger",
+      "type": "registry:ui",
+      "title": "Char Stagger",
+      "description": "Per-character reveal with fade or slide modes. Tighter rhythm than word-cascade.",
+      "files": [
+        {
+          "path": "registry/default/char-stagger/char-stagger.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/char-stagger.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-stagger-fade": "trickle-stagger-fade 0.5s ease-out both",
+          "--animate-trickle-stagger-slide": "trickle-stagger-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-stagger-fade": {
+          "from": { "opacity": "0" },
+          "to": { "opacity": "1" }
+        },
+        "@keyframes trickle-stagger-slide": {
+          "from": { "opacity": "0", "transform": "translateY(0.4em)" },
+          "to": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-stagger-fade, .animate-trickle-stagger-slide": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "gradient-shift",
+      "type": "registry:ui",
+      "title": "Gradient Shift",
+      "description": "Animated gradient bg-clip-text. Rotates the gradient angle smoothly via @property.",
+      "files": [
+        {
+          "path": "registry/default/gradient-shift/gradient-shift.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/gradient-shift.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-gradient-shift": "trickle-gradient-shift 6s linear infinite"
+        }
+      },
+      "css": {
+        "@property --trickle-gradient-angle": {
+          "syntax": "\"<angle>\"",
+          "initial-value": "0deg",
+          "inherits": "false"
+        },
+        "@keyframes trickle-gradient-shift": {
+          "to": { "--trickle-gradient-angle": "360deg" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-gradient-shift": { "animation": "none" }
+        }
+      }
+    },
+    {
+      "name": "shiny-shimmer",
+      "type": "registry:ui",
+      "title": "Shiny Shimmer",
+      "description": "Light glare panning across text via mask + bg-clip. Always-on or hover-only.",
+      "files": [
+        {
+          "path": "registry/default/shiny-shimmer/shiny-shimmer.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/shiny-shimmer.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-shimmer": "trickle-shimmer 2.5s linear infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-shimmer": {
+          "0%": { "background-position": "-200% 0" },
+          "100%": { "background-position": "200% 0" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-shimmer": { "animation": "none" }
+        }
+      }
+    },
+    {
+      "name": "underline-draw",
+      "type": "registry:ui",
+      "title": "Underline Draw",
+      "description": "Animated underline that draws left-to-right via background-size.",
+      "files": [
+        {
+          "path": "registry/default/underline-draw/underline-draw.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/underline-draw.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-underline-draw": "trickle-underline-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-underline-draw": {
+          "from": { "background-size": "0% var(--trickle-underline-thickness, 2px)" },
+          "to": { "background-size": "100% var(--trickle-underline-thickness, 2px)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-underline-draw": {
+            "animation": "none",
+            "background-size": "100% var(--trickle-underline-thickness, 2px)"
+          }
+        }
+      }
+    },
+    {
+      "name": "aurora-text",
+      "type": "registry:ui",
+      "title": "Aurora Text",
+      "description": "Animated multi-stop gradient bg-clip-text — green/blue/violet/amber by default.",
+      "files": [
+        {
+          "path": "registry/default/aurora-text/aurora-text.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/aurora-text.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-aurora": "trickle-aurora 8s ease-in-out infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-aurora": {
+          "0%, 100%": { "background-position": "0% 50%" },
+          "50%": { "background-position": "100% 50%" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-aurora": { "animation": "none" }
+        }
+      }
+    },
+    {
+      "name": "word-rotate",
+      "type": "registry:ui",
+      "title": "Word Rotate",
+      "description": "Vertical wheel cycling through a list of words. Pure transform translateY, no JS animation lib.",
+      "registryDependencies": ["@trickle/text-root"],
+      "files": [
+        {
+          "path": "registry/default/word-rotate/word-rotate.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/word-rotate.tsx"
+        }
+      ]
+    },
+    {
+      "name": "echo",
+      "type": "registry:ui",
+      "title": "Echo",
+      "description": "Ghost trailing copies fade behind the text. Cyberpunk / synthwave vibe.",
+      "files": [
+        {
+          "path": "registry/default/echo/echo.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/echo.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-echo": "trickle-echo 1.4s ease-out infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-echo": {
+          "0%": { "opacity": "var(--trickle-echo-opacity, 0.5)", "transform": "translate(0, 0)" },
+          "100%": { "opacity": "0", "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0))" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-echo": { "animation": "none", "opacity": "0" }
+        }
+      }
+    },
+    {
+      "name": "ink-bleed",
+      "type": "registry:ui",
+      "title": "Ink Bleed",
+      "description": "Text reveals via a radial-gradient mask animation — like ink bleeding into paper.",
+      "files": [
+        {
+          "path": "registry/default/ink-bleed/ink-bleed.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/ink-bleed.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-ink-bleed": "trickle-ink-bleed 1.2s cubic-bezier(0.4, 0, 0.2, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-ink-bleed": {
+          "from": {
+            "-webkit-mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)",
+            "mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)"
+          },
+          "to": {
+            "-webkit-mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)",
+            "mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-ink-bleed": {
+            "animation": "none",
+            "-webkit-mask-image": "none",
+            "mask-image": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "paper-fold",
+      "type": "registry:ui",
+      "title": "Paper Fold",
+      "description": "Letters fold open via 3D rotateX with parent perspective. Best for short strings.",
+      "files": [
+        {
+          "path": "registry/default/paper-fold/paper-fold.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/paper-fold.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-paper-fold": "trickle-paper-fold 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-paper-fold": {
+          "from": { "transform": "rotateX(-90deg)", "opacity": "0" },
+          "to": { "transform": "rotateX(0)", "opacity": "1" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-paper-fold": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "decrypt-scramble",
+      "type": "registry:ui",
+      "title": "Decrypt Scramble",
+      "description": "Random characters scramble into the target text. Configurable charset (alphanum / binary / hex / katakana / symbols).",
+      "registryDependencies": ["@trickle/text-root"],
+      "files": [
+        {
+          "path": "registry/default/decrypt-scramble/decrypt-scramble.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/decrypt-scramble.tsx"
+        }
+      ]
+    },
+    {
+      "name": "morph-swap",
+      "type": "registry:ui",
+      "title": "Morph Swap",
+      "description": "Cycles through a list of words. Each transition fades letters out then back in with stagger.",
+      "registryDependencies": ["@trickle/text-root"],
+      "files": [
+        {
+          "path": "registry/default/morph-swap/morph-swap.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/morph-swap.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-morph-out": "trickle-morph-out 0.3s ease-in forwards",
+          "--animate-trickle-morph-in": "trickle-morph-in 0.3s ease-out forwards"
+        }
+      },
+      "css": {
+        "@keyframes trickle-morph-out": {
+          "to": { "opacity": "0", "transform": "translateY(-0.3em) scale(0.9)" }
+        },
+        "@keyframes trickle-morph-in": {
+          "from": { "opacity": "0", "transform": "translateY(0.3em) scale(0.9)" },
+          "to": { "opacity": "1", "transform": "translateY(0) scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-morph-out, .animate-trickle-morph-in": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "neon-flicker",
+      "type": "registry:ui",
+      "title": "Neon Flicker",
+      "description": "Neon glow with irregular flicker. Pure CSS, infinite loop.",
+      "files": [
+        {
+          "path": "registry/default/neon-flicker/neon-flicker.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/neon-flicker.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-neon-flicker": "trickle-neon-flicker 3s linear infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-neon-flicker": {
+          "0%, 7%, 11%, 35%, 41%, 65%, 70%, 87%, 92%, 100%": { "opacity": "1", "filter": "brightness(1.1)" },
+          "8%, 10%": { "opacity": "0.35", "filter": "brightness(0.55)" },
+          "36%, 40%": { "opacity": "0.6", "filter": "brightness(0.8)" },
+          "66%, 69%": { "opacity": "0.4", "filter": "brightness(0.6)" },
+          "88%, 91%": { "opacity": "0.7", "filter": "brightness(0.85)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-neon-flicker": { "animation": "none", "opacity": "1" }
+        }
+      }
+    },
+    {
+      "name": "glitch-split",
+      "type": "registry:ui",
+      "title": "Glitch Split",
+      "description": "RGB-channel-split glitch effect via twin pseudo-elements with clip-path. Loop or hover trigger.",
+      "files": [
+        {
+          "path": "registry/default/glitch-split/glitch-split.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/glitch-split.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-glitch-a": "trickle-glitch-a 3s steps(1) infinite",
+          "--animate-trickle-glitch-b": "trickle-glitch-b 3s steps(1) infinite"
+        }
+      },
+      "css": {
+        ".trickle-glitch-split::before, .trickle-glitch-split::after": {
+          "content": "attr(data-text)",
+          "position": "absolute",
+          "inset": "0",
+          "pointer-events": "none",
+          "opacity": "0"
+        },
+        ".trickle-glitch-split::before": { "color": "var(--trickle-glitch-a, oklch(75% 0.22 200))" },
+        ".trickle-glitch-split::after": { "color": "var(--trickle-glitch-b, oklch(70% 0.27 320))" },
+        ".trickle-glitch-loop::before": { "animation": "trickle-glitch-a 3s steps(1) infinite" },
+        ".trickle-glitch-loop::after": { "animation": "trickle-glitch-b 3s steps(1) infinite" },
+        ".trickle-glitch-split:hover::before": { "animation": "trickle-glitch-a 0.4s steps(1) 1" },
+        ".trickle-glitch-split:hover::after": { "animation": "trickle-glitch-b 0.4s steps(1) 1" },
+        "@keyframes trickle-glitch-a": {
+          "0%, 89%, 100%": { "opacity": "0", "transform": "translate(0, 0)", "clip-path": "inset(0)" },
+          "90%": { "opacity": "1", "transform": "translate(-2px, 0)", "clip-path": "inset(20% 0 60% 0)" },
+          "92%": { "opacity": "1", "transform": "translate(2px, -1px)", "clip-path": "inset(60% 0 10% 0)" },
+          "94%": { "opacity": "1", "transform": "translate(-1px, 1px)", "clip-path": "inset(40% 0 30% 0)" },
+          "96%": { "opacity": "0" },
+          "98%": { "opacity": "1", "transform": "translate(1px, 0)", "clip-path": "inset(10% 0 70% 0)" }
+        },
+        "@keyframes trickle-glitch-b": {
+          "0%, 89%, 100%": { "opacity": "0", "transform": "translate(0, 0)", "clip-path": "inset(0)" },
+          "90%": { "opacity": "1", "transform": "translate(2px, 1px)", "clip-path": "inset(60% 0 20% 0)" },
+          "92%": { "opacity": "1", "transform": "translate(-2px, 0)", "clip-path": "inset(10% 0 70% 0)" },
+          "94%": { "opacity": "1", "transform": "translate(1px, -1px)", "clip-path": "inset(50% 0 30% 0)" },
+          "96%": { "opacity": "0" },
+          "98%": { "opacity": "1", "transform": "translate(-1px, 0)", "clip-path": "inset(70% 0 10% 0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".trickle-glitch-loop::before, .trickle-glitch-loop::after, .trickle-glitch-split:hover::before, .trickle-glitch-split:hover::after": { "animation": "none", "opacity": "0" }
+        }
+      }
+    },
+    {
+      "name": "marquee-ribbon",
+      "type": "registry:ui",
+      "title": "Marquee Ribbon",
+      "description": "Horizontally scrolling ribbon with edge-fade gradient masks. Pure CSS translateX.",
+      "files": [
+        {
+          "path": "registry/default/marquee-ribbon/marquee-ribbon.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/marquee-ribbon.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-marquee": "trickle-marquee 25s linear infinite"
+        }
+      },
+      "css": {
+        "@keyframes trickle-marquee": {
+          "from": { "transform": "translateX(0)" },
+          "to": { "transform": "translateX(calc(-50% - 1.5rem))" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-marquee": { "animation": "none" }
+        }
+      }
+    },
+    {
+      "name": "scale-slam",
+      "type": "registry:ui",
+      "title": "Scale Slam",
+      "description": "Letters slam in from huge to normal with a slight bounce settle. Per-char stagger.",
+      "files": [
+        {
+          "path": "registry/default/scale-slam/scale-slam.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/scale-slam.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-scale-slam": "trickle-scale-slam 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-scale-slam": {
+          "0%": { "opacity": "0", "transform": "scale(2.5)" },
+          "60%": { "opacity": "1", "transform": "scale(0.95)" },
+          "80%": { "transform": "scale(1.02)" },
+          "100%": { "transform": "scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-scale-slam": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "stamp",
+      "type": "registry:ui",
+      "title": "Stamp",
+      "description": "Text lands like a rubber stamp — oversized rotation-then-scale settle. Configurable angle + color.",
+      "files": [
+        {
+          "path": "registry/default/stamp/stamp.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/stamp.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-stamp": "trickle-stamp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-stamp": {
+          "0%": { "opacity": "0", "transform": "scale(2.2) rotate(0)" },
+          "60%": { "opacity": "1", "transform": "scale(0.92) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "80%": { "transform": "scale(1.04) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "100%": { "opacity": "1", "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-stamp": {
+            "animation": "none",
+            "opacity": "1",
+            "transform": "rotate(var(--trickle-stamp-rotation, -6deg))"
+          }
+        }
+      }
+    },
+    {
+      "name": "spotlight",
+      "type": "registry:ui",
+      "title": "Spotlight",
+      "description": "Bright spot moves across text via radial-gradient bg-clip-text. Pure CSS infinite loop.",
+      "files": [
+        {
+          "path": "registry/default/spotlight/spotlight.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/spotlight.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-spotlight": "trickle-spotlight 4s linear infinite" } },
+      "css": {
+        ".animate-trickle-spotlight": {
+          "color": "transparent",
+          "background-image": "radial-gradient(circle, oklch(98% 0 0) 0%, oklch(98% 0 0) 8%, oklch(45% 0 0) 35%)",
+          "background-size": "50% 200%",
+          "background-repeat": "no-repeat",
+          "background-clip": "text",
+          "-webkit-background-clip": "text"
+        },
+        "@keyframes trickle-spotlight": {
+          "0%": { "background-position": "-50% 50%" },
+          "100%": { "background-position": "150% 50%" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-spotlight": { "animation": "none", "color": "currentColor", "background-image": "none" }
+        }
+      }
+    },
+    {
+      "name": "magnetize",
+      "type": "registry:ui",
+      "title": "Magnetize",
+      "description": "Letters scattered, then snap into place with a slight overshoot. Per-char varied origin.",
+      "files": [
+        {
+          "path": "registry/default/magnetize/magnetize.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/magnetize.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-magnetize": "trickle-magnetize 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
+      "css": {
+        "@keyframes trickle-magnetize": {
+          "0%": { "opacity": "0", "transform": "translate(var(--trickle-magnetize-x, 60px), var(--trickle-magnetize-y, 30px)) rotate(var(--trickle-magnetize-r, 30deg))" },
+          "60%": { "opacity": "1", "transform": "translate(0, 0) rotate(0)" },
+          "80%": { "transform": "translate(0, 0) rotate(0) scale(1.05)" },
+          "100%": { "opacity": "1", "transform": "translate(0, 0) rotate(0) scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-magnetize": { "animation": "none", "opacity": "1", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "float",
+      "type": "registry:ui",
+      "title": "Float",
+      "description": "Letters bob gently up and down with phase-offset stagger.",
+      "files": [
+        {
+          "path": "registry/default/float/float.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/float.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-float": "trickle-float 3s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-float": {
+          "0%, 100%": { "transform": "translateY(0)" },
+          "50%": { "transform": "translateY(-0.18em)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-float": { "animation": "none", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "pulse-text",
+      "type": "registry:ui",
+      "title": "Pulse Text",
+      "description": "Rhythmic scale + opacity pulse — like a heartbeat.",
+      "files": [
+        {
+          "path": "registry/default/pulse-text/pulse-text.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/pulse-text.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-pulse-text": "trickle-pulse-text 1.8s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-pulse-text": {
+          "0%, 100%": { "transform": "scale(1)", "opacity": "1" },
+          "50%": { "transform": "scale(1.06)", "opacity": "0.85" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-pulse-text": { "animation": "none", "transform": "none", "opacity": "1" }
+        }
+      }
+    },
+    {
+      "name": "rainbow-roll",
+      "type": "registry:ui",
+      "title": "Rainbow Roll",
+      "description": "Hue rotates through the spectrum, staggered per character.",
+      "files": [
+        {
+          "path": "registry/default/rainbow-roll/rainbow-roll.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/rainbow-roll.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-rainbow-roll": "trickle-rainbow-roll 4s linear infinite" } },
+      "css": {
+        ".animate-trickle-rainbow-roll": {
+          "color": "oklch(72% 0.22 30)"
+        },
+        "@keyframes trickle-rainbow-roll": {
+          "0%": { "filter": "hue-rotate(0deg)" },
+          "100%": { "filter": "hue-rotate(360deg)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-rainbow-roll": { "animation": "none", "filter": "none" }
+        }
+      }
+    },
+    {
+      "name": "curtain-reveal",
+      "type": "registry:ui",
+      "title": "Curtain Reveal",
+      "description": "Text revealed by a clip-path wipe. Configurable direction (left / right / up / down).",
+      "files": [
+        {
+          "path": "registry/default/curtain-reveal/curtain-reveal.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/curtain-reveal.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-curtain-reveal": "trickle-curtain-reveal 0.7s cubic-bezier(0.7, 0, 0.3, 1) both" } },
+      "css": {
+        ".animate-trickle-curtain-reveal": { "--trickle-curtain-from": "inset(0 100% 0 0)" },
+        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='left']": { "--trickle-curtain-from": "inset(0 0 0 100%)" },
+        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='up']": { "--trickle-curtain-from": "inset(100% 0 0 0)" },
+        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='down']": { "--trickle-curtain-from": "inset(0 0 100% 0)" },
+        "@keyframes trickle-curtain-reveal": {
+          "from": { "clip-path": "var(--trickle-curtain-from, inset(0 100% 0 0))" },
+          "to": { "clip-path": "inset(0 0 0 0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-curtain-reveal": { "animation": "none", "clip-path": "none" }
+        }
+      }
+    },
+    {
+      "name": "vertical-slide",
+      "type": "registry:ui",
+      "title": "Vertical Slide",
+      "description": "Letters slide in from above with stagger. Counterpart to WordCascade.",
+      "files": [
+        {
+          "path": "registry/default/vertical-slide/vertical-slide.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/vertical-slide.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-vertical-slide": "trickle-vertical-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both" } },
+      "css": {
+        "@keyframes trickle-vertical-slide": {
+          "from": { "opacity": "0", "transform": "translateY(-1em)" },
+          "to": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-vertical-slide": { "animation": "none", "opacity": "1", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "flutter",
+      "type": "registry:ui",
+      "title": "Flutter",
+      "description": "Subtle random tremor per character — like nervous text. Pure CSS infinite loop.",
+      "files": [
+        {
+          "path": "registry/default/flutter/flutter.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/flutter.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-flutter": "trickle-flutter 2.4s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-flutter": {
+          "0%, 100%": { "transform": "translate(0, 0)" },
+          "25%": { "transform": "translate(var(--trickle-flutter-x, 2px), var(--trickle-flutter-y, -1px))" },
+          "50%": { "transform": "translate(0, 0)" },
+          "75%": { "transform": "translate(calc(var(--trickle-flutter-x, 2px) * -1), calc(var(--trickle-flutter-y, -1px) * -1))" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-flutter": { "animation": "none", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "wave",
+      "type": "registry:ui",
+      "title": "Wave",
+      "description": "Letters undulate vertically in a sine-wave pattern. Pure CSS, infinite loop.",
+      "files": [
+        {
+          "path": "registry/default/wave/wave.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/wave.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-wave": "trickle-wave 1.8s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-wave": {
+          "0%, 100%": { "transform": "translateY(0)" },
+          "50%": { "transform": "translateY(-0.3em)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-wave": { "animation": "none", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "drip",
+      "type": "registry:ui",
+      "title": "Drip",
+      "description": "Letters drop down from above with a slight overshoot bounce. Per-char stagger.",
+      "files": [
+        {
+          "path": "registry/default/drip/drip.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/drip.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-drip": "trickle-drip 0.9s cubic-bezier(0.5, 0, 0.5, 1.4) both" } },
+      "css": {
+        "@keyframes trickle-drip": {
+          "0%": { "opacity": "0", "transform": "translateY(-1em)" },
+          "60%": { "opacity": "1", "transform": "translateY(0.15em)" },
+          "80%": { "transform": "translateY(-0.05em)" },
+          "100%": { "opacity": "1", "transform": "translateY(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-drip": { "animation": "none", "opacity": "1", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "stretch",
+      "type": "registry:ui",
+      "title": "Stretch",
+      "description": "Letters stretch wide-and-short, then settle to their natural size. Per-char stagger.",
+      "files": [
+        {
+          "path": "registry/default/stretch/stretch.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/stretch.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-stretch": "trickle-stretch 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
+      "css": {
+        "@keyframes trickle-stretch": {
+          "0%": { "opacity": "0", "transform": "scaleX(0.2) scaleY(1.4)" },
+          "60%": { "opacity": "1", "transform": "scaleX(1.1) scaleY(0.95)" },
+          "100%": { "opacity": "1", "transform": "scaleX(1) scaleY(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-stretch": { "animation": "none", "opacity": "1", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "wobble-3d",
+      "type": "registry:ui",
+      "title": "Wobble 3D",
+      "description": "Letters rotate around the Y-axis, creating a 3D wobble. Pure CSS perspective.",
+      "files": [
+        {
+          "path": "registry/default/wobble-3d/wobble-3d.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/wobble-3d.tsx"
+        }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-wobble-3d": "trickle-wobble-3d 2.4s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-wobble-3d": {
+          "0%, 100%": { "transform": "rotateY(0deg)" },
+          "50%": { "transform": "rotateY(40deg)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-wobble-3d": { "animation": "none", "transform": "none" }
+        }
+      }
+    },
+    {
+      "name": "confetti-text",
+      "type": "registry:ui",
+      "title": "Confetti Text",
+      "description": "One-shot burst of small colored squares emitting from each character on mount.",
+      "files": [
+        {
+          "path": "registry/default/confetti-text/confetti-text.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/confetti-text.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-confetti": "trickle-confetti 1s cubic-bezier(0.16, 1, 0.3, 1) both"
+        }
+      },
+      "css": {
+        "@keyframes trickle-confetti": {
+          "0%": { "opacity": "0", "transform": "scale(0.4) translate(0, 0)" },
+          "8%": { "opacity": "1", "transform": "scale(1) translate(0, 0)" },
+          "100%": {
+            "opacity": "0",
+            "transform": "scale(0.7) translate(var(--trickle-confetti-x, 60px), var(--trickle-confetti-y, -80px)) rotate(var(--trickle-confetti-r, 180deg))"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-confetti": { "animation": "none", "opacity": "0" }
+        }
+      }
+    },
+    {
+      "name": "digital-rain",
+      "type": "registry:ui",
+      "title": "Digital Rain",
+      "description": "Each character resolves through a falling column of random rain glyphs that trickle down through the slot before the target lands. Brand animation for Trickle.",
+      "files": [
+        {
+          "path": "registry/default/digital-rain/digital-rain.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/digital-rain.tsx"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-rain-fall": "trickle-rain-fall 0.7s cubic-bezier(0.5, 0, 0.5, 1) both"
+        }
+      },
+      "css": {
+        ".trickle-rain-trail": {
+          "color": "var(--trickle-rain-color, oklch(65% 0.16 250))",
+          "text-shadow": "0 0 8px var(--trickle-rain-color, oklch(70% 0.16 250 / 0.45))"
+        },
+        ".dark .trickle-rain-trail": {
+          "color": "var(--trickle-rain-color, oklch(78% 0.16 250))"
+        },
+        "@keyframes trickle-rain-fall": {
+          "0%": {
+            "transform": "translateY(var(--trickle-rain-distance, -5em))",
+            "opacity": "0"
+          },
+          "12%": { "opacity": "1" },
+          "100%": {
+            "transform": "translateY(0)",
+            "opacity": "1"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-rain-fall": {
+            "animation": "none",
+            "transform": "none",
+            "opacity": "1"
+          }
+        }
+      }
+    }
+  ]
+}

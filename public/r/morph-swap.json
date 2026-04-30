@@ -1,0 +1,49 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "morph-swap",
+  "title": "Morph Swap",
+  "description": "Cycles through a list of words. Each transition fades letters out then back in with stagger.",
+  "registryDependencies": [
+    "@trickle/text-root"
+  ],
+  "files": [
+    {
+      "path": "registry/default/morph-swap/morph-swap.tsx",
+      "content": "'use client';\n\nimport { useEffect, useState, type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\nimport { useTextRoot } from '@/registry/default/text-root/text-root';\n\nexport interface MorphSwapProps {\n  words: string[];\n  /** ms each word stays before morphing to the next. */\n  interval?: number;\n  /** ms for each char's morph-out / morph-in. */\n  morphDuration?: number;\n  /** ms between staggered char morphs within a word. */\n  charStagger?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  trigger?: 'mount' | 'view';\n}\n\nexport function MorphSwap({\n  words,\n  interval = 2500,\n  morphDuration = 300,\n  charStagger = 30,\n  as: Component = 'span',\n  className,\n  trigger = 'mount'\n}: MorphSwapProps) {\n  const { ready, prefersReducedMotion, setRef } = useTextRoot({ trigger });\n  const [activeIdx, setActiveIdx] = useState(0);\n  const [phase, setPhase] = useState<'in' | 'out'>('in');\n\n  useEffect(() => {\n    if (!ready || prefersReducedMotion || words.length <= 1) return;\n    const cycle = window.setInterval(() => {\n      setPhase('out');\n      window.setTimeout(() => {\n        setActiveIdx((i) => (i + 1) % words.length);\n        setPhase('in');\n      }, morphDuration);\n    }, interval);\n    return () => window.clearInterval(cycle);\n  }, [ready, prefersReducedMotion, words.length, interval, morphDuration]);\n\n  if (words.length === 0) return null;\n  const current = words[activeIdx % words.length] ?? '';\n  const fallback = words[0] ?? '';\n\n  return (\n    <Component\n      ref={setRef}\n      className={cn('inline-block whitespace-pre', className)}\n      aria-label={fallback}\n    >\n      {current.split('').map((char, i) => (\n        <span\n          key={`${activeIdx}-${i}`}\n          aria-hidden='true'\n          className={cn(\n            'inline-block',\n            phase === 'in' && 'animate-trickle-morph-in',\n            phase === 'out' && 'animate-trickle-morph-out'\n          )}\n          style={{\n            animationDelay: `${i * charStagger}ms`,\n            animationDuration: `${morphDuration}ms`\n          } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/morph-swap.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-morph-out": "trickle-morph-out 0.3s ease-in forwards",
+      "--animate-trickle-morph-in": "trickle-morph-in 0.3s ease-out forwards"
+    }
+  },
+  "css": {
+    "@keyframes trickle-morph-out": {
+      "to": {
+        "opacity": "0",
+        "transform": "translateY(-0.3em) scale(0.9)"
+      }
+    },
+    "@keyframes trickle-morph-in": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(0.3em) scale(0.9)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateY(0) scale(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-morph-out, .animate-trickle-morph-in": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stamp",
+  "title": "Stamp",
+  "description": "Text lands like a rubber stamp — oversized rotation-then-scale settle. Configurable angle + color.",
+  "files": [
+    {
+      "path": "registry/default/stamp/stamp.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface StampProps {\n  children: React.ReactNode;\n  /** Delay before the stamp lands, in ms. */\n  delay?: number;\n  /** Rotation angle for the stamp (any CSS angle). */\n  rotation?: string;\n  /** Stamp accent color (any CSS color). Defaults to `currentColor`. */\n  color?: string;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Stamp({\n  children,\n  delay = 0,\n  rotation = '-6deg',\n  color = 'currentColor',\n  as: Component = 'span',\n  className\n}: StampProps) {\n  return (\n    <Component\n      className={cn(\n        'inline-block animate-trickle-stamp border-2 px-3 py-1 font-bold uppercase tracking-wider',\n        className\n      )}\n      style={{\n        color,\n        borderColor: color,\n        animationDelay: `${delay}ms`,\n        ['--trickle-stamp-rotation' as string]: rotation\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/stamp.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-stamp": "trickle-stamp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-stamp": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scale(2.2) rotate(0)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "scale(0.92) rotate(var(--trickle-stamp-rotation, -6deg))"
+      },
+      "80%": {
+        "transform": "scale(1.04) rotate(var(--trickle-stamp-rotation, -6deg))"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-stamp": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "rotate(var(--trickle-stamp-rotation, -6deg))"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

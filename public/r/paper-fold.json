@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "paper-fold",
+  "title": "Paper Fold",
+  "description": "Letters fold open via 3D rotateX with parent perspective. Best for short strings.",
+  "files": [
+    {
+      "path": "registry/default/paper-fold/paper-fold.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PaperFoldProps {\n  text: string;\n  /** Delay before the first letter folds, in ms. */\n  delay?: number;\n  /** Delay between successive letters, in ms. */\n  stagger?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function PaperFold({\n  text,\n  delay = 0,\n  stagger = 60,\n  as: Component = 'span',\n  className\n}: PaperFoldProps) {\n  return (\n    <Component\n      className={cn('inline-block [perspective:600px]', className)}\n      aria-label={text}\n    >\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-paper-fold [transform-origin:50%_0%] [backface-visibility:hidden]'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/paper-fold.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-paper-fold": "trickle-paper-fold 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-paper-fold": {
+      "from": {
+        "transform": "rotateX(-90deg)",
+        "opacity": "0"
+      },
+      "to": {
+        "transform": "rotateX(0)",
+        "opacity": "1"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-paper-fold": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

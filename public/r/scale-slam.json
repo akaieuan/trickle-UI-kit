@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scale-slam",
+  "title": "Scale Slam",
+  "description": "Letters slam in from huge to normal with a slight bounce settle. Per-char stagger.",
+  "files": [
+    {
+      "path": "registry/default/scale-slam/scale-slam.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ScaleSlamProps {\n  text: string;\n  /** Delay before the slam starts, in ms. */\n  delay?: number;\n  /** Delay between successive characters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function ScaleSlam({\n  text,\n  delay = 0,\n  stagger = 50,\n  as: Component = 'span',\n  className\n}: ScaleSlamProps) {\n  return (\n    <Component\n      className={cn('inline-block', className)}\n      aria-label={text}\n    >\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-scale-slam'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/scale-slam.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-scale-slam": "trickle-scale-slam 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-scale-slam": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scale(2.5)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "scale(0.95)"
+      },
+      "80%": {
+        "transform": "scale(1.02)"
+      },
+      "100%": {
+        "transform": "scale(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-scale-slam": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

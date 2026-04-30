@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "vertical-slide",
+  "title": "Vertical Slide",
+  "description": "Letters slide in from above with stagger. Counterpart to WordCascade.",
+  "files": [
+    {
+      "path": "registry/default/vertical-slide/vertical-slide.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface VerticalSlideProps {\n  text: string;\n  /** Delay before the first letter, in ms. */\n  delay?: number;\n  /** Delay between successive letters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function VerticalSlide({\n  text,\n  delay = 0,\n  stagger = 60,\n  as: Component = 'span',\n  className\n}: VerticalSlideProps) {\n  return (\n    <Component\n      className={cn('inline-block overflow-hidden align-baseline', className)}\n      aria-label={text}\n    >\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-vertical-slide'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/vertical-slide.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-vertical-slide": "trickle-vertical-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-vertical-slide": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(-1em)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateY(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-vertical-slide": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

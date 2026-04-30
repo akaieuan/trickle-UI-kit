@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "word-rotate",
+  "title": "Word Rotate",
+  "description": "Vertical wheel cycling through a list of words. Pure transform translateY, no JS animation lib.",
+  "registryDependencies": [
+    "@trickle/text-root"
+  ],
+  "files": [
+    {
+      "path": "registry/default/word-rotate/word-rotate.tsx",
+      "content": "'use client';\n\nimport { useEffect, useState, type ElementType } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface WordRotateProps {\n  words: string[];\n  /** ms each word stays before rotating to the next. */\n  duration?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  /** Per-word className. */\n  wordClassName?: string;\n}\n\nexport function WordRotate({\n  words,\n  duration = 2400,\n  as: Component = 'span',\n  className,\n  wordClassName\n}: WordRotateProps) {\n  const [activeIdx, setActiveIdx] = useState(0);\n\n  useEffect(() => {\n    if (words.length <= 1) return;\n    const timer = window.setInterval(() => {\n      setActiveIdx((i) => (i + 1) % words.length);\n    }, duration);\n    return () => window.clearInterval(timer);\n  }, [words.length, duration]);\n\n  if (words.length === 0) return null;\n  const firstWord = words[0] ?? '';\n\n  return (\n    <Component\n      className={cn('relative inline-grid align-baseline', className)}\n      aria-label={words.join(', ')}\n    >\n      {words.map((word, i) => {\n        const isActive = i === activeIdx;\n        const offset = i - activeIdx;\n        return (\n          <span\n            key={i}\n            aria-hidden='true'\n            style={{\n              gridArea: '1 / 1',\n              transform: `translateY(${isActive ? 0 : offset > 0 ? '0.4em' : '-0.4em'})`,\n              transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)',\n              willChange: 'transform, opacity'\n            }}\n            className={cn(\n              'whitespace-nowrap',\n              isActive ? 'opacity-100' : 'opacity-0',\n              wordClassName\n            )}\n          >\n            {word}\n          </span>\n        );\n      })}\n      <span className='sr-only'>{firstWord}</span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/word-rotate.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

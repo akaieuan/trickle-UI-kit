@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drip",
+  "title": "Drip",
+  "description": "Letters drop down from above with a slight overshoot bounce. Per-char stagger.",
+  "files": [
+    {
+      "path": "registry/default/drip/drip.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface DripProps {\n  text: string;\n  /** Delay before the first letter drops, in ms. */\n  delay?: number;\n  /** Delay between successive letters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Drip({\n  text,\n  delay = 0,\n  stagger = 80,\n  as: Component = 'span',\n  className\n}: DripProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-drip'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/drip.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-drip": "trickle-drip 0.9s cubic-bezier(0.5, 0, 0.5, 1.4) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-drip": {
+      "0%": {
+        "opacity": "0",
+        "transform": "translateY(-1em)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translateY(0.15em)"
+      },
+      "80%": {
+        "transform": "translateY(-0.05em)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "translateY(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-drip": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

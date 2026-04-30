@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spotlight",
+  "title": "Spotlight",
+  "description": "Bright spot moves across text via radial-gradient bg-clip-text. Pure CSS infinite loop.",
+  "files": [
+    {
+      "path": "registry/default/spotlight/spotlight.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface SpotlightProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Spotlight({\n  children,\n  duration = 4000,\n  as: Component = 'span',\n  className\n}: SpotlightProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-spotlight', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/spotlight.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-spotlight": "trickle-spotlight 4s linear infinite"
+    }
+  },
+  "css": {
+    ".animate-trickle-spotlight": {
+      "color": "transparent",
+      "background-image": "radial-gradient(circle, oklch(98% 0 0) 0%, oklch(98% 0 0) 8%, oklch(45% 0 0) 35%)",
+      "background-size": "50% 200%",
+      "background-repeat": "no-repeat",
+      "background-clip": "text",
+      "-webkit-background-clip": "text"
+    },
+    "@keyframes trickle-spotlight": {
+      "0%": {
+        "background-position": "-50% 50%"
+      },
+      "100%": {
+        "background-position": "150% 50%"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-spotlight": {
+        "animation": "none",
+        "color": "currentColor",
+        "background-image": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

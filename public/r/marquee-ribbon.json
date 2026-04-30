@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marquee-ribbon",
+  "title": "Marquee Ribbon",
+  "description": "Horizontally scrolling ribbon with edge-fade gradient masks. Pure CSS translateX.",
+  "files": [
+    {
+      "path": "registry/default/marquee-ribbon/marquee-ribbon.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface MarqueeRibbonProps {\n  children: React.ReactNode;\n  /** Scroll speed in seconds for one full loop. */\n  duration?: number;\n  /** Direction. */\n  direction?: 'left' | 'right';\n  /** Pause animation on hover. */\n  pauseOnHover?: boolean;\n  /** Width of the edge fade in `px` or any length. Set to `'0'` to disable. */\n  fadeWidth?: string;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function MarqueeRibbon({\n  children,\n  duration = 25,\n  direction = 'left',\n  pauseOnHover = true,\n  fadeWidth = '64px',\n  as: Component = 'div',\n  className\n}: MarqueeRibbonProps) {\n  const maskStyle =\n    fadeWidth === '0'\n      ? undefined\n      : (`linear-gradient(to right, transparent, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent)` as string);\n\n  return (\n    <Component\n      className={cn(\n        'group relative w-full overflow-hidden',\n        pauseOnHover && '[&:hover_.trickle-marquee-track]:[animation-play-state:paused]',\n        className\n      )}\n      style={{\n        WebkitMaskImage: maskStyle,\n        maskImage: maskStyle\n      } as CSSProperties}\n    >\n      <div\n        className={cn(\n          'trickle-marquee-track flex w-max gap-12 animate-trickle-marquee',\n          direction === 'right' && '[animation-direction:reverse]'\n        )}\n        style={{ animationDuration: `${duration}s` } as CSSProperties}\n      >\n        <div className='flex shrink-0 gap-12'>{children}</div>\n        <div className='flex shrink-0 gap-12' aria-hidden='true'>\n          {children}\n        </div>\n      </div>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/marquee-ribbon.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-marquee": "trickle-marquee 25s linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-marquee": {
+      "from": {
+        "transform": "translateX(0)"
+      },
+      "to": {
+        "transform": "translateX(calc(-50% - 1.5rem))"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-marquee": {
+        "animation": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

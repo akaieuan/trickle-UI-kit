@@ -1,0 +1,73 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-reveal",
+  "title": "Text Reveal",
+  "description": "Fade-up, blur, slide, or scale reveal. Optionally split by word or character for staggered effect.",
+  "files": [
+    {
+      "path": "registry/default/text-reveal/text-reveal.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport type TextRevealMode = 'fade-up' | 'blur' | 'slide' | 'scale';\nexport type TextRevealSplit = 'none' | 'word' | 'char';\n\nexport interface TextRevealProps {\n  children: string;\n  /** Visual mode for the reveal. */\n  mode?: TextRevealMode;\n  /** How to split the text for staggered reveal. `none` reveals as a single block. */\n  split?: TextRevealSplit;\n  /** Delay before the first element appears, in ms. */\n  delay?: number;\n  /** Delay between staggered elements, in ms. Ignored when `split='none'`. */\n  stagger?: number;\n  /** Element tag to render. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst MODE_TO_ANIMATION: Record<TextRevealMode, string> = {\n  'fade-up': 'animate-trickle-fade-up',\n  blur: 'animate-trickle-fade-blur',\n  slide: 'animate-trickle-fade-slide',\n  scale: 'animate-trickle-fade-scale'\n};\n\nexport function TextReveal({\n  children,\n  mode = 'fade-up',\n  split = 'none',\n  delay = 0,\n  stagger = 50,\n  as: Component = 'span',\n  className\n}: TextRevealProps) {\n  const animationClass = MODE_TO_ANIMATION[mode];\n\n  if (split === 'none') {\n    return (\n      <Component\n        className={cn('inline-block', animationClass, className)}\n        style={{ animationDelay: `${delay}ms` } as CSSProperties}\n      >\n        {children}\n      </Component>\n    );\n  }\n\n  const parts = split === 'word' ? children.split(/(\\s+)/) : children.split('');\n\n  return (\n    <Component className={cn('inline-block', className)} aria-label={children}>\n      {parts.map((part, i) => {\n        if (part.match(/^\\s+$/)) {\n          return (\n            <span key={i} aria-hidden='true'>\n              {part}\n            </span>\n          );\n        }\n        return (\n          <span\n            key={i}\n            aria-hidden='true'\n            className={cn('inline-block', animationClass)}\n            style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n          >\n            {part}\n          </span>\n        );\n      })}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/text-reveal.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-fade-up": "trickle-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-fade-blur": "trickle-fade-blur 0.7s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-fade-slide": "trickle-fade-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-fade-scale": "trickle-fade-scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-fade-up": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(20px)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateY(0)"
+      }
+    },
+    "@keyframes trickle-fade-blur": {
+      "from": {
+        "opacity": "0",
+        "filter": "blur(12px)"
+      },
+      "to": {
+        "opacity": "1",
+        "filter": "blur(0)"
+      }
+    },
+    "@keyframes trickle-fade-slide": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateX(-24px)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateX(0)"
+      }
+    },
+    "@keyframes trickle-fade-scale": {
+      "from": {
+        "opacity": "0",
+        "transform": "scale(0.8)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "scale(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-fade-up, .animate-trickle-fade-blur, .animate-trickle-fade-slide, .animate-trickle-fade-scale": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none",
+        "filter": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

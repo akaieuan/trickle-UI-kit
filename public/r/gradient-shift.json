@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gradient-shift",
+  "title": "Gradient Shift",
+  "description": "Animated gradient bg-clip-text. Rotates the gradient angle smoothly via @property.",
+  "files": [
+    {
+      "path": "registry/default/gradient-shift/gradient-shift.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface GradientShiftProps {\n  children: React.ReactNode;\n  /** Array of CSS color stops, in order. Defaults to a blue/purple/pink gradient. */\n  colors?: string[];\n  /** Animation cycle duration in ms. */\n  duration?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst DEFAULT_COLORS = ['oklch(70% 0.18 250)', 'oklch(72% 0.2 320)', 'oklch(70% 0.18 20)'];\n\nexport function GradientShift({\n  children,\n  colors = DEFAULT_COLORS,\n  duration = 6000,\n  as: Component = 'span',\n  className\n}: GradientShiftProps) {\n  const stops = [...colors, colors[0]].join(', ');\n\n  return (\n    <Component\n      className={cn(\n        'trickle-gradient-shift inline-block bg-clip-text text-transparent animate-trickle-gradient-shift',\n        className\n      )}\n      style={{\n        backgroundImage: `linear-gradient(var(--trickle-gradient-angle, 0deg), ${stops})`,\n        backgroundSize: '200% 200%',\n        WebkitBackgroundClip: 'text',\n        backgroundClip: 'text',\n        animationDuration: `${duration}ms`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/gradient-shift.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-gradient-shift": "trickle-gradient-shift 6s linear infinite"
+    }
+  },
+  "css": {
+    "@property --trickle-gradient-angle": {
+      "syntax": "\"<angle>\"",
+      "initial-value": "0deg",
+      "inherits": "false"
+    },
+    "@keyframes trickle-gradient-shift": {
+      "to": {
+        "--trickle-gradient-angle": "360deg"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-gradient-shift": {
+        "animation": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

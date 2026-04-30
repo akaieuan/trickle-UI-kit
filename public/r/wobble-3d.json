@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wobble-3d",
+  "title": "Wobble 3D",
+  "description": "Letters rotate around the Y-axis, creating a 3D wobble. Pure CSS perspective.",
+  "files": [
+    {
+      "path": "registry/default/wobble-3d/wobble-3d.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface Wobble3DProps {\n  text: string;\n  /** Delay between adjacent characters' phases, in ms. */\n  stagger?: number;\n  /** Cycle duration, in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Wobble3D({\n  text,\n  stagger = 100,\n  duration = 2400,\n  as: Component = 'span',\n  className\n}: Wobble3DProps) {\n  return (\n    <Component\n      className={cn('inline-block [perspective:600px]', className)}\n      aria-label={text}\n    >\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-wobble-3d [transform-style:preserve-3d] [backface-visibility:hidden]'\n          style={{\n            animationDelay: `${i * stagger}ms`,\n            animationDuration: `${duration}ms`\n          } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/wobble-3d.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-wobble-3d": "trickle-wobble-3d 2.4s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-wobble-3d": {
+      "0%, 100%": {
+        "transform": "rotateY(0deg)"
+      },
+      "50%": {
+        "transform": "rotateY(40deg)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-wobble-3d": {
+        "animation": "none",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

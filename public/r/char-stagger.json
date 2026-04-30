@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "char-stagger",
+  "title": "Char Stagger",
+  "description": "Per-character reveal with fade or slide modes. Tighter rhythm than word-cascade.",
+  "files": [
+    {
+      "path": "registry/default/char-stagger/char-stagger.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport type CharStaggerMode = 'fade' | 'slide';\n\nexport interface CharStaggerProps {\n  text: string;\n  /** Reveal style per character. */\n  mode?: CharStaggerMode;\n  /** Delay before the first char appears, in ms. */\n  delay?: number;\n  /** Delay between successive characters, in ms. */\n  stagger?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst MODE_CLASS: Record<CharStaggerMode, string> = {\n  fade: 'animate-trickle-stagger-fade',\n  slide: 'animate-trickle-stagger-slide'\n};\n\nexport function CharStagger({\n  text,\n  mode = 'fade',\n  delay = 0,\n  stagger = 40,\n  as: Component = 'span',\n  className\n}: CharStaggerProps) {\n  const animationClass = MODE_CLASS[mode];\n\n  return (\n    <Component\n      className={cn('inline-block', className)}\n      aria-label={text}\n    >\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className={cn('inline-block whitespace-pre', animationClass)}\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/char-stagger.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-stagger-fade": "trickle-stagger-fade 0.5s ease-out both",
+      "--animate-trickle-stagger-slide": "trickle-stagger-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-stagger-fade": {
+      "from": {
+        "opacity": "0"
+      },
+      "to": {
+        "opacity": "1"
+      }
+    },
+    "@keyframes trickle-stagger-slide": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(0.4em)"
+      },
+      "to": {
+        "opacity": "1",
+        "transform": "translateY(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-stagger-fade, .animate-trickle-stagger-slide": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

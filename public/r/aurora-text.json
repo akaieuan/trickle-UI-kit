@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aurora-text",
+  "title": "Aurora Text",
+  "description": "Animated multi-stop gradient bg-clip-text — green/blue/violet/amber by default.",
+  "files": [
+    {
+      "path": "registry/default/aurora-text/aurora-text.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface AuroraTextProps {\n  children: React.ReactNode;\n  /** Aurora color stops in order. */\n  colors?: string[];\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst DEFAULT_AURORA = [\n  'oklch(75% 0.2 130)', // green\n  'oklch(75% 0.18 220)', // sky\n  'oklch(72% 0.22 290)', // violet\n  'oklch(75% 0.2 30)' // amber\n];\n\nexport function AuroraText({\n  children,\n  colors = DEFAULT_AURORA,\n  duration = 8000,\n  as: Component = 'span',\n  className\n}: AuroraTextProps) {\n  return (\n    <Component\n      className={cn(\n        'trickle-aurora inline-block bg-clip-text text-transparent animate-trickle-aurora',\n        className\n      )}\n      style={{\n        backgroundImage: `linear-gradient(120deg, ${colors.join(', ')})`,\n        backgroundSize: '200% 200%',\n        WebkitBackgroundClip: 'text',\n        backgroundClip: 'text',\n        animationDuration: `${duration}ms`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/aurora-text.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-aurora": "trickle-aurora 8s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-aurora": {
+      "0%, 100%": {
+        "background-position": "0% 50%"
+      },
+      "50%": {
+        "background-position": "100% 50%"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-aurora": {
+        "animation": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

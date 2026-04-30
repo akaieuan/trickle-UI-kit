@@ -1,0 +1,10 @@
+CC0 1.0 Universal — Public Domain Dedication
+
+The demo files in `registry/examples/` are dedicated to the public domain
+under CC0 1.0. You may copy, modify, distribute, and use them, even for
+commercial purposes, all without asking permission.
+
+This dedication applies ONLY to files inside `registry/examples/`. The rest
+of the repository is licensed under MIT (see LICENSE).
+
+For the full CC0 text: https://creativecommons.org/publicdomain/zero/1.0/

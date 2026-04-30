@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "curtain-reveal",
+  "title": "Curtain Reveal",
+  "description": "Text revealed by a clip-path wipe. Configurable direction (left / right / up / down).",
+  "files": [
+    {
+      "path": "registry/default/curtain-reveal/curtain-reveal.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface CurtainRevealProps {\n  children: React.ReactNode;\n  /** Delay before the curtain wipes, in ms. */\n  delay?: number;\n  /** Direction of the wipe. */\n  direction?: 'right' | 'left' | 'down' | 'up';\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function CurtainReveal({\n  children,\n  delay = 0,\n  direction = 'right',\n  as: Component = 'span',\n  className\n}: CurtainRevealProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-curtain-reveal', className)}\n      data-trickle-curtain-direction={direction}\n      style={{ animationDelay: `${delay}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/curtain-reveal.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-curtain-reveal": "trickle-curtain-reveal 0.7s cubic-bezier(0.7, 0, 0.3, 1) both"
+    }
+  },
+  "css": {
+    ".animate-trickle-curtain-reveal": {
+      "--trickle-curtain-from": "inset(0 100% 0 0)"
+    },
+    ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='left']": {
+      "--trickle-curtain-from": "inset(0 0 0 100%)"
+    },
+    ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='up']": {
+      "--trickle-curtain-from": "inset(100% 0 0 0)"
+    },
+    ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='down']": {
+      "--trickle-curtain-from": "inset(0 0 100% 0)"
+    },
+    "@keyframes trickle-curtain-reveal": {
+      "from": {
+        "clip-path": "var(--trickle-curtain-from, inset(0 100% 0 0))"
+      },
+      "to": {
+        "clip-path": "inset(0 0 0 0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-curtain-reveal": {
+        "animation": "none",
+        "clip-path": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

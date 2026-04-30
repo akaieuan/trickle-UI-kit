@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pulse-text",
+  "title": "Pulse Text",
+  "description": "Rhythmic scale + opacity pulse — like a heartbeat.",
+  "files": [
+    {
+      "path": "registry/default/pulse-text/pulse-text.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PulseTextProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function PulseText({\n  children,\n  duration = 1800,\n  as: Component = 'span',\n  className\n}: PulseTextProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-pulse-text', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/pulse-text.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-pulse-text": "trickle-pulse-text 1.8s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-pulse-text": {
+      "0%, 100%": {
+        "transform": "scale(1)",
+        "opacity": "1"
+      },
+      "50%": {
+        "transform": "scale(1.06)",
+        "opacity": "0.85"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-pulse-text": {
+        "animation": "none",
+        "transform": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

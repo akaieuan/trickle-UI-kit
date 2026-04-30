@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ink-bleed",
+  "title": "Ink Bleed",
+  "description": "Text reveals via a radial-gradient mask animation — like ink bleeding into paper.",
+  "files": [
+    {
+      "path": "registry/default/ink-bleed/ink-bleed.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface InkBleedProps {\n  children: React.ReactNode;\n  /** Delay before the bleed begins, in ms. */\n  delay?: number;\n  /** Duration of the bleed, in ms. */\n  duration?: number;\n  /** Origin point as 'X% Y%' (e.g. '50% 50%' for center, '0% 50%' for left). */\n  origin?: string;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function InkBleed({\n  children,\n  delay = 0,\n  duration = 1200,\n  origin = '50% 50%',\n  as: Component = 'span',\n  className\n}: InkBleedProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-ink-bleed', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-ink-origin' as string]: origin\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/ink-bleed.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-ink-bleed": "trickle-ink-bleed 1.2s cubic-bezier(0.4, 0, 0.2, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-ink-bleed": {
+      "from": {
+        "-webkit-mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)",
+        "mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)"
+      },
+      "to": {
+        "-webkit-mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)",
+        "mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-ink-bleed": {
+        "animation": "none",
+        "-webkit-mask-image": "none",
+        "mask-image": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}
