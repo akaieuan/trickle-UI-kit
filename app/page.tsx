@@ -198,7 +198,7 @@ function Philosophy() {
             <h3 className='mt-3 text-lg font-normal tracking-tight'>Pure CSS, zero runtime.</h3>
             <p className='mt-2 text-sm font-light leading-relaxed text-muted-foreground'>
               Every keyframe runs natively in the browser. No motion library, no animation engine,
-              no extra bundle weight. 29 of 34 components are pure server components &mdash; they
+              no extra bundle weight. 42 of 47 components are pure server components &mdash; they
               ship zero client JS.
             </p>
           </div>
