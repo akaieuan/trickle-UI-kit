@@ -1,0 +1,122 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shatter",
+  "title": "Shatter",
+  "description": "Each letter assembles from four triangular shards converging from random offsets.",
+  "files": [
+    {
+      "path": "registry/default/shatter/shatter.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ShatterProps {\n  /** The text to assemble from shards. */\n  text: string;\n  /** Delay before the first character begins, in ms. */\n  delay?: number;\n  /** Delay between successive characters, in ms. */\n  stagger?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Shatter({\n  text,\n  delay = 0,\n  stagger = 80,\n  as: Component = 'span',\n  className\n}: ShatterProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='trickle-shatter-char relative inline-block whitespace-pre'\n          style={{ ['--trickle-shatter-delay' as string]: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          <span className='trickle-shatter-spacer' aria-hidden='true'>{char}</span>\n          <span className='trickle-shatter-shard trickle-shatter-shard-1'>{char}</span>\n          <span className='trickle-shatter-shard trickle-shatter-shard-2'>{char}</span>\n          <span className='trickle-shatter-shard trickle-shatter-shard-3'>{char}</span>\n          <span className='trickle-shatter-shard trickle-shatter-shard-4'>{char}</span>\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/shatter.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-shatter-1": "trickle-shatter-1 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-shatter-2": "trickle-shatter-2 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-shatter-3": "trickle-shatter-3 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-shatter-4": "trickle-shatter-4 0.8s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    ".trickle-shatter-char": {
+      "position": "relative",
+      "display": "inline-block",
+      "white-space": "pre"
+    },
+    ".trickle-shatter-spacer": {
+      "visibility": "hidden",
+      "display": "inline-block"
+    },
+    ".trickle-shatter-shard": {
+      "position": "absolute",
+      "inset": "0",
+      "display": "inline-block",
+      "animation-fill-mode": "both",
+      "animation-duration": "800ms",
+      "animation-timing-function": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "animation-delay": "var(--trickle-shatter-delay, 0ms)"
+    },
+    ".trickle-shatter-shard-1": {
+      "clip-path": "polygon(0 0, 100% 0, 50% 50%)",
+      "animation-name": "trickle-shatter-1"
+    },
+    ".trickle-shatter-shard-2": {
+      "clip-path": "polygon(100% 0, 100% 100%, 50% 50%)",
+      "animation-name": "trickle-shatter-2"
+    },
+    ".trickle-shatter-shard-3": {
+      "clip-path": "polygon(0 100%, 100% 100%, 50% 50%)",
+      "animation-name": "trickle-shatter-3"
+    },
+    ".trickle-shatter-shard-4": {
+      "clip-path": "polygon(0 0, 0 100%, 50% 50%)",
+      "animation-name": "trickle-shatter-4"
+    },
+    "@keyframes trickle-shatter-1": {
+      "0%": {
+        "opacity": "0",
+        "transform": "translate(-0.6em, -0.8em) rotate(-30deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translate(0.04em, 0.04em) rotate(4deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "translate(0, 0) rotate(0)"
+      }
+    },
+    "@keyframes trickle-shatter-2": {
+      "0%": {
+        "opacity": "0",
+        "transform": "translate(0.7em, -0.4em) rotate(25deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translate(-0.03em, 0.04em) rotate(-3deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "translate(0, 0) rotate(0)"
+      }
+    },
+    "@keyframes trickle-shatter-3": {
+      "0%": {
+        "opacity": "0",
+        "transform": "translate(0.3em, 0.8em) rotate(20deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translate(-0.02em, -0.05em) rotate(-2deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "translate(0, 0) rotate(0)"
+      }
+    },
+    "@keyframes trickle-shatter-4": {
+      "0%": {
+        "opacity": "0",
+        "transform": "translate(-0.7em, 0.4em) rotate(-20deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translate(0.04em, -0.03em) rotate(3deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "translate(0, 0) rotate(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".trickle-shatter-shard": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

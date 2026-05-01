@@ -1,67 +1,44 @@
 # trickle
 
-> Text animations that trickle into your React app. Pure CSS keyframes. Zero animation runtime. SSR-safe.
+> Pure-CSS text animations for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.
 
-[**Browse components**](https://trickle.dev/#catalog) · [**Install reference**](https://trickle.dev/#install) · [**GitHub**](https://github.com/akaieuan/trickle-UI-kit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Status: v0.1](https://img.shields.io/badge/status-v0.1-orange.svg)](https://github.com/akaieuan/trickle-UI-kit)
+[![React 18+](https://img.shields.io/badge/React-18.3+-61dafb.svg?logo=react)](https://react.dev)
+[![Next.js 15+](https://img.shields.io/badge/Next.js-15+-black.svg?logo=next.js)](https://nextjs.org)
+[![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg?logo=tailwindcss)](https://tailwindcss.com)
+[![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org)
+[![Bundle: <1kb median](https://img.shields.io/badge/bundle-<1kb%20median-success.svg)](https://github.com/akaieuan/trickle-UI-kit)
+[![Animation runtime: 0 deps](https://img.shields.io/badge/animation%20runtime-0%20deps-success.svg)](https://github.com/akaieuan/trickle-UI-kit)
 
-**Status:** v0.1 · 34 components installable via shadcn CLI. 29 of 34 are pure React server components — they ship zero client JavaScript. Median gzip per component: <1kb. Animation engine dependencies: zero.
+[**Browse components**](https://tricklekit.dev/#catalog) · [**Install reference**](https://tricklekit.dev/#install) · [**Source**](https://github.com/akaieuan/trickle-UI-kit)
 
 ---
 
-## Why this exists
+## What's in the box
 
-**Every popular React text-animation library makes you pay a tax to animate one word.**
+**47 hand-tuned text-animation primitives**, distributed shadcn-style. Every animation is pure CSS keyframes — no `framer-motion`, no `motion`, no `react-spring`. The browser does the work; React just orchestrates a couple of state changes.
 
-Install `framer-motion` to fade in a heading, you've added 30kb of runtime JavaScript to your bundle and forced every parent component into a `'use client'` boundary. Install `motion`, same story. Install `react-spring`, same story. The animation engine wants to live in your application's runtime, with refs into the live DOM, observing layout shifts, owning the render loop. For a library whose primary use case is *text appears nicely on a marketing page*, this is profoundly the wrong tool for the job.
+- **42 of 47 are pure React Server Components** — they ship zero client JavaScript.
+- **5 require minimal client state** for orchestration logic that genuinely cannot be expressed as a single keyframe (`Typewriter`, `TypoCorrect`, `DecryptScramble`, `WordRotate`, `MorphSwap`).
+- **<1kb gzip per component** (median across the catalog).
+- **SSR-safe by construction** — the server renders the final HTML with animation classes applied, the browser starts the animation on first paint, no flash, no hydration mismatch.
 
-**trickle is the argument that text animation should be CSS, and the components that prove it.**
+---
 
-The CSS Animations spec is twelve years old, GPU-accelerated, server-renderable, declaratively complete for 80% of what marketing pages, dashboards, and hero sections actually need. The browser has been able to animate text natively since 2012. The only reason we reach for animation libraries is because writing keyframes by hand is tedious — not because the platform is missing capability.
+## Why
 
-trickle ships 34 hand-tuned keyframe animations as React components, distributed via the shadcn CLI. You install one with a single command. The component file lives in your repo. You own the source.
+Every popular React text-animation library makes you pay a tax to animate one word.
 
-### Three coordinated artifacts, one project
+Install `framer-motion` to fade in a heading, you've added 30kb of runtime JavaScript to your bundle and forced every parent component into a `'use client'` boundary. The animation engine wants to live in your application's runtime, with refs into the live DOM, observing layout shifts, owning the render loop. For a library whose primary use case is *text appears nicely on a marketing page*, this is profoundly the wrong tool for the job.
 
-#### 1. A component library
-
-34 React text-animation primitives. Each one is a single .tsx file (most under 100 lines) plus its keyframe block. **29 of 34 are pure React Server Components** — they don't need `'use client'` because the animation runs in CSS, not JavaScript. The 5 stateful exceptions (`Typewriter`, `TypoCorrect`, `DecryptScramble`, `WordRotate`, `MorphSwap`) only need JS for orchestration logic that genuinely cannot be expressed as a single keyframe.
-
-#### 2. A shadcn-compatible registry
-
-Every component installs with one CLI command:
-
-```bash
-npx shadcn@latest add https://trickle.dev/r/typewriter.json
-```
-
-No fork, no vendor lock-in, no wrapper SDK. The CLI:
-
-1. Fetches the registry JSON for the component
-2. Resolves transitive dependencies (e.g. `Typewriter` depends on `text-root`)
-3. Writes the `.tsx` files into `components/trickle/` (or wherever your `components.json` points)
-4. Rewrites import paths to match your alias setup
-5. Merges `@theme` tokens and `@keyframes` rules into your `globals.css`
-
-Same model as shadcn/ui itself. Copy, paste, own.
-
-#### 3. A pure-CSS architecture
-
-The non-obvious thing trickle proves: the entire animation layer can be CSS keyframes orchestrated by minimal React state. No animation library. No runtime measurement. No layout observation. The result:
-
-- **<1kb gzip per component** (median across the catalog)
-- **Zero runtime animation dependencies** in your bundle
-- **SSR-safe by construction** — the server renders the final HTML with animation classes applied, the browser starts the animation on first paint, no flash, no hydration mismatch
-- **Pure React Server Component for 29/34 components** — they ship zero JS to the client
-
-Together: the components are the proof, the registry is the distribution, the architecture is the wedge.
+trickle is the argument that text animation should be CSS, and the components that prove it. The CSS Animations spec is twelve years old, GPU-accelerated, server-renderable, declaratively complete for 80% of what marketing pages, dashboards, and hero sections actually need. The browser has been able to animate text natively since 2012 — the only reason we reach for animation libraries is because writing keyframes by hand is tedious, not because the platform is missing capability.
 
 ---
 
 ## Quick install
 
-### Prerequisites
-
-A Tailwind v4 project. If you don't have shadcn initialized:
+Requires **Tailwind v4** and the **shadcn CLI**. If you don't have shadcn initialized:
 
 ```bash
 npx shadcn@latest init
@@ -69,30 +46,10 @@ npx shadcn@latest init
 
 > Tailwind v3 projects can also install components — the shadcn CLI translates v4 `@theme` syntax to v3 config automatically. v4 is recommended.
 
-### Add the trickle registry to your `components.json`
-
-To use the namespaced shorthand (`@trickle/<name>`), register the registry endpoint:
-
-```json
-{
-  "registries": {
-    "@trickle": "https://trickle.dev/r/{name}.json"
-  }
-}
-```
-
-Or skip this and use full URLs in install commands.
-
-### Install a component
+### Add a component
 
 ```bash
-npx shadcn@latest add @trickle/typewriter
-```
-
-Or by URL:
-
-```bash
-npx shadcn@latest add https://trickle.dev/r/typewriter.json
+npx shadcn@latest add https://tricklekit.dev/r/typewriter.json
 ```
 
 The CLI will:
@@ -124,256 +81,252 @@ That's the whole API. No provider, no context, no setup.
 
 ---
 
+## Catalog
+
+47 components organized by primary mechanism.
+
+### Reveal (text appears on mount or scroll-into-view)
+
+| Component | Mechanism | Notes |
+|---|---|---|
+| `HighlighterSweep` | Background-size sweep | Sequential per-word highlight |
+| `TypoCorrect` | Per-letter scramble + correct | One of trickle's originals |
+| `TextReveal` | `mode="fade-up" \| "blur" \| "slide" \| "scale"` | General-purpose primitive |
+| `Typewriter` | Char-by-char with caret | `loop`, `strings[]` props |
+| `WordCascade` | Per-word stagger from below | CSS `var(--i)` indexing |
+| `CharStagger` | Per-char fade or slide | Minimal, dependable |
+| `Bounce` | Per-char drop + bounce-in-place | 3 visible bounces with damping |
+| `SpinIn` | Per-char z-axis 720° rotation | Scales 0 → 1 |
+| `Shatter` | Per-char 4-shard convergence | True sub-character breaking |
+| `Compress` | Hydraulic-press squash | Drops in tall, slammed flat, springs back |
+| `Wireframe` | Per-char stroke draw + fill | Drops in as outline, refines, fills |
+| `Pixelate` | Crossed-gradient mask + steps | 8-bit pixel grid resolves |
+| `Grain` | Radial dot mask dissolve | Word forms from dots |
+| `Mosaic` | Crossed-gradient with steps(4) | Chunky tile breakdown |
+| `Halftone` | Pulsing radial dots | Dots beat before merging |
+| `Tear` | Top/bottom polygon clip-path | Rip + heal |
+| `Stamp` | Drop + slam + recoil | Motion-blur impact |
+| `Shutter` | Mask-size shutter expansion | Vertical-bar reveal |
+| `ScaleSlam` | Scale 2.5 → 1 with overshoot | Aggressive entrance |
+
+### Continuous (loop forever)
+
+| Component | Mechanism | Notes |
+|---|---|---|
+| `GradientShift` | `@property` rotated angle | Smooth gradient rotation |
+| `ShinyShimmer` | `bg-clip:text` with panning gradient | Light glare across text |
+| `WordRotate` | Vertical wheel through `words[]` | Crossfade per item |
+| `AuroraText` | Conic-gradient layers | Aurora-borealis feel |
+| `MorphSwap` | Cycle words with letter-stagger morph | Per-letter crossfade |
+| `Wave` | Per-char vertical bob | Sine-wave undulation |
+| `Wobble3D` | Whole-word 3D rotation | Subtle perspective wobble |
+| `Float` | Per-char multi-axis drift | Phase-staggered floating |
+| `RainbowRoll` | Per-char hue-rotate offset | Rainbow ripples through word |
+| `Flutter` | Per-char jitter | CSS variables for x/y |
+| `PulseText` | Scale pulse + ripple rings | Sonar ping effect |
+| `Spotlight` | Radial gradient sweep | Light-source pass |
+| `Magnetize` | Per-char attract animation | Letters pull together |
+| `Plasma` | Multi-layer radial gradient | Plasma color blobs |
+| `MarqueeRibbon` | Horizontal scroll | Edge-fade gradients |
+| `Phase` | Opacity + blur + slip | Ghostly phase-out |
+| `NeonFlicker` | Cold-start sputter sequence | Sign warming up |
+| `CarouselFlip` | 3D ring spin → resolve | Globe spin then spell word |
+
+### Effects (special-purpose)
+
+| Component | Mechanism |
+|---|---|
+| `DecryptScramble` | Random char scramble that resolves to target |
+| `InkBleed` | `mask-image: radial-gradient` ink spread |
+| `ConfettiText` | Per-char particle burst on mount |
+| `GlitchSplit` | Horizontal slice displacement (broken-signal feel) |
+| `UnderlineDraw` | Background-size underline draw |
+| `Echo` | Multi-layer ghost trail outward |
+| `Reflect` | Mirrored text reflection |
+| `Stretch` | Letter-spacing + scaleX deformation |
+| `Scanline` | CRT scanline overlay |
+| `StaticText` | TV-static texture reveal |
+
+---
+
 ## Architecture
 
 ### How a component becomes installable
 
+trickle is two coordinated artifacts: the React components you write, and the registry JSON that lets shadcn install them.
+
 ```
-   ┌─────────────────────────────────────────────────────────────┐
-   │  registry/default/typewriter/typewriter.tsx                 │
-   │  ─ source of truth, ~80 lines                                │
-   └────────────────────┬────────────────────────────────────────┘
-                        │  pnpm registry:build  (= shadcn build)
-                        ▼
-   ┌─────────────────────────────────────────────────────────────┐
-   │  public/r/typewriter.json                                    │
-   │  ─ self-contained: file content + cssVars + @keyframes       │
-   └────────────────────┬────────────────────────────────────────┘
-                        │  npx shadcn add @trickle/typewriter
-                        ▼
-   ┌─────────────────────────────────────────────────────────────┐
-   │  consumer's repo:                                            │
-   │   components/trickle/typewriter.tsx  (CLI rewrites imports)  │
-   │   app/globals.css  (CLI merges @theme + @keyframes)          │
-   └─────────────────────────────────────────────────────────────┘
-```
-
-The registry JSON encodes everything needed to install the component into an arbitrary project: the file content, the `--animate-*` design tokens, the `@keyframes` rules, and the `@media (prefers-reduced-motion: reduce)` override. The CLI handles import-path rewriting (`@/registry/default/text-root/text-root` → `@/components/trickle/text-root`) automatically based on the consumer's `components.json` aliases.
-
-### Why most components don't need `'use client'`
-
-The traditional pattern in motion libraries: `useEffect` fires on hydration, the library reads `getBoundingClientRect()`, attaches an animation observer, drives a `requestAnimationFrame` loop. This requires JavaScript. So the component is forced to be a Client Component.
-
-trickle inverts this. The animation is entirely declarative CSS:
-
-```css
-@keyframes trickle-fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-trickle-fade-up {
-  animation: trickle-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+Source                              Built artifact
+──────                              ──────────────
+registry/default/typewriter/        →   public/r/typewriter.json
+  typewriter.tsx                          {
+                                            files: [{path, target}],
+registry.json                               cssVars: {theme: {...}},
+  └─ typewriter entry                       css: {@keyframes, @media},
+       ├─ files                             registryDependencies: [...]
+       ├─ cssVars.theme                   }
+       ├─ css.@keyframes                              ↓
+       └─ registryDependencies         npx shadcn add https://tricklekit.dev/r/typewriter.json
+                                                      ↓
+                                       components/trickle/typewriter.tsx
+                                       components/trickle/text-root.tsx (transitive dep)
+                                       globals.css (merged @theme + @keyframes + reduced-motion)
 ```
 
-The component renders the markup with the animation class:
+### The TextRoot pattern
+
+Components that need lifecycle awareness (mount-trigger, view-trigger, reduced-motion) compose the [`useTextRoot`](registry/default/text-root/text-root.tsx) hook. Pure-CSS components don't import it at all — they're plain RSC.
 
 ```tsx
-// No 'use client'
-export function TextReveal({ children, mode = 'fade-up', delay = 0 }: Props) {
-  return (
-    <span
-      className={cn('inline-block', MODE_TO_ANIMATION[mode])}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      {children}
-    </span>
-  );
+// Inside a stateful component (e.g. Typewriter):
+const { ready, prefersReducedMotion, setRef } = useTextRoot({ trigger: 'mount', delay: 300 });
+```
+
+Server renders with `ready=false` → static fallback visible without JS. Client hydrates → `ready=true` → animation classes applied. No flash, no hydration mismatch.
+
+### The `@property` + CSS variables pattern
+
+Animations that need smooth interpolation of custom properties (gradient angles, dot densities, shard offsets) declare them with `@property`:
+
+```css
+@property --trickle-gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 ```
 
-The browser handles the rest. The animation starts when the element is parsed. `animation-fill-mode: both` keeps the element in the "from" state during the delay window, so there's no flash of un-styled content. With nothing to hydrate, the component is a pure RSC.
+This unlocks fluid animation of values that would otherwise snap discretely between keyframes.
 
-### The 5 components that genuinely need state
+### Reduced-motion is a first-class concern
 
-| Component | Why it needs JS |
-|---|---|
-| `Typewriter` | Char-by-char typing requires a state machine that ticks one character at a time, with optional multi-string cycling and a backspace phase. |
-| `TypoCorrect` | Four-phase animation (hidden → flying → misspelled → correcting) with per-phase setTimeouts. |
-| `DecryptScramble` | Random characters re-roll every ~30ms; resolved character count increases over time. |
-| `WordRotate` | Cycles through a list of words on a setInterval, with crossfade between active and inactive entries. |
-| `MorphSwap` | Cycles through words with a paired morph-out → morph-in transition between each. |
-
-These five share a lightweight `useTextRoot` hook for `prefers-reduced-motion` detection and trigger orchestration. Every other component is a pure RSC.
+Every keyframe ships with a `@media (prefers-reduced-motion: reduce)` override that skips to the final visible state. Many components also expose `prefers-reduced-motion` to the JS layer via the `useTextRoot` hook so JS-orchestrated effects (Typewriter, DecryptScramble) can also short-circuit.
 
 ---
 
-## The 34 components
-
-### Tier 1 — Foundation (1)
-
-| Component | Description |
-|---|---|
-| `text-root` | Hydration-safe orchestration shell + `useTextRoot` hook. Required dependency for the 5 stateful components. |
-
-### Tier 2 — Reveals (8)
-
-| Component | Description |
-|---|---|
-| `text-reveal` | Fade-up, blur, slide, or scale reveal — per char, per word, or as a single block. |
-| `word-cascade` | Words slide in from below, staggered. |
-| `char-stagger` | Per-character fade or slide with tighter rhythm. |
-| `paper-fold` | Letters fold open via 3D `rotateX` with parent perspective. |
-| `ink-bleed` | Reveals via clip-path circle from origin point + blur unmask. |
-| `curtain-reveal` | Clip-path wipe in any direction (`left` / `right` / `up` / `down`). |
-| `vertical-slide` | Letters slide in from above with stagger. Counterpart to `word-cascade`. |
-| `scale-slam` | Letters slam in from huge to normal with overshoot bounce. |
-
-### Tier 3 — Highlights & decorations (5)
-
-| Component | Description |
-|---|---|
-| `highlighter-sweep` | Sequential word-highlight reveal driven by `background-size` keyframe. |
-| `underline-draw` | Animated underline draws left-to-right under the text. |
-| `gradient-shift` | Animated gradient bg-clip-text via `@property` for smooth angle rotation. |
-| `aurora-text` | Animated multi-stop aurora gradient (green/sky/violet/amber). |
-| `shiny-shimmer` | Light glare panning across text. Always-on or hover-only. |
-
-### Tier 4 — Stateful (5)
-
-| Component | Description |
-|---|---|
-| `typewriter` | Character-by-character typing with caret. Multi-string cycle. |
-| `typo-correct` | Letters fly in misspelled, then correct themselves character-by-character. |
-| `decrypt-scramble` | Random characters scramble into the target. Configurable charset (`alphanum` / `binary` / `hex` / `katakana` / `symbols`). |
-| `word-rotate` | Vertical wheel cycling through a word list. Crossfade between entries. |
-| `morph-swap` | Cycles through words with letter-staggered morph between each. |
-
-### Tier 5 — Loops & ambient (8)
-
-| Component | Description |
-|---|---|
-| `wave` | Letters undulate vertically in a sine-wave pattern. |
-| `float` | Letters bob gently up and down with phase-offset stagger. |
-| `pulse-text` | Rhythmic scale + opacity pulse — like a heartbeat. |
-| `flutter` | Subtle random tremor per character — like nervous text. |
-| `wobble-3d` | Letters rotate around the Y-axis with parent perspective. |
-| `echo` | Multi-layer ghost ripple — translates, scales, and blurs outward. |
-| `marquee-ribbon` | Horizontally scrolling ribbon with edge-fade gradient masks. |
-| `rainbow-roll` | Hue rotates through the spectrum, staggered per character. |
-
-### Tier 6 — Effects (7)
-
-| Component | Description |
-|---|---|
-| `neon-flicker` | Neon glow with irregular flicker pattern. |
-| `glitch-split` | RGB-channel-split glitch via twin pseudo-elements with clip-path slicing. |
-| `spotlight` | Bright spot moves across text via radial-gradient bg-clip. |
-| `magnetize` | Letters scattered, then snap into place with overshoot. |
-| `drip` | Letters drop down from above with overshoot bounce. |
-| `stretch` | Horizontal stretching via scaleX + letter-spacing animation. |
-| `confetti-text` | One-shot burst of small colored squares from each character on mount. |
-| `stamp` | Lands like a rubber stamp with a bouncy scale settle. |
-
-(The catalog totals 34 components plus the foundation `text-root`, for 34 visible animations + 1 hook.)
-
----
-
-## What's in this repo
+## Repository structure
 
 ```
-.
-├── app/
-│   ├── globals.css                The Tailwind v4 entry + theme tokens + all 34 keyframes
-│   ├── layout.tsx                 Root layout with theme-init script (light/dark, no FOUC)
-│   └── page.tsx                   Landing — hero / stats / catalog / philosophy
+trickle/
+├── app/                             Next.js 15 App Router (the docs site)
+│   ├── page.tsx                     Marketing page + interactive catalog
+│   ├── audit/page.tsx               Single-strip render route for QA
+│   ├── globals.css                  Tailwind v4 @theme + @keyframes
+│   └── layout.tsx
 ├── components/
-│   ├── site/
-│   │   ├── header.tsx             Sticky header with theme toggle + live indicator
-│   │   ├── footer.tsx             Footer with MIT note and links
-│   │   ├── demo-strip.tsx         Per-component strip — preview / code tab + optional controls
-│   │   ├── controlled-strips.tsx  Client wrappers for strips with parameter sliders
-│   │   ├── code-block.tsx         Mono code preview with copy-to-clipboard + light syntax highlight
-│   │   ├── control-panel.tsx      Range-slider control panel for tweaking demo props live
-│   │   ├── spec-line.tsx          Mono key:value metadata line (gzip / client / since)
-│   │   ├── install-snippet.tsx    The install command box at the top of the page
-│   │   └── theme-toggle.tsx       Light/dark toggle persisted to localStorage
-│   └── ui/                        shadcn primitives the docs site uses (Tabs, Button, etc.)
-├── content/
-│   └── docs/                      MDX docs pages (one per component)
-├── registry/
+│   └── site/                        Docs site components (DemoStrip, ControlPanel, etc.)
+├── registry/                        ── SOURCE OF TRUTH for shipped components ──
 │   └── default/
-│       ├── text-root/             Foundation hook + render-prop wrapper
-│       └── <name>/                One folder per component (34 of them)
-├── public/r/                      Generated registry JSON — one per component
-├── lib/
-│   └── cn.ts                      Standard tailwind-merge cn() helper
+│       ├── text-root/text-root.tsx        Orchestration shell (dep of stateful components)
+│       ├── typewriter/typewriter.tsx
+│       ├── shatter/shatter.tsx
+│       └── … one folder per component
+├── public/r/                        ── GENERATED by `pnpm registry:build` ──
+│   └── <name>.json                  one per component, served at tricklekit.dev/r/<name>.json
+├── registry.json                    ROOT manifest, feeds `shadcn build`
+├── components.json                  shadcn config for the docs site itself
+├── lib/cn.ts                        tailwind-merge helper
 ├── scripts/
-│   ├── new-component.ts           pnpm new <name> — scaffolds component + docs + registry entry
-│   └── validate-registry.ts       Zod-validates each public/r/*.json against the schema
-├── registry.json                  Root manifest fed to `shadcn build`
-├── components.json                Shadcn config for the docs site
-├── next.config.ts                 CORS + cache headers on /r/*
-├── eslint.config.mjs              Flat ESLint config (Next + TypeScript)
-├── LICENSE                        MIT
-├── LICENSE-DEMOS                  CC0 (for files in registry/examples/)
-├── CONTRIBUTING.md                How to add a new component
-├── CODE_OF_CONDUCT.md             Contributor Covenant 2.1
-└── SECURITY.md                    How to report vulnerabilities
+│   ├── new-component.ts             pnpm new <name> — scaffold tsx + registry entry
+│   └── validate-registry.ts         CI: zod-validate every public/r/*.json
+└── next.config.ts                   CORS + cache headers on /r/(.*)
 ```
 
 ---
 
-## Develop locally
+## Local development
 
 ```bash
-git clone https://github.com/akaieuan/trickle-UI-kit.git
-cd trickle-UI-kit
 pnpm install
-pnpm dev
+pnpm dev                              # docs site at http://localhost:3000
 ```
 
-Then:
+Useful scripts:
 
-- `pnpm dev` — Next.js dev server (Turbopack)
-- `pnpm registry:build` — runs `shadcn build`, regenerates `public/r/*.json` from `registry.json`
-- `pnpm registry:validate` — Zod-checks every JSON in `public/r/`
-- `pnpm typecheck` — `tsc --noEmit` strict
-- `pnpm build` — registry build + production Next build (static prerender)
-- `pnpm lint` — ESLint flat config
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Next.js dev server (Turbopack) |
+| `pnpm build` | Registry build + production Next build |
+| `pnpm typecheck` | `tsc --noEmit` (strict) |
+| `pnpm lint` | ESLint flat config |
+| `pnpm registry:build` | Runs `shadcn build`, regenerates `public/r/*.json` |
+| `pnpm registry:validate` | Zod-checks every JSON in `public/r/` |
+| `pnpm new <name>` | Scaffolds a new component (tsx + registry entry) |
 
-### Add a new component
+### Adding a component
 
 ```bash
 pnpm new my-component
 ```
 
-Scaffolds:
+Generates:
 
-- `registry/default/my-component/my-component.tsx` (skeleton)
-- `registry/examples/my-component-demo.tsx` (CC0 demo file)
-- `content/docs/components/my-component.mdx` (docs page)
-- A new entry in `registry.json`
+- `registry/default/my-component/my-component.tsx` skeleton
+- A new entry block in `registry.json` with placeholder `cssVars` + `css` blocks
 
-Then implement the animation, add the keyframe to `app/globals.css` and to the new entry's `css` block, and run `pnpm registry:build && pnpm typecheck`.
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full checklist (a11y, browser support, bundle size targets, changeset workflow).
+Implement the animation, add the keyframe to `app/globals.css` AND to the new entry's `css` block (these must stay in sync — the global stylesheet is for the docs site, the registry block is what consumers receive), then run `pnpm registry:build && pnpm typecheck`.
 
 ---
 
-## Accessibility
+## Design principles
 
-Every keyframe ships with a `@media (prefers-reduced-motion: reduce)` override that skips the animation to its final state. Stateful components (`Typewriter`, `DecryptScramble`, etc.) also branch on `usePrefersReducedMotion` to skip their JS work entirely — reduced-motion users see the final string immediately without any tick-by-tick rendering.
+Every animation is judged against three axes before it ships:
 
-Per-character animations wrap the visible text in `aria-hidden="true"` and expose the full string via `aria-label` on the parent, so screen readers read the text once instead of letter-by-letter.
+**Distinct motion signature** — could you name the component from the visual alone? If two animations look like the same gesture in different colors, one of them shouldn't exist. v0.1 cut four duplicates from the original draft (Drip, CurtainReveal, VerticalSlide, PaperFold) for failing this test.
+
+**Per-character expression where it matters** — generic entrance animations are the easy mode. The interesting components express the *concept* of the animation through the character itself: `Shatter` breaks chars into clip-path shards, `Pixelate` resolves through a sub-character pixel grid, `CarouselFlip` positions chars on a rotating 3D ring, `Wireframe` draws stroke outlines per char before filling.
+
+**Fluidity** — `mask-image` switching between gradient *types* mid-animation snaps discretely (browsers can't interpolate). All masked components keep `mask-image` constant on the class and animate only `mask-size`/`mask-position`. Same rule for `clip-path` polygons.
+
+---
+
+## Browser support
+
+Modern Chrome / Safari / Firefox / Edge (last 2 versions). Components rely on:
+
+- CSS custom properties (`@property` for typed registration)
+- `mask-image` + `mask-composite: intersect`
+- `clip-path: polygon()`
+- `backdrop-filter` (a few components)
+- `prefers-reduced-motion` media query
+- `IntersectionObserver` (in `useTextRoot` view trigger only)
+
+No IE11. No legacy Edge. No polyfills shipped.
+
+---
+
+## Versioning
+
+trickle follows [Changesets](https://github.com/changesets/changesets) for changelog discipline. v0.1 is the initial public release — 47 components, registry-installable, production build clean.
+
+Distribution is shadcn-CLI only by design. There is no installable npm package and no plan for one — the registry IS the distribution. You own the source the moment you run `shadcn add`.
+
+---
+
+## Contributing
+
+Open an issue describing the new component (concept + reference) before opening a PR. Each new entry must:
+
+1. Have a distinct motion signature from existing components
+2. Pass the audit framework rubric (creativity / authenticity / fluidity)
+3. Ship with `prefers-reduced-motion` override
+4. Validate via `pnpm registry:validate`
+
+For typo fixes / small bugs, PR directly. For new components or breaking API changes, propose first.
 
 ---
 
 ## License
 
-MIT for the components and source code. CC0 for files in `registry/examples/` so you can paste demo source into your project freely. See [LICENSE](./LICENSE) and [LICENSE-DEMOS](./LICENSE-DEMOS).
+MIT for the components and orchestration shell.
+CC0 for the demo files in `registry/examples/` so you can paste them freely.
 
 ---
 
-## Status
+## Credits
 
-v0.1 is the initial public release. 34 components, registry-installable, production build clean. No npm package yet — distribution is shadcn-CLI only at this stage.
+Built on [shadcn](https://ui.shadcn.com)'s registry CLI pattern.
+Tailwind v4's `@theme` token system makes the per-component CSS variable orchestration possible.
+The `@property` rule and modern `mask-composite` semantics make the sub-character techniques (Shatter, Pixelate, Mosaic) feasible without a JS animation runtime.
 
-The roadmap (v0.2):
-- npm package for users who prefer install over copy-paste
-- More components (target: 50)
-- Per-component MDX docs pages with `<Live />` editors
-- Storybook for visual regression testing
-- Comparison page vs framer-motion / motion / react-spring (bundle, runtime, SSR safety, customization)
-
-Built by [@akaieuan](https://github.com/akaieuan). Issues and PRs welcome.
+— Built by [@akaieuan](https://github.com/akaieuan)

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "reflect",
+  "title": "Reflect",
+  "description": "Mirror reflection beneath text with linear-gradient mask fade.",
+  "files": [
+    {
+      "path": "registry/default/reflect/reflect.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ReflectProps {\n  children: React.ReactNode;\n  /** Reflection opacity 0-1. Default 0.3. */\n  opacity?: number;\n  /** Gap between text and reflection in em. Default 0. */\n  gap?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Reflect({ children, opacity = 0.3, gap = 0, as: Component = 'span', className }: ReflectProps) {\n  return (\n    <Component className={cn('trickle-reflect relative inline-block', className)}>\n      <span className='relative inline-block'>{children}</span>\n      <span\n        aria-hidden='true'\n        className='trickle-reflect-mirror animate-trickle-reflect absolute left-0 right-0 inline-block select-none'\n        style={{\n          top: `calc(100% + ${gap}em)`,\n          ['--trickle-reflect-opacity' as string]: `${opacity}`\n        } as CSSProperties}\n      >\n        {children}\n      </span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/reflect.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-reflect": "trickle-reflect 1s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    ".trickle-reflect-mirror": {
+      "-webkit-mask-image": "linear-gradient(to bottom, black, transparent 70%)",
+      "mask-image": "linear-gradient(to bottom, black, transparent 70%)"
+    },
+    "@keyframes trickle-reflect": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scaleY(-0.4)"
+      },
+      "100%": {
+        "opacity": "var(--trickle-reflect-opacity, 0.3)",
+        "transform": "scaleY(-1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-reflect": {
+        "animation": "none",
+        "opacity": "var(--trickle-reflect-opacity, 0.3)",
+        "transform": "scaleY(-1)"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

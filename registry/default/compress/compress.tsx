@@ -1,31 +1,22 @@
 import { type ElementType, type CSSProperties } from 'react';
 import { cn } from '@/lib/cn';
 
-export interface DripProps {
+export interface CompressProps {
   text: string;
-  /** Delay before the first letter drops, in ms. */
   delay?: number;
-  /** Delay between successive letters, in ms. */
   stagger?: number;
-  /** Element tag. */
   as?: ElementType;
   className?: string;
 }
 
-export function Drip({
-  text,
-  delay = 0,
-  stagger = 80,
-  as: Component = 'span',
-  className
-}: DripProps) {
+export function Compress({ text, delay = 0, stagger = 50, as: Component = 'span', className }: CompressProps) {
   return (
     <Component className={cn('inline-block', className)} aria-label={text}>
       {text.split('').map((char, i) => (
         <span
           key={i}
           aria-hidden='true'
-          className='inline-block whitespace-pre animate-trickle-drip'
+          className='inline-block whitespace-pre animate-trickle-compress [transform-origin:50%_100%]'
           style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}
         >
           {char}

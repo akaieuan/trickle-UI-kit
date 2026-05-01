@@ -1,0 +1,68 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "digital-rain",
+  "title": "Digital Rain",
+  "description": "Each letter flies in from a distance as an outline only, the stroke draws across left-to-right, magnetically settles into position, then fills in solid. Brand animation for Trickle.",
+  "files": [
+    {
+      "path": "registry/default/digital-rain/digital-rain.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface DigitalRainProps {\n  text: string;\n  /** Delay before the first character begins, in ms. */\n  delay?: number;\n  /** Per-character stagger, in ms. */\n  stagger?: number;\n  /** Base duration of each character's travel + settle, in ms. */\n  duration?: number;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n}\n\nconst PRIMES = [73, 19, 41, 53, 89, 61, 47, 31, 79, 23, 67, 13, 37, 59, 71, 43, 11, 17, 29, 83];\nfunction det(seed: number, range: number, offset = 0): number {\n  return (Math.abs((seed + 1) * (PRIMES[seed % PRIMES.length] ?? 73)) % range) + offset;\n}\n\nexport function DigitalRain({\n  text,\n  delay = 0,\n  stagger = 320,\n  duration = 1300,\n  as: Component = 'span',\n  className\n}: DigitalRainProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => {\n        if (char === ' ') {\n          return (\n            <span key={i} aria-hidden='true'>\n              {' '}\n            </span>\n          );\n        }\n        const tx = det(i * 7, 100, -50) / 10;\n        const ty = det(i * 11, 80, -40) / 10;\n        const rotation = det(i * 13, 60, -30);\n        const startScale = 0.4 + det(i * 17, 30, 0) / 100;\n        const charDelay = delay + i * stagger + det(i * 19, 240, -120);\n        const durVar = duration + det(i * 23, 500, -200);\n        const letterStyle: CSSProperties = {\n          ['--trickle-tx' as string]: `${tx}em`,\n          ['--trickle-ty' as string]: `${ty}em`,\n          ['--trickle-tr' as string]: `${rotation}deg`,\n          ['--trickle-ts' as string]: `${startScale}`,\n          ['--trickle-rain-delay' as string]: `${charDelay}ms`,\n          ['--trickle-rain-duration' as string]: `${durVar}ms`\n        } as CSSProperties;\n        return (\n          <span\n            key={i}\n            aria-hidden='true'\n            className='trickle-rain-letter inline-block whitespace-pre align-baseline'\n            style={letterStyle}\n          >\n            {char}\n          </span>\n        );\n      })}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/digital-rain.tsx"
+    }
+  ],
+  "css": {
+    ".trickle-rain-letter": {
+      "animation": "trickle-rain-fall var(--trickle-rain-duration, 1.5s) cubic-bezier(0.2, 0.72, 0.28, 1) both",
+      "animation-delay": "var(--trickle-rain-delay, 0ms)",
+      "-webkit-text-stroke": "1px currentColor",
+      "color": "transparent"
+    },
+    "@keyframes trickle-rain-fall": {
+      "0%": {
+        "transform": "translate(var(--trickle-tx, 0), var(--trickle-ty, 0)) rotate(var(--trickle-tr, 0deg)) scale(var(--trickle-ts, 0.5))",
+        "opacity": "0",
+        "clip-path": "inset(0 100% 0 0)",
+        "-webkit-text-stroke": "1px currentColor",
+        "color": "transparent"
+      },
+      "10%": {
+        "opacity": "0.7"
+      },
+      "22%": {
+        "clip-path": "inset(0 0 0 0)",
+        "-webkit-text-stroke": "1px currentColor",
+        "color": "transparent"
+      },
+      "65%": {
+        "transform": "translate(0, -0.04em) rotate(0) scale(1.06)",
+        "clip-path": "inset(0 0 0 0)",
+        "-webkit-text-stroke": "1px currentColor",
+        "color": "transparent"
+      },
+      "82%": {
+        "transform": "translate(0, 0.02em) rotate(0) scale(0.99)",
+        "-webkit-text-stroke": "0.4px currentColor",
+        "color": "currentColor"
+      },
+      "100%": {
+        "transform": "translate(0, 0) rotate(0) scale(1)",
+        "opacity": "1",
+        "clip-path": "inset(0 0 0 0)",
+        "-webkit-text-stroke": "0 transparent",
+        "color": "currentColor"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".trickle-rain-letter": {
+        "animation": "none",
+        "transform": "none",
+        "opacity": "1",
+        "clip-path": "none",
+        "-webkit-text-stroke": "0 transparent",
+        "color": "currentColor"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

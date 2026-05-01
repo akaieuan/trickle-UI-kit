@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "carousel-flip",
+  "title": "Carousel Flip",
+  "description": "Per-character X-axis card flip — like a flipping departures board.",
+  "files": [
+    {
+      "path": "registry/default/carousel-flip/carousel-flip.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface CarouselFlipProps {\n  /** The text whose characters wrap around an invisible 3D ring before resolving. */\n  text: string;\n  /** Total cycle duration in ms (spin + resolve). */\n  duration?: number;\n  /** Ring radius in `em`. Larger = wider circle. Default scales with text length. */\n  radius?: number;\n  /** Approximate per-character width in `em`. Tune if the resolved word looks too tight or too loose. */\n  charSpacing?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function CarouselFlip({\n  text,\n  duration = 4500,\n  radius,\n  charSpacing = 0.55,\n  as: Component = 'span',\n  className\n}: CarouselFlipProps) {\n  const N = Math.max(text.length, 1);\n  const angleStep = 360 / N;\n  const r = radius ?? Math.max(2.4, N * 0.42);\n  const center = (N - 1) / 2;\n  return (\n    <Component\n      className={cn('inline-block [perspective:900px]', className)}\n      aria-label={text}\n    >\n      <span className='trickle-carousel-wrap relative inline-block whitespace-pre [transform-style:preserve-3d]'>\n        {/* Invisible spacer claims the resolved word's bounding box */}\n        <span className='invisible inline-block whitespace-pre'>{text}</span>\n        {text.split('').map((char, i) => (\n          <span\n            key={i}\n            aria-hidden='true'\n            className='trickle-carousel-char absolute left-1/2 top-0 inline-block whitespace-pre [transform-style:preserve-3d]'\n            style={{\n              ['--char-angle' as string]: `${i * angleStep}deg`,\n              ['--char-radius' as string]: `${r}em`,\n              ['--char-x' as string]: `${(i - center) * charSpacing}em`,\n              animationDuration: `${duration}ms`\n            } as CSSProperties}\n          >\n            {char}\n          </span>\n        ))}\n      </span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/carousel-flip.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-carousel-flip": "trickle-carousel-flip 0.8s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-carousel-flip": {
+      "0%": {
+        "opacity": "0",
+        "transform": "rotateX(90deg) translateY(-0.4em)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "rotateX(-12deg) translateY(0)"
+      },
+      "80%": {
+        "transform": "rotateX(4deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "rotateX(0) translateY(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-carousel-flip": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

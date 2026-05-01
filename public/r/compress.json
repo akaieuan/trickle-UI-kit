@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "compress",
+  "title": "Compress",
+  "description": "Vertical squash from bottom with overshoot. Per-char stagger.",
+  "files": [
+    {
+      "path": "registry/default/compress/compress.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface CompressProps {\n  text: string;\n  delay?: number;\n  stagger?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Compress({ text, delay = 0, stagger = 50, as: Component = 'span', className }: CompressProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-compress [transform-origin:50%_100%]'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/compress.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-compress": "trickle-compress 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-compress": {
+      "0%": {
+        "opacity": "0",
+        "transform": "scaleY(0.05) scaleX(1.4)"
+      },
+      "50%": {
+        "opacity": "1",
+        "transform": "scaleY(1.15) scaleX(0.92)"
+      },
+      "75%": {
+        "transform": "scaleY(0.96) scaleX(1.02)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "scaleY(1) scaleX(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-compress": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

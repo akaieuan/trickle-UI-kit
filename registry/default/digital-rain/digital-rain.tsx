@@ -3,93 +3,62 @@ import { cn } from '@/lib/cn';
 
 export interface DigitalRainProps {
   text: string;
-  /** Delay before the first character starts falling, in ms. */
+  /** Delay before the first character begins, in ms. */
   delay?: number;
   /** Per-character stagger, in ms. */
   stagger?: number;
-  /** How long each character's rain takes to settle, in ms. */
+  /** Base duration of each character's travel + settle, in ms. */
   duration?: number;
-  /** Number of random characters that flash through before the target lands. */
-  trailLength?: number;
-  /** Character pool used for the rain trail. Defaults to katakana + digits + capitals. */
-  charset?: string;
-  /** Color for the falling rain trail. Defaults to a brand-aligned blue. */
-  rainColor?: string;
   /** Element tag. Defaults to `span`. */
   as?: ElementType;
   className?: string;
 }
 
-const DEFAULT_CHARSET =
-  'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモ0123456789ABCDEFGHJKLMNPQRSTVWXYZ';
-
-const SEED = 1779;
-function deterministicChar(charset: string, seed: number): string {
-  const idx = Math.abs((seed * SEED) | 0) % charset.length;
-  return charset[idx] ?? '?';
+const PRIMES = [73, 19, 41, 53, 89, 61, 47, 31, 79, 23, 67, 13, 37, 59, 71, 43, 11, 17, 29, 83];
+function det(seed: number, range: number, offset = 0): number {
+  return (Math.abs((seed + 1) * (PRIMES[seed % PRIMES.length] ?? 73)) % range) + offset;
 }
 
 export function DigitalRain({
   text,
   delay = 0,
-  stagger = 90,
-  duration = 700,
-  trailLength = 4,
-  charset = DEFAULT_CHARSET,
-  rainColor,
+  stagger = 320,
+  duration = 1300,
   as: Component = 'span',
   className
 }: DigitalRainProps) {
-  const trailLen = Math.max(1, trailLength);
-  const wrapperStyle = rainColor
-    ? ({ ['--trickle-rain-color' as string]: rainColor } as CSSProperties)
-    : undefined;
-
   return (
-    <Component
-      className={cn('inline-block', className)}
-      aria-label={text}
-      style={wrapperStyle}
-    >
-      {text.split('').map((target, i) => {
-        if (target === ' ') {
+    <Component className={cn('inline-block', className)} aria-label={text}>
+      {text.split('').map((char, i) => {
+        if (char === ' ') {
           return (
             <span key={i} aria-hidden='true'>
               {' '}
             </span>
           );
         }
-        const charDelay = delay + i * stagger;
-        const trail = Array.from({ length: trailLen }, (_, j) =>
-          deterministicChar(charset, i * 17 + j * 7 + 11)
-        );
-        const columnStyle: CSSProperties = {
-          animationDelay: `${charDelay}ms`,
-          animationDuration: `${duration}ms`,
-          ['--trickle-rain-distance' as string]: `-${trailLen + 1}em`
+        const tx = det(i * 7, 100, -50) / 10;
+        const ty = det(i * 11, 80, -40) / 10;
+        const rotation = det(i * 13, 60, -30);
+        const startScale = 0.4 + det(i * 17, 30, 0) / 100;
+        const charDelay = delay + i * stagger + det(i * 19, 240, -120);
+        const durVar = duration + det(i * 23, 500, -200);
+        const letterStyle: CSSProperties = {
+          ['--trickle-tx' as string]: `${tx}em`,
+          ['--trickle-ty' as string]: `${ty}em`,
+          ['--trickle-tr' as string]: `${rotation}deg`,
+          ['--trickle-ts' as string]: `${startScale}`,
+          ['--trickle-rain-delay' as string]: `${charDelay}ms`,
+          ['--trickle-rain-duration' as string]: `${durVar}ms`
         } as CSSProperties;
         return (
           <span
             key={i}
             aria-hidden='true'
-            className='relative inline-block whitespace-pre overflow-hidden align-baseline leading-none'
+            className='trickle-rain-letter inline-block whitespace-pre align-baseline'
+            style={letterStyle}
           >
-            <span className='invisible'>{target}</span>
-            <span
-              className='absolute inset-x-0 top-0 flex flex-col items-center leading-none animate-trickle-rain-fall'
-              style={columnStyle}
-            >
-              <span className='block leading-none'>{target}</span>
-              {trail.map((tc, j) => (
-                <span
-                  key={j}
-                  className='trickle-rain-trail block leading-none'
-                  style={{ opacity: Math.max(0.35, 1 - j * 0.18) }}
-                >
-                  {tc}
-                </span>
-              ))}
-            </span>
+            {char}
           </span>
         );
       })}

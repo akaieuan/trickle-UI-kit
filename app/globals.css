@@ -24,11 +24,15 @@
   --border: oklch(92% 0 0);
   --input: oklch(92% 0 0);
   --ring: oklch(55% 0.18 250);
+  --trickle-shimmer-base: oklch(35% 0 0);
+  --trickle-shimmer-highlight: oklch(85% 0 0);
 }
 
 .dark {
   --background: oklch(13% 0.01 250);
   --foreground: oklch(97% 0 0);
+  --trickle-shimmer-base: oklch(55% 0 0);
+  --trickle-shimmer-highlight: oklch(100% 0 0);
   --card: oklch(15% 0.01 250);
   --card-foreground: oklch(97% 0 0);
   --popover: oklch(15% 0.01 250);
@@ -116,8 +120,11 @@
   /* InkBleed */
   --animate-trickle-ink-bleed: trickle-ink-bleed 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
 
-  /* PaperFold */
-  --animate-trickle-paper-fold: trickle-paper-fold 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  /* Shatter (4 shards per char, all share duration but driven by --trickle-shatter-delay) */
+  --animate-trickle-shatter-1: trickle-shatter-1 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-shatter-2: trickle-shatter-2 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-shatter-3: trickle-shatter-3 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-shatter-4: trickle-shatter-4 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   /* Echo */
   --animate-trickle-echo: trickle-echo 1.4s ease-out infinite;
@@ -143,13 +150,10 @@
   --animate-trickle-scale-slam: trickle-scale-slam 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 
   /* Stamp */
-  --animate-trickle-stamp: trickle-stamp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-trickle-stamp: trickle-stamp 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
 
   /* Wave */
   --animate-trickle-wave: trickle-wave 1.8s ease-in-out infinite;
-
-  /* Drip */
-  --animate-trickle-drip: trickle-drip 0.9s cubic-bezier(0.5, 0, 0.5, 1.4) both;
 
   /* Stretch */
   --animate-trickle-stretch: trickle-stretch 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -172,17 +176,34 @@
   /* RainbowRoll */
   --animate-trickle-rainbow-roll: trickle-rainbow-roll 4s linear infinite;
 
-  /* CurtainReveal */
-  --animate-trickle-curtain-reveal: trickle-curtain-reveal 0.7s cubic-bezier(0.7, 0, 0.3, 1) both;
-
-  /* VerticalSlide */
-  --animate-trickle-vertical-slide: trickle-vertical-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-
   /* Flutter */
   --animate-trickle-flutter: trickle-flutter 2.4s ease-in-out infinite;
 
-  /* DigitalRain */
-  --animate-trickle-rain-fall: trickle-rain-fall 0.7s cubic-bezier(0.5, 0, 0.5, 1) both;
+  /* Pixelate */
+  --animate-trickle-pixelate: trickle-pixelate 1.4s cubic-bezier(0.5, 0, 0.2, 1) both;
+
+  /* Wireframe */
+  --animate-trickle-wireframe: trickle-wireframe 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  /* Halftone */
+  --animate-trickle-halftone: trickle-halftone 1.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  /* Grain dissolve */
+  --animate-trickle-grain-dissolve: trickle-grain-dissolve 1.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  /* Bounce / SpinIn / Shutter / Plasma / Compress / CarouselFlip / StaticText / Tear / Reflect / Phase / Mosaic */
+  --animate-trickle-bounce: trickle-bounce 1.6s cubic-bezier(0.5, 0, 0.5, 1) both;
+  --animate-trickle-spin-in: trickle-spin-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-shutter: trickle-shutter 1.1s cubic-bezier(0.7, 0, 0.3, 1) both;
+  --animate-trickle-plasma: trickle-plasma 6s linear infinite;
+  --animate-trickle-compress: trickle-compress 1.2s cubic-bezier(0.5, 0, 0.4, 1) both;
+  --animate-trickle-carousel-flip: trickle-carousel-flip 4s linear infinite;
+  --animate-trickle-static-text: trickle-static-text 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-trickle-tear-top: trickle-tear-top 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-tear-bottom: trickle-tear-bottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-reflect: trickle-reflect 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-trickle-phase: trickle-phase 2.4s ease-in-out infinite;
+  --animate-trickle-mosaic: trickle-mosaic 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @property --trickle-gradient-angle {
@@ -291,8 +312,12 @@
 }
 
 @keyframes trickle-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  /* With bg-size 200%, the image is twice the element width.
+     Pan from 0% (highlight on right edge) → -100% (highlight on left edge),
+     then hold offscreen-left briefly so the loop wrap is invisible. */
+  0%   { background-position: 0% 0; }
+  60%  { background-position: -100% 0; }
+  100% { background-position: -100% 0; }
 }
 
 @keyframes trickle-aurora {
@@ -322,14 +347,69 @@
   }
 }
 
-@keyframes trickle-paper-fold {
-  from { transform: rotateX(-90deg); opacity: 0; }
-  to { transform: rotateX(0); opacity: 1; }
+/* Shatter: each char assembles from 4 triangular shards converging from offsets */
+.trickle-shatter-char {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+}
+.trickle-shatter-spacer {
+  visibility: hidden;
+  display: inline-block;
+}
+.trickle-shatter-shard {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  animation-fill-mode: both;
+  animation-duration: 800ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-delay: var(--trickle-shatter-delay, 0ms);
+}
+.trickle-shatter-shard-1 {
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  animation-name: trickle-shatter-1;
+}
+.trickle-shatter-shard-2 {
+  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+  animation-name: trickle-shatter-2;
+}
+.trickle-shatter-shard-3 {
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  animation-name: trickle-shatter-3;
+}
+.trickle-shatter-shard-4 {
+  clip-path: polygon(0 0, 0 100%, 50% 50%);
+  animation-name: trickle-shatter-4;
+}
+@keyframes trickle-shatter-1 {
+  0%   { opacity: 0; transform: translate(-0.6em, -0.8em) rotate(-30deg); }
+  60%  { opacity: 1; transform: translate(0.04em, 0.04em) rotate(4deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+@keyframes trickle-shatter-2 {
+  0%   { opacity: 0; transform: translate(0.7em, -0.4em) rotate(25deg); }
+  60%  { opacity: 1; transform: translate(-0.03em, 0.04em) rotate(-3deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+@keyframes trickle-shatter-3 {
+  0%   { opacity: 0; transform: translate(0.3em, 0.8em) rotate(20deg); }
+  60%  { opacity: 1; transform: translate(-0.02em, -0.05em) rotate(-2deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+@keyframes trickle-shatter-4 {
+  0%   { opacity: 0; transform: translate(-0.7em, 0.4em) rotate(-20deg); }
+  60%  { opacity: 1; transform: translate(0.04em, -0.03em) rotate(3deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trickle-shatter-shard { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 @keyframes trickle-echo {
-  0% { opacity: var(--trickle-echo-opacity, 0.5); transform: translate(0, 0) scale(1); filter: blur(0); }
-  100% { opacity: 0; transform: translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0)) scale(var(--trickle-echo-scale, 1.1)); filter: blur(2px); }
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.92); filter: blur(0); }
+  15%  { opacity: var(--trickle-echo-opacity, 0.5); transform: translate(calc(var(--trickle-echo-x, 12px) * 0.08), 0) scale(0.96); filter: blur(0); }
+  100% { opacity: 0; transform: translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0)) scale(var(--trickle-echo-scale, 1.4)); filter: blur(4px); }
 }
 
 @keyframes trickle-confetti {
@@ -349,12 +429,24 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Cold-start sequence: hard sputters trying to ignite, weak first-warm,
+   second sputter, then settles to steady glow with rare micro-flickers. */
 @keyframes trickle-neon-flicker {
-  0%, 7%, 11%, 35%, 41%, 65%, 70%, 87%, 92%, 100% { opacity: 1; filter: brightness(1.1); }
-  8%, 10% { opacity: 0.35; filter: brightness(0.55); }
-  36%, 40% { opacity: 0.6; filter: brightness(0.8); }
-  66%, 69% { opacity: 0.4; filter: brightness(0.6); }
-  88%, 91% { opacity: 0.7; filter: brightness(0.85); }
+  0%, 1%        { opacity: 0.05; filter: brightness(0.2) blur(0.3px); text-shadow: none; }
+  2%            { opacity: 0.9;  filter: brightness(1.1); }
+  3%, 4%        { opacity: 0.05; filter: brightness(0.2) blur(0.3px); text-shadow: none; }
+  5%            { opacity: 0.7;  filter: brightness(0.85); }
+  6%, 7%        { opacity: 0.1;  filter: brightness(0.3) blur(0.3px); }
+  8%            { opacity: 0.95; filter: brightness(1.05); }
+  9%            { opacity: 0.4;  filter: brightness(0.5); }
+  11%           { opacity: 1;    filter: brightness(1.15); }
+  13%, 14%      { opacity: 0.5;  filter: brightness(0.65); }
+  16%           { opacity: 1;    filter: brightness(1.1); }
+  20%, 55%      { opacity: 1;    filter: brightness(1); }
+  56%, 57%      { opacity: 0.85; filter: brightness(0.9); }
+  58%, 80%      { opacity: 1;    filter: brightness(1); }
+  81%           { opacity: 0.6;  filter: brightness(0.75); }
+  82%, 100%     { opacity: 1;    filter: brightness(1); }
 }
 
 .trickle-glitch-split::before,
@@ -363,32 +455,33 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0;
+  color: inherit;
+  background: inherit;
 }
-.trickle-glitch-split::before { color: var(--trickle-glitch-a, oklch(75% 0.22 200)); }
-.trickle-glitch-split::after { color: var(--trickle-glitch-b, oklch(70% 0.27 320)); }
+.trickle-glitch-loop::before { animation: trickle-glitch-a 2.4s steps(1) infinite; }
+.trickle-glitch-loop::after { animation: trickle-glitch-b 2.4s steps(1) infinite; }
 
-.trickle-glitch-loop::before { animation: trickle-glitch-a 3s steps(1) infinite; }
-.trickle-glitch-loop::after { animation: trickle-glitch-b 3s steps(1) infinite; }
+.trickle-glitch-split:hover::before { animation: trickle-glitch-a 0.5s steps(1) 1; }
+.trickle-glitch-split:hover::after { animation: trickle-glitch-b 0.5s steps(1) 1; }
 
-.trickle-glitch-split:hover::before { animation: trickle-glitch-a 0.4s steps(1) 1; }
-.trickle-glitch-split:hover::after { animation: trickle-glitch-b 0.4s steps(1) 1; }
-
+/* Glitch slices: pseudo-element copies of the text get clipped to horizontal bands and displaced sideways. No color shift. The base text underneath stays put. */
 @keyframes trickle-glitch-a {
-  0%, 89%, 100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0); }
-  90% { opacity: 1; transform: translate(-2px, 0); clip-path: inset(20% 0 60% 0); }
-  92% { opacity: 1; transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
-  94% { opacity: 1; transform: translate(-1px, 1px); clip-path: inset(40% 0 30% 0); }
-  96% { opacity: 0; }
-  98% { opacity: 1; transform: translate(1px, 0); clip-path: inset(10% 0 70% 0); }
+  0%, 8%, 18%, 100%  { transform: translateX(0); clip-path: inset(0 0 100% 0); }
+  10%, 12%           { transform: translateX(-6px); clip-path: inset(15% 0 70% 0); }
+  14%, 16%           { transform: translateX(4px); clip-path: inset(40% 0 45% 0); }
+  35%, 38%           { transform: translateX(-8px); clip-path: inset(55% 0 30% 0); }
+  40%, 42%           { transform: translateX(3px); clip-path: inset(75% 0 12% 0); }
+  68%, 70%           { transform: translateX(-5px); clip-path: inset(8% 0 80% 0); }
+  72%, 74%           { transform: translateX(2px); clip-path: inset(50% 0 38% 0); }
 }
 @keyframes trickle-glitch-b {
-  0%, 89%, 100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0); }
-  90% { opacity: 1; transform: translate(2px, 1px); clip-path: inset(60% 0 20% 0); }
-  92% { opacity: 1; transform: translate(-2px, 0); clip-path: inset(10% 0 70% 0); }
-  94% { opacity: 1; transform: translate(1px, -1px); clip-path: inset(50% 0 30% 0); }
-  96% { opacity: 0; }
-  98% { opacity: 1; transform: translate(-1px, 0); clip-path: inset(70% 0 10% 0); }
+  0%, 8%, 18%, 100%  { transform: translateX(0); clip-path: inset(100% 0 0 0); }
+  10%, 12%           { transform: translateX(5px); clip-path: inset(60% 0 25% 0); }
+  14%, 16%           { transform: translateX(-3px); clip-path: inset(28% 0 55% 0); }
+  35%, 38%           { transform: translateX(7px); clip-path: inset(20% 0 65% 0); }
+  40%, 42%           { transform: translateX(-4px); clip-path: inset(82% 0 5% 0); }
+  68%, 70%           { transform: translateX(6px); clip-path: inset(38% 0 50% 0); }
+  72%, 74%           { transform: translateX(-2px); clip-path: inset(70% 0 18% 0); }
 }
 
 @keyframes trickle-marquee {
@@ -403,23 +496,22 @@
   100% { transform: scale(1); }
 }
 
+/* Stamp: char drops huge from above with motion blur, slams flat with hard impact,
+   recoils, settles. Ink-spread effect via mask-size growth happens on the ink layer. */
 @keyframes trickle-stamp {
-  0% { opacity: 0; transform: scale(2.2) rotate(0); }
-  60% { opacity: 1; transform: scale(0.92) rotate(var(--trickle-stamp-rotation, -6deg)); }
-  80% { transform: scale(1.04) rotate(var(--trickle-stamp-rotation, -6deg)); }
-  100% { opacity: 1; transform: scale(1) rotate(var(--trickle-stamp-rotation, -6deg)); }
+  0%   { opacity: 0; transform: scale(3) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.2)); filter: blur(6px); animation-timing-function: cubic-bezier(0.5, 0, 1, 0.4); }
+  35%  { opacity: 1; transform: scale(1.6) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.4)); filter: blur(2px); animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1); }
+  50%  { opacity: 1; transform: scale(0.85) rotate(var(--trickle-stamp-rotation, -6deg)); filter: blur(0); }
+  60%  { transform: scale(0.85) translate(0.06em, 0.04em) rotate(var(--trickle-stamp-rotation, -6deg)); }
+  68%  { transform: scale(0.85) translate(-0.04em, -0.02em) rotate(var(--trickle-stamp-rotation, -6deg)); }
+  78%  { transform: scale(1.06) rotate(var(--trickle-stamp-rotation, -6deg)); }
+  90%  { transform: scale(0.98) rotate(var(--trickle-stamp-rotation, -6deg)); }
+  100% { opacity: 1; transform: scale(1) rotate(var(--trickle-stamp-rotation, -6deg)); filter: blur(0); }
 }
 
 @keyframes trickle-wave {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-0.3em); }
-}
-
-@keyframes trickle-drip {
-  0% { opacity: 0; transform: translateY(-1em); }
-  60% { opacity: 1; transform: translateY(0.15em); }
-  80% { transform: translateY(-0.05em); }
-  100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes trickle-stretch {
@@ -459,13 +551,48 @@
 }
 
 @keyframes trickle-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-0.18em); }
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  20%      { transform: translate(0.08em, -0.35em) rotate(2.5deg); }
+  40%      { transform: translate(-0.05em, -0.55em) rotate(-3deg); }
+  55%      { transform: translate(-0.1em, -0.45em) rotate(-2deg); }
+  70%      { transform: translate(0.06em, -0.25em) rotate(1.5deg); }
+  85%      { transform: translate(0.04em, -0.1em) rotate(0.5deg); }
 }
 
+/* Text breathes with a scale + opacity pulse. Two ring pseudo-elements expand
+   outward and fade — like a sonar ping radiating from the word. */
+.trickle-pulse-text[data-trickle-pulse-rings='true']::before,
+.trickle-pulse-text[data-trickle-pulse-rings='true']::after {
+  content: '';
+  position: absolute;
+  inset: -0.18em -0.4em;
+  border: 1.5px solid currentColor;
+  border-radius: 0.5em;
+  pointer-events: none;
+  opacity: 0;
+}
+.trickle-pulse-text[data-trickle-pulse-rings='true']::before {
+  animation: trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite;
+}
+.trickle-pulse-text[data-trickle-pulse-rings='true']::after {
+  animation: trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite;
+  animation-delay: calc(var(--trickle-pulse-duration, 1800ms) * 0.5);
+}
 @keyframes trickle-pulse-text {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.06); opacity: 0.85; }
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+@keyframes trickle-pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0; }
+  18%  { opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trickle-pulse-text[data-trickle-pulse-rings='true']::before,
+  .trickle-pulse-text[data-trickle-pulse-rings='true']::after {
+    animation: none;
+    display: none;
+  }
 }
 
 .animate-trickle-rainbow-roll {
@@ -476,28 +603,6 @@
   100% { filter: hue-rotate(360deg); }
 }
 
-.animate-trickle-curtain-reveal {
-  --trickle-curtain-from: inset(0 100% 0 0);
-}
-.animate-trickle-curtain-reveal[data-trickle-curtain-direction='left'] {
-  --trickle-curtain-from: inset(0 0 0 100%);
-}
-.animate-trickle-curtain-reveal[data-trickle-curtain-direction='up'] {
-  --trickle-curtain-from: inset(100% 0 0 0);
-}
-.animate-trickle-curtain-reveal[data-trickle-curtain-direction='down'] {
-  --trickle-curtain-from: inset(0 0 100% 0);
-}
-@keyframes trickle-curtain-reveal {
-  from { clip-path: var(--trickle-curtain-from, inset(0 100% 0 0)); }
-  to { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes trickle-vertical-slide {
-  from { opacity: 0; transform: translateY(-1em); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes trickle-flutter {
   0%, 100% { transform: translate(0, 0); }
   25% { transform: translate(var(--trickle-flutter-x, 2px), var(--trickle-flutter-y, -1px)); }
@@ -505,22 +610,238 @@
   75% { transform: translate(calc(var(--trickle-flutter-x, 2px) * -1), calc(var(--trickle-flutter-y, -1px) * -1)); }
 }
 
-.trickle-rain-trail {
-  color: var(--trickle-rain-color, oklch(65% 0.16 250));
-  text-shadow: 0 0 8px var(--trickle-rain-color, oklch(70% 0.16 250 / 0.45));
+.animate-trickle-pixelate {
+  animation-timing-function: steps(6, end);
+  -webkit-mask-image:
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(180deg, black 50%, transparent 50%);
+  mask-image:
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(180deg, black 50%, transparent 50%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: repeat, repeat;
+  mask-repeat: repeat, repeat;
 }
-.dark .trickle-rain-trail {
-  color: var(--trickle-rain-color, oklch(78% 0.16 250));
-}
-@keyframes trickle-rain-fall {
-  0% {
-    transform: translateY(var(--trickle-rain-distance, -5em));
+@keyframes trickle-pixelate {
+  0%   {
+    -webkit-mask-size: 4px 4px, 4px 4px;
+    mask-size: 4px 4px, 4px 4px;
     opacity: 0;
   }
-  12% { opacity: 1; }
+  20%  { opacity: 1; }
   100% {
-    transform: translateY(0);
+    -webkit-mask-size: 400% 400%, 400% 400%;
+    mask-size: 400% 400%, 400% 400%;
     opacity: 1;
+  }
+}
+
+.trickle-scanline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    oklch(50% 0 0 / 0.06) 3px,
+    oklch(50% 0 0 / 0.06) 4px
+  );
+  z-index: 1;
+}
+.trickle-scanline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--trickle-scanline-thickness, 2px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, oklch(98% 0 0 / 0.6), transparent);
+  filter: blur(0.5px);
+  animation: trickle-scanline-pass var(--trickle-scanline-duration, 2400ms) linear infinite;
+  z-index: 2;
+}
+@keyframes trickle-scanline-pass {
+  0% { top: -10%; opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { top: 110%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trickle-scanline::before, .trickle-scanline::after { animation: none; display: none; }
+}
+
+.animate-trickle-grain-dissolve {
+  -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 75%);
+  mask-image: radial-gradient(circle at center, black 35%, transparent 75%);
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+}
+@keyframes trickle-grain-dissolve {
+  0% {
+    -webkit-mask-size: var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px);
+    mask-size: var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px);
+    opacity: 0;
+    filter: blur(0.4px);
+  }
+  20% {
+    opacity: 1;
+    filter: blur(0.4px);
+  }
+  60% {
+    -webkit-mask-size: 60% 60%;
+    mask-size: 60% 60%;
+    opacity: 1;
+    filter: blur(0.2px);
+  }
+  100% {
+    -webkit-mask-size: 800% 800%;
+    mask-size: 800% 800%;
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-trickle-grain-dissolve {
+    animation: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+.animate-trickle-wireframe {
+  /* Stroke pulls from the page foreground token directly, so it stays visible
+     even when the keyframe sets color: transparent. clip-path scans across the
+     char to "draw" the outline in. */
+  -webkit-text-stroke-color: var(--foreground);
+  clip-path: inset(0 0 0 0);
+}
+@keyframes trickle-wireframe {
+  0% {
+    -webkit-text-stroke-width: var(--trickle-wireframe-stroke, 3px);
+    color: transparent;
+    transform: translateY(-0.45em) scale(1.18);
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  10% {
+    -webkit-text-stroke-width: var(--trickle-wireframe-stroke, 3px);
+    color: transparent;
+    transform: translateY(-0.2em) scale(1.1);
+    opacity: 1;
+    clip-path: inset(0 60% 0 0);
+  }
+  25% {
+    -webkit-text-stroke-width: var(--trickle-wireframe-stroke, 3px);
+    color: transparent;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  45% {
+    -webkit-text-stroke-width: calc(var(--trickle-wireframe-stroke, 3px) * 0.55);
+    color: transparent;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  68% {
+    -webkit-text-stroke-width: calc(var(--trickle-wireframe-stroke, 3px) * 0.2);
+    color: transparent;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  85% {
+    -webkit-text-stroke-width: 0;
+    color: color-mix(in oklab, var(--foreground) 60%, transparent);
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    -webkit-text-stroke-width: 0;
+    color: var(--foreground);
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.animate-trickle-halftone {
+  -webkit-mask-image: radial-gradient(circle at center, black 38%, transparent 72%);
+  mask-image: radial-gradient(circle at center, black 38%, transparent 72%);
+  -webkit-mask-repeat: round;
+  mask-repeat: round;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+}
+@keyframes trickle-halftone {
+  /* Dots appear small, then PULSE at increasing amplitudes (like a heart-beat
+     building up), then quickly grow huge to merge into the solid letters. */
+  0%   { -webkit-mask-size: var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px); mask-size: var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px); opacity: 0; filter: contrast(1.4); }
+  10%  { opacity: 1; filter: contrast(1.3); }
+  18%  { -webkit-mask-size: calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6); mask-size: calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6); }
+  28%  { -webkit-mask-size: var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px); mask-size: var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px); }
+  40%  { -webkit-mask-size: calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2); mask-size: calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2); filter: contrast(1.15); }
+  52%  { -webkit-mask-size: calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4); mask-size: calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4); }
+  68%  { -webkit-mask-size: 80px 80px; mask-size: 80px 80px; filter: contrast(1.05); }
+  100% { -webkit-mask-size: 800% 800%; mask-size: 800% 800%; filter: contrast(1); opacity: 1; }
+}
+
+.trickle-rain-letter {
+  animation: trickle-rain-fall var(--trickle-rain-duration, 1.5s) cubic-bezier(0.2, 0.72, 0.28, 1) both;
+  animation-delay: var(--trickle-rain-delay, 0ms);
+  -webkit-text-stroke: 1px currentColor;
+  color: transparent;
+}
+
+@keyframes trickle-rain-fall {
+  0% {
+    transform:
+      translate(var(--trickle-tx, 0), var(--trickle-ty, 0))
+      rotate(var(--trickle-tr, 0deg))
+      scale(var(--trickle-ts, 0.5));
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+  }
+  10% { opacity: 0.7; }
+  22% {
+    clip-path: inset(0 0 0 0);
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+  }
+  65% {
+    transform:
+      translate(0, -0.04em)
+      rotate(0)
+      scale(1.06);
+    clip-path: inset(0 0 0 0);
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+  }
+  82% {
+    transform:
+      translate(0, 0.02em)
+      rotate(0)
+      scale(0.99);
+    -webkit-text-stroke: 0.4px currentColor;
+    color: currentColor;
+  }
+  100% {
+    transform:
+      translate(0, 0)
+      rotate(0)
+      scale(1);
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    -webkit-text-stroke: 0 transparent;
+    color: currentColor;
   }
 }
 
@@ -587,4 +908,210 @@ body {
   border-radius: 50%;
   background: var(--foreground);
   cursor: pointer;
+}
+
+/* ========== Set 4: more grainy + atomic ========== */
+
+@keyframes trickle-bounce {
+  0%   { opacity: 0; transform: translateY(-1.4em) scale(0.7, 1.1); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  25%  { opacity: 1; transform: translateY(0) scale(1.15, 0.85); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  45%  { transform: translateY(-0.55em) scale(0.95, 1.05); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  60%  { transform: translateY(0) scale(1.08, 0.92); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  75%  { transform: translateY(-0.22em) scale(0.98, 1.02); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  85%  { transform: translateY(0) scale(1.04, 0.96); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  93%  { transform: translateY(-0.08em) scale(1, 1); }
+  100% { opacity: 1; transform: translateY(0) scale(1, 1); }
+}
+
+@keyframes trickle-spin-in {
+  0%   { opacity: 0; transform: rotate(-720deg) scale(0); }
+  35%  { opacity: 1; }
+  70%  { opacity: 1; transform: rotate(20deg) scale(1.12); }
+  85%  { transform: rotate(-8deg) scale(1.02); }
+  100% { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+.animate-trickle-shutter {
+  --trickle-shutter-bars: 8;
+  -webkit-mask-image: repeating-linear-gradient(to right, black 0, black 50%, transparent 50%, transparent 100%);
+  mask-image: repeating-linear-gradient(to right, black 0, black 50%, transparent 50%, transparent 100%);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+@keyframes trickle-shutter {
+  0%   {
+    -webkit-mask-size: calc(100% / var(--trickle-shutter-bars, 8)) 100%;
+    mask-size: calc(100% / var(--trickle-shutter-bars, 8)) 100%;
+    opacity: 0;
+    transform: scaleY(0.4);
+  }
+  40%  {
+    -webkit-mask-size: calc(150% / var(--trickle-shutter-bars, 8)) 100%;
+    mask-size: calc(150% / var(--trickle-shutter-bars, 8)) 100%;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    -webkit-mask-size: 200% 100%;
+    mask-size: 200% 100%;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.trickle-plasma {
+  color: transparent;
+  background-image:
+    radial-gradient(circle at 20% 50%, oklch(72% 0.22 30) 0%, transparent 40%),
+    radial-gradient(circle at 80% 50%, oklch(72% 0.2 130) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, oklch(72% 0.22 290) 0%, transparent 40%),
+    radial-gradient(circle at 50% 20%, oklch(72% 0.18 200) 0%, transparent 40%);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+@keyframes trickle-plasma {
+  0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 50% 0%; }
+  25%  { background-position: 100% 50%, 0% 50%, 0% 50%, 100% 50%; }
+  50%  { background-position: 100% 100%, 0% 100%, 50% 0%, 50% 100%; }
+  75%  { background-position: 0% 50%, 100% 50%, 100% 50%, 0% 50%; }
+  100% { background-position: 0% 0%, 100% 0%, 50% 100%, 50% 0%; }
+}
+
+@keyframes trickle-compress {
+  /* Hydraulic-press feel: text drops in tall, gets slammed flat, held compressed,
+     then springs back to normal with diminishing rebound. */
+  0%   { opacity: 0; transform: scaleY(1.6) scaleX(0.78) translateY(-0.25em); animation-timing-function: cubic-bezier(0.4, 0, 1, 0.4); }
+  18%  { opacity: 1; transform: scaleY(1.6) scaleX(0.78) translateY(0); animation-timing-function: cubic-bezier(0.7, 0, 0.4, 1); }
+  35%  { transform: scaleY(0.08) scaleX(1.45) translateY(0); animation-timing-function: linear; }
+  50%  { transform: scaleY(0.08) scaleX(1.45) translateY(0); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  68%  { transform: scaleY(1.28) scaleX(0.88) translateY(0); }
+  82%  { transform: scaleY(0.94) scaleX(1.04) translateY(0); }
+  92%  { transform: scaleY(1.03) scaleX(0.99) translateY(0); }
+  100% { opacity: 1; transform: scaleY(1) scaleX(1) translateY(0); }
+}
+
+/* Each char lives at its own angle on a 3D ring. For the first 60% of the cycle
+   the ring spins three full revolutions like a globe, then chars unwrap from the
+   ring and converge into the spelled word at their natural inline positions. */
+.trickle-carousel-char {
+  animation-name: trickle-carousel-flip;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: forwards;
+}
+@keyframes trickle-carousel-flip {
+  0%   { transform: translateX(-50%) translateX(0em) rotateY(var(--char-angle, 0deg)) translateZ(var(--char-radius, 0em)); }
+  20%  { transform: translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 360deg)) translateZ(var(--char-radius, 0em)); }
+  40%  { transform: translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 720deg)) translateZ(var(--char-radius, 0em)); }
+  60%  { transform: translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 1080deg)) translateZ(var(--char-radius, 0em)); }
+  85%  { transform: translateX(-50%) translateX(var(--char-x, 0em)) rotateY(-25deg) translateZ(0em); }
+  100% { transform: translateX(-50%) translateX(var(--char-x, 0em)) rotateY(0deg) translateZ(0em); }
+}
+
+.animate-trickle-static-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='3' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 80px 80px;
+  mix-blend-mode: screen;
+  animation: trickle-static-noise 200ms steps(4) infinite, trickle-static-fade 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes trickle-static-noise {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -40px 20px; }
+  50%  { background-position: 30px -40px; }
+  75%  { background-position: -20px 60px; }
+  100% { background-position: 0 0; }
+}
+@keyframes trickle-static-text {
+  0%   { opacity: 0; filter: contrast(1.6) brightness(0.7); }
+  30%  { opacity: 1; filter: contrast(1.3); }
+  100% { opacity: 1; filter: contrast(1) brightness(1); }
+}
+@keyframes trickle-static-fade {
+  0%   { opacity: 0.9; }
+  60%  { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+@keyframes trickle-tear-top {
+  0%   { opacity: 0; clip-path: polygon(0 0, 100% 0, 100% 60%, 78% 36%, 60% 56%, 38% 32%, 18% 54%, 0 38%); transform: translateY(-1.4em) translateX(-0.15em) rotate(-5deg); }
+  35%  { opacity: 0.4; transform: translateY(-0.7em) translateX(-0.06em) rotate(-3deg); }
+  65%  { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 55%, 75% 50%, 50% 53%, 25% 50%, 0 55%); transform: translateY(0.12em) rotate(0.8deg); }
+  85%  { transform: translateY(-0.04em) rotate(-0.3deg); }
+  100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateY(0) translateX(0) rotate(0); }
+}
+@keyframes trickle-tear-bottom {
+  0%   { opacity: 0; clip-path: polygon(0 40%, 18% 56%, 38% 30%, 60% 54%, 78% 32%, 100% 56%, 100% 100%, 0 100%); transform: translateY(1.4em) translateX(0.15em) rotate(5deg); }
+  35%  { opacity: 0.4; transform: translateY(0.7em) translateX(0.06em) rotate(3deg); }
+  65%  { opacity: 1; clip-path: polygon(0 50%, 25% 50%, 50% 53%, 75% 50%, 100% 55%, 100% 100%, 0 100%); transform: translateY(-0.12em) rotate(-0.8deg); }
+  85%  { transform: translateY(0.04em) rotate(0.3deg); }
+  100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateY(0) translateX(0) rotate(0); }
+}
+
+@keyframes trickle-reflect {
+  0%   { opacity: 0; transform: scaleY(-0.4); }
+  100% { opacity: var(--trickle-reflect-opacity, 0.3); transform: scaleY(-1); }
+}
+.trickle-reflect-mirror {
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 70%);
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
+}
+
+@keyframes trickle-phase {
+  0%, 100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0);
+  }
+  50% {
+    opacity: var(--trickle-phase-min, 0.15);
+    filter: blur(calc(var(--trickle-phase-blur, 1) * 2px));
+    transform: translateX(calc(var(--trickle-phase-slip, 1) * 0.05em));
+  }
+}
+
+.animate-trickle-mosaic {
+  /* Same crossed-gradient strategy as Pixelate, but bigger initial tiles
+     and `steps()` timing tuned for chunkier mosaic resolution. */
+  animation-timing-function: steps(4, end);
+  -webkit-mask-image:
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(180deg, black 50%, transparent 50%);
+  mask-image:
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(180deg, black 50%, transparent 50%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: repeat, repeat;
+  mask-repeat: repeat, repeat;
+}
+@keyframes trickle-mosaic {
+  0%   {
+    -webkit-mask-size: var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px);
+    mask-size: var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px);
+    opacity: 0;
+  }
+  20%  { opacity: 1; }
+  100% {
+    -webkit-mask-size: 500% 500%, 500% 500%;
+    mask-size: 500% 500%, 500% 500%;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-trickle-bounce, .animate-trickle-spin-in, .animate-trickle-shutter,
+  .animate-trickle-plasma, .animate-trickle-compress, .animate-trickle-carousel-flip,
+  .animate-trickle-static-text, .animate-trickle-tear-top, .animate-trickle-tear-bottom,
+  .animate-trickle-reflect, .animate-trickle-phase, .animate-trickle-mosaic {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
 }

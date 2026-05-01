@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/pulse-text/pulse-text.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PulseTextProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function PulseText({\n  children,\n  duration = 1800,\n  as: Component = 'span',\n  className\n}: PulseTextProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-pulse-text', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PulseTextProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function PulseText({\n  children,\n  duration = 1800,\n  as: Component = 'span',\n  className\n}: PulseTextProps) {\n  return (\n    <Component\n      className={cn('trickle-pulse-text relative inline-block animate-trickle-pulse-text', className)}\n      style={{\n        animationDuration: `${duration}ms`,\n        ['--trickle-pulse-duration' as string]: `${duration}ms`\n      } as CSSProperties}\n      data-trickle-pulse-rings='true'\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/pulse-text.tsx"
     }

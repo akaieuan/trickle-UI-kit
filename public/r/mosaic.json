@@ -1,0 +1,53 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mosaic",
+  "title": "Mosaic",
+  "description": "Text emerges from a conic-gradient tile mask + blur unmask. Atomic-tile reveal.",
+  "files": [
+    {
+      "path": "registry/default/mosaic/mosaic.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface MosaicProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Tile size in px. Default 8. */\n  tileSize?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Mosaic({ children, delay = 0, duration = 1500, tileSize = 8, as: Component = 'span', className }: MosaicProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-mosaic', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-mosaic-size' as string]: `${tileSize}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/mosaic.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-mosaic": "trickle-mosaic 1.5s cubic-bezier(0.4, 0, 0.2, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-mosaic": {
+      "0%": {
+        "-webkit-mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)",
+        "mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)",
+        "-webkit-mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)",
+        "mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)",
+        "opacity": "0",
+        "filter": "blur(2px)"
+      },
+      "40%": {
+        "opacity": "1",
+        "filter": "blur(1px)"
+      },
+      "100%": {
+        "-webkit-mask-image": "linear-gradient(black, black)",
+        "mask-image": "linear-gradient(black, black)",
+        "-webkit-mask-size": "100% 100%",
+        "mask-size": "100% 100%",
+        "opacity": "1",
+        "filter": "blur(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-mosaic": {
+        "animation": "none",
+        "-webkit-mask-image": "none",
+        "mask-image": "none",
+        "filter": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

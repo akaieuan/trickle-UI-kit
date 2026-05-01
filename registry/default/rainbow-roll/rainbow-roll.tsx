@@ -27,7 +27,7 @@ export function RainbowRoll({
           aria-hidden='true'
           className='inline-block whitespace-pre animate-trickle-rainbow-roll'
           style={{
-            animationDelay: `${i * stagger}ms`,
+            animationDelay: `${-i * stagger}ms`,
             animationDuration: `${duration}ms`
           } as CSSProperties}
         >

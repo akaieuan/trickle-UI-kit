@@ -29,8 +29,8 @@ export function ShinyShimmer({
         className
       )}
       style={{
-        backgroundImage: `linear-gradient(110deg, var(--color-trickle-fg, currentColor) 0%, var(--color-trickle-fg, currentColor) 40%, oklch(95% 0 0) 50%, var(--color-trickle-fg, currentColor) 60%, var(--color-trickle-fg, currentColor) 100%)`,
-        backgroundSize: `${shimmerWidth} 100%`,
+        backgroundImage: `linear-gradient(110deg, var(--trickle-shimmer-base, oklch(35% 0 0)) 0%, var(--trickle-shimmer-base, oklch(35% 0 0)) 40%, var(--trickle-shimmer-highlight, oklch(100% 0 0)) 50%, var(--trickle-shimmer-base, oklch(35% 0 0)) 60%, var(--trickle-shimmer-base, oklch(35% 0 0)) 100%)`,
+        backgroundSize: `200% 100%`,
         backgroundRepeat: 'no-repeat',
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text'

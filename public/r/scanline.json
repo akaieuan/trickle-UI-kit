@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scanline",
+  "title": "Scanline",
+  "description": "CRT-style horizontal scanlines passing over text. Constant grain overlay.",
+  "files": [
+    {
+      "path": "registry/default/scanline/scanline.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ScanlineProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Pixel thickness of the bright scanline. */\n  thickness?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Scanline({\n  children,\n  duration = 2400,\n  thickness = 2,\n  as: Component = 'span',\n  className\n}: ScanlineProps) {\n  return (\n    <Component\n      className={cn('trickle-scanline relative inline-block overflow-hidden align-baseline', className)}\n      style={{\n        ['--trickle-scanline-duration' as string]: `${duration}ms`,\n        ['--trickle-scanline-thickness' as string]: `${thickness}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/scanline.tsx"
+    }
+  ],
+  "css": {
+    ".trickle-scanline::before": {
+      "content": "''",
+      "position": "absolute",
+      "inset": "0",
+      "pointer-events": "none",
+      "background": "repeating-linear-gradient(to bottom, transparent 0, transparent 3px, oklch(50% 0 0 / 0.06) 3px, oklch(50% 0 0 / 0.06) 4px)",
+      "z-index": "1"
+    },
+    ".trickle-scanline::after": {
+      "content": "''",
+      "position": "absolute",
+      "left": "0",
+      "right": "0",
+      "height": "var(--trickle-scanline-thickness, 2px)",
+      "pointer-events": "none",
+      "background": "linear-gradient(to bottom, transparent, oklch(98% 0 0 / 0.6), transparent)",
+      "filter": "blur(0.5px)",
+      "animation": "trickle-scanline-pass var(--trickle-scanline-duration, 2400ms) linear infinite",
+      "z-index": "2"
+    },
+    "@keyframes trickle-scanline-pass": {
+      "0%": {
+        "top": "-10%",
+        "opacity": "0"
+      },
+      "10%, 90%": {
+        "opacity": "1"
+      },
+      "100%": {
+        "top": "110%",
+        "opacity": "0"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".trickle-scanline::before, .trickle-scanline::after": {
+        "animation": "none",
+        "display": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

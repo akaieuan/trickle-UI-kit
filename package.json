@@ -2,12 +2,12 @@
   "name": "trickle",
   "version": "0.1.0",
   "private": true,
-  "description": "Open-source, server-optimized text animation kit for React/Next.js. Pure CSS keyframes, zero animation runtime, shadcn-style copy-paste registry.",
+  "description": "Pure-CSS text animations for React. Zero runtime, SSR-safe, shadcn-style copy-paste registry.",
   "license": "MIT",
-  "homepage": "https://trickle.dev",
+  "homepage": "https://tricklekit.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trickle-ui/trickle"
+    "url": "https://github.com/akaieuan/trickle-UI-kit"
   },
   "scripts": {
     "dev": "next dev",

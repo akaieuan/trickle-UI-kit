@@ -1,0 +1,52 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "wireframe",
+  "title": "Wireframe",
+  "description": "Text starts as outline strokes, then fills in. Like draftsman lines settling into place.",
+  "files": [
+    {
+      "path": "registry/default/wireframe/wireframe.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface WireframeProps {\n  /** The text to assemble. Pass a string so each character can animate independently. */\n  text: string;\n  /** Delay before the first character begins, in ms. */\n  delay?: number;\n  /** Delay between successive characters, in ms. */\n  stagger?: number;\n  /** Initial outline thickness in pixels. */\n  strokeWidth?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Wireframe({\n  text,\n  delay = 0,\n  stagger = 90,\n  strokeWidth = 3,\n  as: Component = 'span',\n  className\n}: WireframeProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre animate-trickle-wireframe'\n          style={{\n            animationDelay: `${delay + i * stagger}ms`,\n            ['--trickle-wireframe-stroke' as string]: `${strokeWidth}px`\n          } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/wireframe.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-wireframe": "trickle-wireframe 1.6s cubic-bezier(0.65, 0, 0.35, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-wireframe": {
+      "0%": {
+        "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor",
+        "color": "transparent",
+        "letter-spacing": "0.08em",
+        "opacity": "0"
+      },
+      "20%": {
+        "opacity": "1"
+      },
+      "60%": {
+        "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor",
+        "color": "transparent",
+        "letter-spacing": "0"
+      },
+      "100%": {
+        "-webkit-text-stroke": "0 currentColor",
+        "color": "currentColor",
+        "letter-spacing": "0",
+        "opacity": "1"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-wireframe": {
+        "animation": "none",
+        "color": "currentColor",
+        "-webkit-text-stroke": "0",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

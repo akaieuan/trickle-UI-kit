@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "trickle",
-  "homepage": "https://trickle.dev",
+  "homepage": "https://tricklekit.dev",
   "items": [
     {
       "name": "text-root",
@@ -461,33 +461,55 @@
       }
     },
     {
-      "name": "paper-fold",
+      "name": "shatter",
       "type": "registry:ui",
-      "title": "Paper Fold",
-      "description": "Letters fold open via 3D rotateX with parent perspective. Best for short strings.",
+      "title": "Shatter",
+      "description": "Each letter assembles from four triangular shards converging from random offsets.",
       "files": [
         {
-          "path": "registry/default/paper-fold/paper-fold.tsx",
+          "path": "registry/default/shatter/shatter.tsx",
           "type": "registry:ui",
-          "target": "components/trickle/paper-fold.tsx"
+          "target": "components/trickle/shatter.tsx"
         }
       ],
       "cssVars": {
         "theme": {
-          "--animate-trickle-paper-fold": "trickle-paper-fold 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both"
+          "--animate-trickle-shatter-1": "trickle-shatter-1 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-shatter-2": "trickle-shatter-2 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-shatter-3": "trickle-shatter-3 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
+          "--animate-trickle-shatter-4": "trickle-shatter-4 0.8s cubic-bezier(0.16, 1, 0.3, 1) both"
         }
       },
       "css": {
-        "@keyframes trickle-paper-fold": {
-          "from": { "transform": "rotateX(-90deg)", "opacity": "0" },
-          "to": { "transform": "rotateX(0)", "opacity": "1" }
+        ".trickle-shatter-char": { "position": "relative", "display": "inline-block", "white-space": "pre" },
+        ".trickle-shatter-spacer": { "visibility": "hidden", "display": "inline-block" },
+        ".trickle-shatter-shard": { "position": "absolute", "inset": "0", "display": "inline-block", "animation-fill-mode": "both", "animation-duration": "800ms", "animation-timing-function": "cubic-bezier(0.16, 1, 0.3, 1)", "animation-delay": "var(--trickle-shatter-delay, 0ms)" },
+        ".trickle-shatter-shard-1": { "clip-path": "polygon(0 0, 100% 0, 50% 50%)", "animation-name": "trickle-shatter-1" },
+        ".trickle-shatter-shard-2": { "clip-path": "polygon(100% 0, 100% 100%, 50% 50%)", "animation-name": "trickle-shatter-2" },
+        ".trickle-shatter-shard-3": { "clip-path": "polygon(0 100%, 100% 100%, 50% 50%)", "animation-name": "trickle-shatter-3" },
+        ".trickle-shatter-shard-4": { "clip-path": "polygon(0 0, 0 100%, 50% 50%)", "animation-name": "trickle-shatter-4" },
+        "@keyframes trickle-shatter-1": {
+          "0%": { "opacity": "0", "transform": "translate(-0.6em, -0.8em) rotate(-30deg)" },
+          "60%": { "opacity": "1", "transform": "translate(0.04em, 0.04em) rotate(4deg)" },
+          "100%": { "opacity": "1", "transform": "translate(0, 0) rotate(0)" }
+        },
+        "@keyframes trickle-shatter-2": {
+          "0%": { "opacity": "0", "transform": "translate(0.7em, -0.4em) rotate(25deg)" },
+          "60%": { "opacity": "1", "transform": "translate(-0.03em, 0.04em) rotate(-3deg)" },
+          "100%": { "opacity": "1", "transform": "translate(0, 0) rotate(0)" }
+        },
+        "@keyframes trickle-shatter-3": {
+          "0%": { "opacity": "0", "transform": "translate(0.3em, 0.8em) rotate(20deg)" },
+          "60%": { "opacity": "1", "transform": "translate(-0.02em, -0.05em) rotate(-2deg)" },
+          "100%": { "opacity": "1", "transform": "translate(0, 0) rotate(0)" }
+        },
+        "@keyframes trickle-shatter-4": {
+          "0%": { "opacity": "0", "transform": "translate(-0.7em, 0.4em) rotate(-20deg)" },
+          "60%": { "opacity": "1", "transform": "translate(0.04em, -0.03em) rotate(3deg)" },
+          "100%": { "opacity": "1", "transform": "translate(0, 0) rotate(0)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
-          ".animate-trickle-paper-fold": {
-            "animation": "none",
-            "opacity": "1",
-            "transform": "none"
-          }
+          ".trickle-shatter-shard": { "animation": "none", "opacity": "1", "transform": "none" }
         }
       }
     },
@@ -846,56 +868,6 @@
       }
     },
     {
-      "name": "curtain-reveal",
-      "type": "registry:ui",
-      "title": "Curtain Reveal",
-      "description": "Text revealed by a clip-path wipe. Configurable direction (left / right / up / down).",
-      "files": [
-        {
-          "path": "registry/default/curtain-reveal/curtain-reveal.tsx",
-          "type": "registry:ui",
-          "target": "components/trickle/curtain-reveal.tsx"
-        }
-      ],
-      "cssVars": { "theme": { "--animate-trickle-curtain-reveal": "trickle-curtain-reveal 0.7s cubic-bezier(0.7, 0, 0.3, 1) both" } },
-      "css": {
-        ".animate-trickle-curtain-reveal": { "--trickle-curtain-from": "inset(0 100% 0 0)" },
-        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='left']": { "--trickle-curtain-from": "inset(0 0 0 100%)" },
-        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='up']": { "--trickle-curtain-from": "inset(100% 0 0 0)" },
-        ".animate-trickle-curtain-reveal[data-trickle-curtain-direction='down']": { "--trickle-curtain-from": "inset(0 0 100% 0)" },
-        "@keyframes trickle-curtain-reveal": {
-          "from": { "clip-path": "var(--trickle-curtain-from, inset(0 100% 0 0))" },
-          "to": { "clip-path": "inset(0 0 0 0)" }
-        },
-        "@media (prefers-reduced-motion: reduce)": {
-          ".animate-trickle-curtain-reveal": { "animation": "none", "clip-path": "none" }
-        }
-      }
-    },
-    {
-      "name": "vertical-slide",
-      "type": "registry:ui",
-      "title": "Vertical Slide",
-      "description": "Letters slide in from above with stagger. Counterpart to WordCascade.",
-      "files": [
-        {
-          "path": "registry/default/vertical-slide/vertical-slide.tsx",
-          "type": "registry:ui",
-          "target": "components/trickle/vertical-slide.tsx"
-        }
-      ],
-      "cssVars": { "theme": { "--animate-trickle-vertical-slide": "trickle-vertical-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both" } },
-      "css": {
-        "@keyframes trickle-vertical-slide": {
-          "from": { "opacity": "0", "transform": "translateY(-1em)" },
-          "to": { "opacity": "1", "transform": "translateY(0)" }
-        },
-        "@media (prefers-reduced-motion: reduce)": {
-          ".animate-trickle-vertical-slide": { "animation": "none", "opacity": "1", "transform": "none" }
-        }
-      }
-    },
-    {
       "name": "flutter",
       "type": "registry:ui",
       "title": "Flutter",
@@ -921,6 +893,319 @@
       }
     },
     {
+      "name": "bounce",
+      "type": "registry:ui",
+      "title": "Bounce",
+      "description": "Letters bounce in from above with overshoot physics. Per-char stagger.",
+      "files": [{ "path": "registry/default/bounce/bounce.tsx", "type": "registry:ui", "target": "components/trickle/bounce.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-bounce": "trickle-bounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
+      "css": {
+        "@keyframes trickle-bounce": {
+          "0%": { "opacity": "0", "transform": "translateY(-1.2em) scale(0.6)" },
+          "50%": { "opacity": "1", "transform": "translateY(0.15em) scale(1.05)" },
+          "70%": { "transform": "translateY(-0.05em) scale(0.98)" },
+          "85%": { "transform": "translateY(0.02em) scale(1.01)" },
+          "100%": { "opacity": "1", "transform": "translateY(0) scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-bounce": { "animation": "none", "opacity": "1", "transform": "none" } }
+      }
+    },
+    {
+      "name": "spin-in",
+      "type": "registry:ui",
+      "title": "Spin In",
+      "description": "Per-character 3D Y-axis rotation entry with overshoot.",
+      "files": [{ "path": "registry/default/spin-in/spin-in.tsx", "type": "registry:ui", "target": "components/trickle/spin-in.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-spin-in": "trickle-spin-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both" } },
+      "css": {
+        "@keyframes trickle-spin-in": {
+          "0%": { "opacity": "0", "transform": "rotateY(90deg) scale(0.7)" },
+          "60%": { "opacity": "1", "transform": "rotateY(-10deg) scale(1.05)" },
+          "100%": { "opacity": "1", "transform": "rotateY(0) scale(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-spin-in": { "animation": "none", "opacity": "1", "transform": "none" } }
+      }
+    },
+    {
+      "name": "shutter",
+      "type": "registry:ui",
+      "title": "Shutter",
+      "description": "Vertical-bar mask reveal — like venetian blinds opening.",
+      "files": [{ "path": "registry/default/shutter/shutter.tsx", "type": "registry:ui", "target": "components/trickle/shutter.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-shutter": "trickle-shutter 1.1s cubic-bezier(0.7, 0, 0.3, 1) both" } },
+      "css": {
+        ".animate-trickle-shutter": { "--trickle-shutter-bars": "8" },
+        "@keyframes trickle-shutter": {
+          "0%": { "-webkit-mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))", "mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))", "opacity": "0", "transform": "scaleY(0.4)" },
+          "40%": { "opacity": "1", "transform": "scaleY(1)" },
+          "100%": { "-webkit-mask-image": "linear-gradient(black, black)", "mask-image": "linear-gradient(black, black)", "opacity": "1", "transform": "scaleY(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-shutter": { "animation": "none", "opacity": "1", "transform": "none", "-webkit-mask-image": "none", "mask-image": "none" } }
+      }
+    },
+    {
+      "name": "plasma",
+      "type": "registry:ui",
+      "title": "Plasma",
+      "description": "Flowing colored plasma blobs inside text via bg-clip + multi radial-gradient.",
+      "files": [{ "path": "registry/default/plasma/plasma.tsx", "type": "registry:ui", "target": "components/trickle/plasma.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-plasma": "trickle-plasma 6s linear infinite" } },
+      "css": {
+        ".trickle-plasma": { "color": "transparent", "background-image": "radial-gradient(circle at 20% 50%, oklch(72% 0.22 30) 0%, transparent 40%), radial-gradient(circle at 80% 50%, oklch(72% 0.2 130) 0%, transparent 40%), radial-gradient(circle at 50% 80%, oklch(72% 0.22 290) 0%, transparent 40%), radial-gradient(circle at 50% 20%, oklch(72% 0.18 200) 0%, transparent 40%)", "background-size": "200% 200%", "background-clip": "text", "-webkit-background-clip": "text" },
+        "@keyframes trickle-plasma": {
+          "0%": { "background-position": "0% 0%, 100% 0%, 50% 100%, 50% 0%" },
+          "25%": { "background-position": "100% 50%, 0% 50%, 0% 50%, 100% 50%" },
+          "50%": { "background-position": "100% 100%, 0% 100%, 50% 0%, 50% 100%" },
+          "75%": { "background-position": "0% 50%, 100% 50%, 100% 50%, 0% 50%" },
+          "100%": { "background-position": "0% 0%, 100% 0%, 50% 100%, 50% 0%" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-plasma": { "animation": "none" } }
+      }
+    },
+    {
+      "name": "compress",
+      "type": "registry:ui",
+      "title": "Compress",
+      "description": "Vertical squash from bottom with overshoot. Per-char stagger.",
+      "files": [{ "path": "registry/default/compress/compress.tsx", "type": "registry:ui", "target": "components/trickle/compress.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-compress": "trickle-compress 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
+      "css": {
+        "@keyframes trickle-compress": {
+          "0%": { "opacity": "0", "transform": "scaleY(0.05) scaleX(1.4)" },
+          "50%": { "opacity": "1", "transform": "scaleY(1.15) scaleX(0.92)" },
+          "75%": { "transform": "scaleY(0.96) scaleX(1.02)" },
+          "100%": { "opacity": "1", "transform": "scaleY(1) scaleX(1)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-compress": { "animation": "none", "opacity": "1", "transform": "none" } }
+      }
+    },
+    {
+      "name": "carousel-flip",
+      "type": "registry:ui",
+      "title": "Carousel Flip",
+      "description": "Per-character X-axis card flip — like a flipping departures board.",
+      "files": [{ "path": "registry/default/carousel-flip/carousel-flip.tsx", "type": "registry:ui", "target": "components/trickle/carousel-flip.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-carousel-flip": "trickle-carousel-flip 0.8s cubic-bezier(0.16, 1, 0.3, 1) both" } },
+      "css": {
+        "@keyframes trickle-carousel-flip": {
+          "0%": { "opacity": "0", "transform": "rotateX(90deg) translateY(-0.4em)" },
+          "60%": { "opacity": "1", "transform": "rotateX(-12deg) translateY(0)" },
+          "80%": { "transform": "rotateX(4deg)" },
+          "100%": { "opacity": "1", "transform": "rotateX(0) translateY(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-carousel-flip": { "animation": "none", "opacity": "1", "transform": "none" } }
+      }
+    },
+    {
+      "name": "static-text",
+      "type": "registry:ui",
+      "title": "Static Text",
+      "description": "TV-style static noise overlays text, then fades to clear. Atomic texture reveal.",
+      "files": [{ "path": "registry/default/static-text/static-text.tsx", "type": "registry:ui", "target": "components/trickle/static-text.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-static-text": "trickle-static-text 1.4s cubic-bezier(0.4, 0, 0.2, 1) both" } },
+      "css": {
+        ".animate-trickle-static-text::before": { "content": "''", "position": "absolute", "inset": "0", "pointer-events": "none", "background-image": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='3' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")", "background-size": "80px 80px", "mix-blend-mode": "screen", "animation": "trickle-static-noise 200ms steps(4) infinite, trickle-static-fade 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards" },
+        "@keyframes trickle-static-noise": { "0%": { "background-position": "0 0" }, "25%": { "background-position": "-40px 20px" }, "50%": { "background-position": "30px -40px" }, "75%": { "background-position": "-20px 60px" }, "100%": { "background-position": "0 0" } },
+        "@keyframes trickle-static-text": { "0%": { "opacity": "0", "filter": "contrast(1.6) brightness(0.7)" }, "30%": { "opacity": "1", "filter": "contrast(1.3)" }, "100%": { "opacity": "1", "filter": "contrast(1) brightness(1)" } },
+        "@keyframes trickle-static-fade": { "0%": { "opacity": "0.9" }, "60%": { "opacity": "0.4" }, "100%": { "opacity": "0" } },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-static-text": { "animation": "none", "opacity": "1", "filter": "none" }, ".animate-trickle-static-text::before": { "animation": "none", "display": "none" } }
+      }
+    },
+    {
+      "name": "tear",
+      "type": "registry:ui",
+      "title": "Tear",
+      "description": "Text torn into top and bottom halves, then rejoins via clip-path morph.",
+      "files": [{ "path": "registry/default/tear/tear.tsx", "type": "registry:ui", "target": "components/trickle/tear.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-tear-top": "trickle-tear-top 1.2s cubic-bezier(0.16, 1, 0.3, 1) both", "--animate-trickle-tear-bottom": "trickle-tear-bottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) both" } },
+      "css": {
+        "@keyframes trickle-tear-top": { "0%": { "opacity": "0", "clip-path": "polygon(0 0, 100% 0, 100% 50%, 75% 56%, 50% 50%, 25% 56%, 0 50%)", "transform": "translateY(-0.6em) rotate(-2deg)" }, "60%": { "opacity": "1", "transform": "translateY(0.05em) rotate(0.5deg)" }, "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) rotate(0)" } },
+        "@keyframes trickle-tear-bottom": { "0%": { "opacity": "0", "clip-path": "polygon(0 50%, 25% 44%, 50% 50%, 75% 44%, 100% 50%, 100% 100%, 0 100%)", "transform": "translateY(0.6em) rotate(2deg)" }, "60%": { "opacity": "1", "transform": "translateY(-0.05em) rotate(-0.5deg)" }, "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) rotate(0)" } },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-tear-top, .animate-trickle-tear-bottom": { "animation": "none", "opacity": "1", "clip-path": "none", "transform": "none" } }
+      }
+    },
+    {
+      "name": "reflect",
+      "type": "registry:ui",
+      "title": "Reflect",
+      "description": "Mirror reflection beneath text with linear-gradient mask fade.",
+      "files": [{ "path": "registry/default/reflect/reflect.tsx", "type": "registry:ui", "target": "components/trickle/reflect.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-reflect": "trickle-reflect 1s cubic-bezier(0.16, 1, 0.3, 1) both" } },
+      "css": {
+        ".trickle-reflect-mirror": { "-webkit-mask-image": "linear-gradient(to bottom, black, transparent 70%)", "mask-image": "linear-gradient(to bottom, black, transparent 70%)" },
+        "@keyframes trickle-reflect": { "0%": { "opacity": "0", "transform": "scaleY(-0.4)" }, "100%": { "opacity": "var(--trickle-reflect-opacity, 0.3)", "transform": "scaleY(-1)" } },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-reflect": { "animation": "none", "opacity": "var(--trickle-reflect-opacity, 0.3)", "transform": "scaleY(-1)" } }
+      }
+    },
+    {
+      "name": "phase",
+      "type": "registry:ui",
+      "title": "Phase",
+      "description": "Smooth brightness pulse — like a slow heartbeat. Less jittery than NeonFlicker.",
+      "files": [{ "path": "registry/default/phase/phase.tsx", "type": "registry:ui", "target": "components/trickle/phase.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-phase": "trickle-phase 2.4s ease-in-out infinite" } },
+      "css": {
+        "@keyframes trickle-phase": { "0%, 100%": { "filter": "brightness(1)", "opacity": "1" }, "50%": { "filter": "brightness(var(--trickle-phase-min, 0.75))", "opacity": "calc(var(--trickle-phase-min, 0.75) + 0.05)" } },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-phase": { "animation": "none", "filter": "none", "opacity": "1" } }
+      }
+    },
+    {
+      "name": "mosaic",
+      "type": "registry:ui",
+      "title": "Mosaic",
+      "description": "Text emerges from a conic-gradient tile mask + blur unmask. Atomic-tile reveal.",
+      "files": [{ "path": "registry/default/mosaic/mosaic.tsx", "type": "registry:ui", "target": "components/trickle/mosaic.tsx" }],
+      "cssVars": { "theme": { "--animate-trickle-mosaic": "trickle-mosaic 1.5s cubic-bezier(0.4, 0, 0.2, 1) both" } },
+      "css": {
+        "@keyframes trickle-mosaic": {
+          "0%": { "-webkit-mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)", "mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)", "-webkit-mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)", "mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)", "opacity": "0", "filter": "blur(2px)" },
+          "40%": { "opacity": "1", "filter": "blur(1px)" },
+          "100%": { "-webkit-mask-image": "linear-gradient(black, black)", "mask-image": "linear-gradient(black, black)", "-webkit-mask-size": "100% 100%", "mask-size": "100% 100%", "opacity": "1", "filter": "blur(0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-mosaic": { "animation": "none", "-webkit-mask-image": "none", "mask-image": "none", "filter": "none", "opacity": "1" } }
+      }
+    },
+    {
+      "name": "pixelate",
+      "type": "registry:ui",
+      "title": "Pixelate",
+      "description": "Text resolves from blurry pixelated noise to sharp focus. Texture-level reveal.",
+      "files": [
+        { "path": "registry/default/pixelate/pixelate.tsx", "type": "registry:ui", "target": "components/trickle/pixelate.tsx" }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-pixelate": "trickle-pixelate 1.4s cubic-bezier(0.5, 0, 0.2, 1) both" } },
+      "css": {
+        "@keyframes trickle-pixelate": {
+          "0%": { "filter": "blur(10px) contrast(1.4) brightness(0.8)", "letter-spacing": "0.15em", "opacity": "0" },
+          "30%": { "filter": "blur(8px) contrast(1.3)", "opacity": "0.6" },
+          "60%": { "filter": "blur(3px) contrast(1.1)", "letter-spacing": "0.02em", "opacity": "0.95" },
+          "100%": { "filter": "blur(0) contrast(1)", "letter-spacing": "0", "opacity": "1" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-pixelate": { "animation": "none", "filter": "none", "opacity": "1", "letter-spacing": "0" }
+        }
+      }
+    },
+    {
+      "name": "scanline",
+      "type": "registry:ui",
+      "title": "Scanline",
+      "description": "CRT-style horizontal scanlines passing over text. Constant grain overlay.",
+      "files": [
+        { "path": "registry/default/scanline/scanline.tsx", "type": "registry:ui", "target": "components/trickle/scanline.tsx" }
+      ],
+      "css": {
+        ".trickle-scanline::before": {
+          "content": "''",
+          "position": "absolute",
+          "inset": "0",
+          "pointer-events": "none",
+          "background": "repeating-linear-gradient(to bottom, transparent 0, transparent 3px, oklch(50% 0 0 / 0.06) 3px, oklch(50% 0 0 / 0.06) 4px)",
+          "z-index": "1"
+        },
+        ".trickle-scanline::after": {
+          "content": "''",
+          "position": "absolute",
+          "left": "0",
+          "right": "0",
+          "height": "var(--trickle-scanline-thickness, 2px)",
+          "pointer-events": "none",
+          "background": "linear-gradient(to bottom, transparent, oklch(98% 0 0 / 0.6), transparent)",
+          "filter": "blur(0.5px)",
+          "animation": "trickle-scanline-pass var(--trickle-scanline-duration, 2400ms) linear infinite",
+          "z-index": "2"
+        },
+        "@keyframes trickle-scanline-pass": {
+          "0%": { "top": "-10%", "opacity": "0" },
+          "10%, 90%": { "opacity": "1" },
+          "100%": { "top": "110%", "opacity": "0" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".trickle-scanline::before, .trickle-scanline::after": { "animation": "none", "display": "none" }
+        }
+      }
+    },
+    {
+      "name": "grain",
+      "type": "registry:ui",
+      "title": "Grain",
+      "description": "Film-grain noise overlay via SVG turbulence. Subtle infinite shimmer.",
+      "files": [
+        { "path": "registry/default/grain/grain.tsx", "type": "registry:ui", "target": "components/trickle/grain.tsx" }
+      ],
+      "css": {
+        ".trickle-grain": { "isolation": "isolate" },
+        "@keyframes trickle-grain-shift": {
+          "0%": { "transform": "translate(0, 0)" },
+          "20%": { "transform": "translate(-8%, 4%)" },
+          "40%": { "transform": "translate(6%, -6%)" },
+          "60%": { "transform": "translate(-4%, -8%)" },
+          "80%": { "transform": "translate(8%, 6%)" },
+          "100%": { "transform": "translate(0, 0)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".trickle-grain::after": { "animation": "none" }
+        }
+      }
+    },
+    {
+      "name": "wireframe",
+      "type": "registry:ui",
+      "title": "Wireframe",
+      "description": "Text starts as outline strokes, then fills in. Like draftsman lines settling into place.",
+      "files": [
+        { "path": "registry/default/wireframe/wireframe.tsx", "type": "registry:ui", "target": "components/trickle/wireframe.tsx" }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-wireframe": "trickle-wireframe 1.6s cubic-bezier(0.65, 0, 0.35, 1) both" } },
+      "css": {
+        "@keyframes trickle-wireframe": {
+          "0%": { "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor", "color": "transparent", "letter-spacing": "0.08em", "opacity": "0" },
+          "20%": { "opacity": "1" },
+          "60%": { "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor", "color": "transparent", "letter-spacing": "0" },
+          "100%": { "-webkit-text-stroke": "0 currentColor", "color": "currentColor", "letter-spacing": "0", "opacity": "1" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-wireframe": { "animation": "none", "color": "currentColor", "-webkit-text-stroke": "0", "opacity": "1" }
+        }
+      }
+    },
+    {
+      "name": "halftone",
+      "type": "registry:ui",
+      "title": "Halftone",
+      "description": "Dot-pattern mask reveal — text emerges from a halftone print texture.",
+      "files": [
+        { "path": "registry/default/halftone/halftone.tsx", "type": "registry:ui", "target": "components/trickle/halftone.tsx" }
+      ],
+      "cssVars": { "theme": { "--animate-trickle-halftone": "trickle-halftone 1.4s cubic-bezier(0.4, 0, 0.2, 1) both" } },
+      "css": {
+        "@keyframes trickle-halftone": {
+          "0%": {
+            "-webkit-mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
+            "mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
+            "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
+            "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
+            "-webkit-mask-repeat": "round",
+            "mask-repeat": "round",
+            "filter": "contrast(1.3)",
+            "opacity": "0"
+          },
+          "40%": { "opacity": "1", "filter": "contrast(1.15)" },
+          "100%": {
+            "-webkit-mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
+            "mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
+            "-webkit-mask-size": "100% 100%",
+            "mask-size": "100% 100%",
+            "filter": "contrast(1)",
+            "opacity": "1"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-trickle-halftone": { "animation": "none", "-webkit-mask-image": "none", "mask-image": "none", "filter": "none", "opacity": "1" }
+        }
+      }
+    },
+    {
       "name": "wave",
       "type": "registry:ui",
       "title": "Wave",
@@ -940,31 +1225,6 @@
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-wave": { "animation": "none", "transform": "none" }
-        }
-      }
-    },
-    {
-      "name": "drip",
-      "type": "registry:ui",
-      "title": "Drip",
-      "description": "Letters drop down from above with a slight overshoot bounce. Per-char stagger.",
-      "files": [
-        {
-          "path": "registry/default/drip/drip.tsx",
-          "type": "registry:ui",
-          "target": "components/trickle/drip.tsx"
-        }
-      ],
-      "cssVars": { "theme": { "--animate-trickle-drip": "trickle-drip 0.9s cubic-bezier(0.5, 0, 0.5, 1.4) both" } },
-      "css": {
-        "@keyframes trickle-drip": {
-          "0%": { "opacity": "0", "transform": "translateY(-1em)" },
-          "60%": { "opacity": "1", "transform": "translateY(0.15em)" },
-          "80%": { "transform": "translateY(-0.05em)" },
-          "100%": { "opacity": "1", "transform": "translateY(0)" }
-        },
-        "@media (prefers-reduced-motion: reduce)": {
-          ".animate-trickle-drip": { "animation": "none", "opacity": "1", "transform": "none" }
         }
       }
     },
@@ -1043,6 +1303,70 @@
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-confetti": { "animation": "none", "opacity": "0" }
+        }
+      }
+    },
+    {
+      "name": "digital-rain",
+      "type": "registry:ui",
+      "title": "Digital Rain",
+      "description": "Each letter flies in from a distance as an outline only, the stroke draws across left-to-right, magnetically settles into position, then fills in solid. Brand animation for Trickle.",
+      "files": [
+        {
+          "path": "registry/default/digital-rain/digital-rain.tsx",
+          "type": "registry:ui",
+          "target": "components/trickle/digital-rain.tsx"
+        }
+      ],
+      "css": {
+        ".trickle-rain-letter": {
+          "animation": "trickle-rain-fall var(--trickle-rain-duration, 1.5s) cubic-bezier(0.2, 0.72, 0.28, 1) both",
+          "animation-delay": "var(--trickle-rain-delay, 0ms)",
+          "-webkit-text-stroke": "1px currentColor",
+          "color": "transparent"
+        },
+        "@keyframes trickle-rain-fall": {
+          "0%": {
+            "transform": "translate(var(--trickle-tx, 0), var(--trickle-ty, 0)) rotate(var(--trickle-tr, 0deg)) scale(var(--trickle-ts, 0.5))",
+            "opacity": "0",
+            "clip-path": "inset(0 100% 0 0)",
+            "-webkit-text-stroke": "1px currentColor",
+            "color": "transparent"
+          },
+          "10%": { "opacity": "0.7" },
+          "22%": {
+            "clip-path": "inset(0 0 0 0)",
+            "-webkit-text-stroke": "1px currentColor",
+            "color": "transparent"
+          },
+          "65%": {
+            "transform": "translate(0, -0.04em) rotate(0) scale(1.06)",
+            "clip-path": "inset(0 0 0 0)",
+            "-webkit-text-stroke": "1px currentColor",
+            "color": "transparent"
+          },
+          "82%": {
+            "transform": "translate(0, 0.02em) rotate(0) scale(0.99)",
+            "-webkit-text-stroke": "0.4px currentColor",
+            "color": "currentColor"
+          },
+          "100%": {
+            "transform": "translate(0, 0) rotate(0) scale(1)",
+            "opacity": "1",
+            "clip-path": "inset(0 0 0 0)",
+            "-webkit-text-stroke": "0 transparent",
+            "color": "currentColor"
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".trickle-rain-letter": {
+            "animation": "none",
+            "transform": "none",
+            "opacity": "1",
+            "clip-path": "none",
+            "-webkit-text-stroke": "0 transparent",
+            "color": "currentColor"
+          }
         }
       }
     }

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "plasma",
+  "title": "Plasma",
+  "description": "Flowing colored plasma blobs inside text via bg-clip + multi radial-gradient.",
+  "files": [
+    {
+      "path": "registry/default/plasma/plasma.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PlasmaProps {\n  children: React.ReactNode;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Plasma({ children, duration = 6000, as: Component = 'span', className }: PlasmaProps) {\n  return (\n    <Component\n      className={cn('trickle-plasma inline-block animate-trickle-plasma', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/plasma.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-plasma": "trickle-plasma 6s linear infinite"
+    }
+  },
+  "css": {
+    ".trickle-plasma": {
+      "color": "transparent",
+      "background-image": "radial-gradient(circle at 20% 50%, oklch(72% 0.22 30) 0%, transparent 40%), radial-gradient(circle at 80% 50%, oklch(72% 0.2 130) 0%, transparent 40%), radial-gradient(circle at 50% 80%, oklch(72% 0.22 290) 0%, transparent 40%), radial-gradient(circle at 50% 20%, oklch(72% 0.18 200) 0%, transparent 40%)",
+      "background-size": "200% 200%",
+      "background-clip": "text",
+      "-webkit-background-clip": "text"
+    },
+    "@keyframes trickle-plasma": {
+      "0%": {
+        "background-position": "0% 0%, 100% 0%, 50% 100%, 50% 0%"
+      },
+      "25%": {
+        "background-position": "100% 50%, 0% 50%, 0% 50%, 100% 50%"
+      },
+      "50%": {
+        "background-position": "100% 100%, 0% 100%, 50% 0%, 50% 100%"
+      },
+      "75%": {
+        "background-position": "0% 50%, 100% 50%, 100% 50%, 0% 50%"
+      },
+      "100%": {
+        "background-position": "0% 0%, 100% 0%, 50% 100%, 50% 0%"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-plasma": {
+        "animation": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

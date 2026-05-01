@@ -96,7 +96,7 @@ import { ${pascal} } from '@/registry/default/${kebab}/${kebab}';
 ## Installation
 
 \`\`\`bash
-npx shadcn add https://trickle.dev/r/${kebab}.json
+npx shadcn add https://tricklekit.dev/r/${kebab}.json
 \`\`\`
 
 ## Usage

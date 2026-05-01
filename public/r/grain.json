@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grain",
+  "title": "Grain",
+  "description": "Film-grain noise overlay via SVG turbulence. Subtle infinite shimmer.",
+  "files": [
+    {
+      "path": "registry/default/grain/grain.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface GrainProps {\n  children: React.ReactNode;\n  /** Starting dot size in pixels — smaller = finer grain. Default 5. */\n  dotSize?: number;\n  /** Animation delay in ms. */\n  delay?: number;\n  /** Total dissolve duration in ms. */\n  duration?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Grain({\n  children,\n  dotSize = 5,\n  delay = 0,\n  duration = 1600,\n  as: Component = 'span',\n  className\n}: GrainProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-grain-dissolve', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-grain-dot-size' as string]: `${dotSize}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/grain.tsx"
+    }
+  ],
+  "css": {
+    ".trickle-grain": {
+      "isolation": "isolate"
+    },
+    "@keyframes trickle-grain-shift": {
+      "0%": {
+        "transform": "translate(0, 0)"
+      },
+      "20%": {
+        "transform": "translate(-8%, 4%)"
+      },
+      "40%": {
+        "transform": "translate(6%, -6%)"
+      },
+      "60%": {
+        "transform": "translate(-4%, -8%)"
+      },
+      "80%": {
+        "transform": "translate(8%, 6%)"
+      },
+      "100%": {
+        "transform": "translate(0, 0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".trickle-grain::after": {
+        "animation": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

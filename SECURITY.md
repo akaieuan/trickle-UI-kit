@@ -6,7 +6,7 @@ trickle ships pure-CSS-and-React components with no runtime dependencies that co
 
 Use **GitHub Security Advisories** on this repo: https://github.com/trickle-ui/trickle/security/advisories/new
 
-Or email: `security@trickle.dev`
+Or email: `security@tricklekit.dev`
 
 Please do not disclose publicly until a fix is available.
 

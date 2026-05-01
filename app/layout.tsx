@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   },
   description:
     'Open-source, server-optimized text animation kit for React/Next.js. Pure CSS keyframes, zero animation runtime, shadcn-style copy-paste registry.',
-  metadataBase: new URL('https://trickle.dev'),
+  metadataBase: new URL('https://tricklekit.dev'),
   openGraph: {
     title: 'trickle — text animation kit for React',
     description: 'Pure CSS keyframes. Zero animation runtime. SSR-safe. Shadcn-style copy-paste.',
-    url: 'https://trickle.dev',
+    url: 'https://tricklekit.dev',
     siteName: 'trickle',
     type: 'website'
   }

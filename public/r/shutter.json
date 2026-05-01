@@ -1,0 +1,52 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shutter",
+  "title": "Shutter",
+  "description": "Vertical-bar mask reveal — like venetian blinds opening.",
+  "files": [
+    {
+      "path": "registry/default/shutter/shutter.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ShutterProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Number of vertical bars. Default 8. */\n  bars?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Shutter({ children, delay = 0, duration = 1100, bars = 8, as: Component = 'span', className }: ShutterProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-shutter', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-shutter-bars' as string]: `${bars}`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/shutter.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-shutter": "trickle-shutter 1.1s cubic-bezier(0.7, 0, 0.3, 1) both"
+    }
+  },
+  "css": {
+    ".animate-trickle-shutter": {
+      "--trickle-shutter-bars": "8"
+    },
+    "@keyframes trickle-shutter": {
+      "0%": {
+        "-webkit-mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))",
+        "mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))",
+        "opacity": "0",
+        "transform": "scaleY(0.4)"
+      },
+      "40%": {
+        "opacity": "1",
+        "transform": "scaleY(1)"
+      },
+      "100%": {
+        "-webkit-mask-image": "linear-gradient(black, black)",
+        "mask-image": "linear-gradient(black, black)",
+        "opacity": "1",
+        "transform": "scaleY(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-shutter": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none",
+        "-webkit-mask-image": "none",
+        "mask-image": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spin-in",
+  "title": "Spin In",
+  "description": "Per-character 3D Y-axis rotation entry with overshoot.",
+  "files": [
+    {
+      "path": "registry/default/spin-in/spin-in.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface SpinInProps {\n  text: string;\n  delay?: number;\n  stagger?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function SpinIn({ text, delay = 0, stagger = 60, as: Component = 'span', className }: SpinInProps) {\n  return (\n    <Component className={cn('inline-block', className)} aria-label={text}>\n      {text.split('').map((char, i) => (\n        <span\n          key={i}\n          aria-hidden='true'\n          className='inline-block whitespace-pre origin-center animate-trickle-spin-in'\n          style={{ animationDelay: `${delay + i * stagger}ms` } as CSSProperties}\n        >\n          {char}\n        </span>\n      ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/spin-in.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-spin-in": "trickle-spin-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-spin-in": {
+      "0%": {
+        "opacity": "0",
+        "transform": "rotateY(90deg) scale(0.7)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "rotateY(-10deg) scale(1.05)"
+      },
+      "100%": {
+        "opacity": "1",
+        "transform": "rotateY(0) scale(1)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-spin-in": {
+        "animation": "none",
+        "opacity": "1",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

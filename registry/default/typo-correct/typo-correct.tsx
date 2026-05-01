@@ -86,7 +86,13 @@ export function TypoCorrect({
     );
   }
 
-  const flyVariant = (i: number) => `animate-trickle-letter-fly-${(i % 4) + 1}`;
+  const FLY_VARIANTS = [
+    'animate-trickle-letter-fly-1',
+    'animate-trickle-letter-fly-2',
+    'animate-trickle-letter-fly-3',
+    'animate-trickle-letter-fly-4'
+  ] as const;
+  const flyVariant = (i: number) => FLY_VARIANTS[i % 4];
 
   if (phase === 'flying') {
     return (

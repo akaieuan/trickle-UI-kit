@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
-import { Check, Copy, Code2, Eye, RotateCcw } from 'lucide-react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Check, Copy, Code2, Eye, RotateCcw, Sliders } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { CodeBlock } from '@/components/site/code-block';
 import { ControlPanel, type ControlSpec } from '@/components/site/control-panel';
@@ -49,15 +49,38 @@ export function DemoStrip({
   const [tick, setTick] = useState(0);
   const [copied, setCopied] = useState(false);
   const [view, setView] = useState<'preview' | 'code'>('preview');
+  const [showControls, setShowControls] = useState(false);
+  const [inView, setInView] = useState(false);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const [values, setValues] = useState<Record<string, number>>(
     () => defaultValues ?? Object.fromEntries((controls ?? []).map((c) => [c.key, c.min]))
   );
 
   useEffect(() => {
-    if (!replay || view === 'code') return;
+    const node = stageRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.45, rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!replay || view === 'code' || !inView) return;
     const i = window.setInterval(() => setTick((t) => t + 1), replay);
     return () => window.clearInterval(i);
-  }, [replay, view]);
+  }, [replay, view, inView]);
+
+  useEffect(() => {
+    if (!inView || view !== 'preview') return;
+    setTick((t) => t + 1);
+  }, [inView, view]);
 
   function copy() {
     if (!installCommand) return;
@@ -108,9 +131,9 @@ export function DemoStrip({
   );
 
   const stage = (
-    <div className='flex w-full flex-1 flex-col gap-3'>
+    <div ref={stageRef} className='flex w-full flex-1 flex-col gap-3'>
       {(code || controls) && (
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-2'>
           {code ? (
             <div className='inline-flex rounded-md border border-border bg-foreground/[0.015] p-0.5 text-[11px] font-mono dark:bg-foreground/[0.025]'>
               <button
@@ -139,17 +162,33 @@ export function DemoStrip({
           ) : (
             <span />
           )}
-          {view === 'preview' && (
-            <button
-              type='button'
-              onClick={() => setTick((t) => t + 1)}
-              aria-label='Replay animation'
-              className='inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground'
-            >
-              <RotateCcw className='h-3 w-3' aria-hidden='true' />
-              replay
-            </button>
-          )}
+          <div className='flex items-center gap-3'>
+            {controls && controls.length > 0 && view === 'preview' && (
+              <button
+                type='button'
+                onClick={() => setShowControls((s) => !s)}
+                aria-expanded={showControls}
+                className={cn(
+                  'inline-flex items-center gap-1.5 font-mono text-[11px] transition-colors',
+                  showControls ? 'text-foreground' : 'text-muted-foreground/50 hover:text-foreground'
+                )}
+              >
+                <Sliders className='h-3 w-3' aria-hidden='true' />
+                tweak
+              </button>
+            )}
+            {view === 'preview' && (
+              <button
+                type='button'
+                onClick={() => setTick((t) => t + 1)}
+                aria-label='Replay animation'
+                className='inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground'
+              >
+                <RotateCcw className='h-3 w-3' aria-hidden='true' />
+                replay
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -173,7 +212,7 @@ export function DemoStrip({
         <CodeBlock code={code} />
       ) : null}
 
-      {controls && controls.length > 0 && view === 'preview' && (
+      {controls && controls.length > 0 && view === 'preview' && showControls && (
         <ControlPanel
           specs={controls}
           values={values}

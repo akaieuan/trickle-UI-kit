@@ -1,0 +1,55 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "halftone",
+  "title": "Halftone",
+  "description": "Dot-pattern mask reveal — text emerges from a halftone print texture.",
+  "files": [
+    {
+      "path": "registry/default/halftone/halftone.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface HalftoneProps {\n  children: React.ReactNode;\n  /** Delay before the reveal begins, in ms. */\n  delay?: number;\n  /** Reveal duration, in ms. */\n  duration?: number;\n  /** Dot size in pixels. */\n  dotSize?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Halftone({\n  children,\n  delay = 0,\n  duration = 1400,\n  dotSize = 6,\n  as: Component = 'span',\n  className\n}: HalftoneProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-halftone', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-halftone-size' as string]: `${dotSize}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/halftone.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-halftone": "trickle-halftone 1.4s cubic-bezier(0.4, 0, 0.2, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-halftone": {
+      "0%": {
+        "-webkit-mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
+        "mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
+        "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
+        "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
+        "-webkit-mask-repeat": "round",
+        "mask-repeat": "round",
+        "filter": "contrast(1.3)",
+        "opacity": "0"
+      },
+      "40%": {
+        "opacity": "1",
+        "filter": "contrast(1.15)"
+      },
+      "100%": {
+        "-webkit-mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
+        "mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
+        "-webkit-mask-size": "100% 100%",
+        "mask-size": "100% 100%",
+        "filter": "contrast(1)",
+        "opacity": "1"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-halftone": {
+        "animation": "none",
+        "-webkit-mask-image": "none",
+        "mask-image": "none",
+        "filter": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

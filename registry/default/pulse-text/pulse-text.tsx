@@ -18,8 +18,12 @@ export function PulseText({
 }: PulseTextProps) {
   return (
     <Component
-      className={cn('inline-block animate-trickle-pulse-text', className)}
-      style={{ animationDuration: `${duration}ms` } as CSSProperties}
+      className={cn('trickle-pulse-text relative inline-block animate-trickle-pulse-text', className)}
+      style={{
+        animationDuration: `${duration}ms`,
+        ['--trickle-pulse-duration' as string]: `${duration}ms`
+      } as CSSProperties}
+      data-trickle-pulse-rings='true'
     >
       {children}
     </Component>

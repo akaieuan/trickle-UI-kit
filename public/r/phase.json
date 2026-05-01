@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "phase",
+  "title": "Phase",
+  "description": "Smooth brightness pulse — like a slow heartbeat. Less jittery than NeonFlicker.",
+  "files": [
+    {
+      "path": "registry/default/phase/phase.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PhaseProps {\n  children: React.ReactNode;\n  /** Cycle duration in ms. */\n  duration?: number;\n  /** Phase-out intensity 0..1. 1 = fully phased out at the dip; 0 = no phase. */\n  amplitude?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Phase({ children, duration = 2400, amplitude = 0.85, as: Component = 'span', className }: PhaseProps) {\n  const clamped = Math.max(0, Math.min(1, amplitude));\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-phase', className)}\n      style={{\n        animationDuration: `${duration}ms`,\n        ['--trickle-phase-min' as string]: `${1 - clamped}`,\n        ['--trickle-phase-blur' as string]: `${clamped}`,\n        ['--trickle-phase-slip' as string]: `${clamped}`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/phase.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-phase": "trickle-phase 2.4s ease-in-out infinite"
+    }
+  },
+  "css": {
+    "@keyframes trickle-phase": {
+      "0%, 100%": {
+        "filter": "brightness(1)",
+        "opacity": "1"
+      },
+      "50%": {
+        "filter": "brightness(var(--trickle-phase-min, 0.75))",
+        "opacity": "calc(var(--trickle-phase-min, 0.75) + 0.05)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-phase": {
+        "animation": "none",
+        "filter": "none",
+        "opacity": "1"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

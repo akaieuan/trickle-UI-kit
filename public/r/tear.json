@@ -1,0 +1,63 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tear",
+  "title": "Tear",
+  "description": "Text torn into top and bottom halves, then rejoins via clip-path morph.",
+  "files": [
+    {
+      "path": "registry/default/tear/tear.tsx",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface TearProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Tear({ children, delay = 0, duration = 1200, as: Component = 'span', className }: TearProps) {\n  return (\n    <Component\n      className={cn('trickle-tear relative inline-block', className)}\n      style={{\n        ['--trickle-tear-delay' as string]: `${delay}ms`,\n        ['--trickle-tear-duration' as string]: `${duration}ms`\n      } as CSSProperties}\n      aria-label={typeof children === 'string' ? children : undefined}\n    >\n      <span aria-hidden='true' className='trickle-tear-top inline-block animate-trickle-tear-top'>{children}</span>\n      <span aria-hidden='true' className='trickle-tear-bottom absolute inset-0 inline-block animate-trickle-tear-bottom'>{children}</span>\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/trickle/tear.tsx"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-tear-top": "trickle-tear-top 1.2s cubic-bezier(0.16, 1, 0.3, 1) both",
+      "--animate-trickle-tear-bottom": "trickle-tear-bottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) both"
+    }
+  },
+  "css": {
+    "@keyframes trickle-tear-top": {
+      "0%": {
+        "opacity": "0",
+        "clip-path": "polygon(0 0, 100% 0, 100% 50%, 75% 56%, 50% 50%, 25% 56%, 0 50%)",
+        "transform": "translateY(-0.6em) rotate(-2deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translateY(0.05em) rotate(0.5deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+        "transform": "translateY(0) rotate(0)"
+      }
+    },
+    "@keyframes trickle-tear-bottom": {
+      "0%": {
+        "opacity": "0",
+        "clip-path": "polygon(0 50%, 25% 44%, 50% 50%, 75% 44%, 100% 50%, 100% 100%, 0 100%)",
+        "transform": "translateY(0.6em) rotate(2deg)"
+      },
+      "60%": {
+        "opacity": "1",
+        "transform": "translateY(-0.05em) rotate(-0.5deg)"
+      },
+      "100%": {
+        "opacity": "1",
+        "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+        "transform": "translateY(0) rotate(0)"
+      }
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".animate-trickle-tear-top, .animate-trickle-tear-bottom": {
+        "animation": "none",
+        "opacity": "1",
+        "clip-path": "none",
+        "transform": "none"
+      }
+    }
+  },
+  "type": "registry:ui"
+}
