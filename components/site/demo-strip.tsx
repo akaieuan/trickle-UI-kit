@@ -112,17 +112,17 @@ export function DemoStrip({
           type='button'
           onClick={copy}
           aria-label={`Copy install command for ${name}`}
-          className='mt-1 inline-flex items-center gap-2 self-start font-mono text-[11px] text-muted-foreground/60 transition-colors hover:text-foreground'
+          className='mt-1 flex w-full items-start gap-2 text-left font-mono text-[11px] text-muted-foreground/60 transition-colors hover:text-foreground'
         >
           {copied ? (
             <>
-              <Check className='h-3 w-3 text-emerald-500' aria-hidden='true' />
+              <Check className='mt-[3px] h-3 w-3 shrink-0 text-emerald-500' aria-hidden='true' />
               <span>Copied</span>
             </>
           ) : (
             <>
-              <Copy className='h-3 w-3' aria-hidden='true' />
-              <span>npx {installCommand}</span>
+              <Copy className='mt-[3px] h-3 w-3 shrink-0' aria-hidden='true' />
+              <span className='min-w-0 [overflow-wrap:anywhere]'>npx {installCommand}</span>
             </>
           )}
         </button>
@@ -197,7 +197,7 @@ export function DemoStrip({
           type='button'
           onClick={() => setTick((t) => t + 1)}
           aria-label='Replay animation'
-          className='group/demo relative flex min-h-56 cursor-pointer items-center justify-center overflow-hidden rounded-md border border-border bg-foreground/[0.015] px-8 py-16 text-center dark:bg-foreground/[0.025]'
+          className='group/demo relative flex h-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-md border border-border bg-foreground/[0.015] px-8 py-10 text-center dark:bg-foreground/[0.025]'
         >
           <div key={tick} className='inline-block'>
             {demoContent}
@@ -238,7 +238,7 @@ export function DemoStrip({
   return (
     <article
       className={cn(
-        'group flex flex-col gap-6 py-12 lg:flex-row lg:gap-12',
+        'group flex flex-col gap-4 py-8 lg:flex-row lg:gap-8',
         side === 'left' && 'lg:flex-row-reverse',
         className
       )}

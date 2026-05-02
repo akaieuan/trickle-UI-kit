@@ -62,12 +62,12 @@ const SPEC_CLIENT = [
   { label: 'since', value: 'v0.1' }
 ];
 
-export function HighlighterSweepStrip() {
+export function HighlighterSweepStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={1} name='HighlighterSweep'
+      index={index} name='HighlighterSweep'
       description='Sequential word highlight reveal driven by a CSS background-size keyframe.'
-      installCommand='shadcn add @trickle/highlighter-sweep'
+      installCommand='shadcn add https://tricklekit.dev/r/highlighter-sweep.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -100,12 +100,12 @@ export function HighlighterSweepStrip() {
   );
 }
 
-export function TypoCorrectStrip() {
+export function TypoCorrectStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={2} name='TypoCorrect' side='left'
+      index={index} name='TypoCorrect'
       description='Letters fly in misspelled, then correct themselves character-by-character.'
-      installCommand='shadcn add @trickle/typo-correct'
+      installCommand='shadcn add https://tricklekit.dev/r/typo-correct.json'
       spec={SPEC_CLIENT} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -125,12 +125,12 @@ export function TypoCorrectStrip() {
   );
 }
 
-export function TextRevealStrip() {
+export function TextRevealStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={3} name='TextReveal'
+      index={index} name='TextReveal'
       description='Fade-up, blur, slide, or scale reveal — per char, per word, or as a single block.'
-      installCommand='shadcn add @trickle/text-reveal'
+      installCommand='shadcn add https://tricklekit.dev/r/text-reveal.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -151,12 +151,12 @@ export function TextRevealStrip() {
   );
 }
 
-export function TypewriterStrip() {
+export function TypewriterStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={4} name='Typewriter' side='left'
+      index={index} name='Typewriter'
       description='Character-by-character typing with caret. Multi-string cycling.'
-      installCommand='shadcn add @trickle/typewriter'
+      installCommand='shadcn add https://tricklekit.dev/r/typewriter.json'
       spec={SPEC_CLIENT} replay={6000}
       controls={[
         { key: 'charDelay', label: 'speed', min: 30, max: 200, step: 10, unit: 'ms' },
@@ -177,12 +177,12 @@ export function TypewriterStrip() {
   );
 }
 
-export function WordCascadeStrip() {
+export function WordCascadeStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={5} name='WordCascade'
+      index={index} name='WordCascade'
       description='Words slide in from below, staggered. Reads like a careful sentence.'
-      installCommand='shadcn add @trickle/word-cascade'
+      installCommand='shadcn add https://tricklekit.dev/r/word-cascade.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -199,12 +199,12 @@ export function WordCascadeStrip() {
   );
 }
 
-export function CharStaggerStrip() {
+export function CharStaggerStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={6} name='CharStagger' side='left'
+      index={index} name='CharStagger'
       description='Per-char fade or slide reveal with tighter rhythm.'
-      installCommand='shadcn add @trickle/char-stagger'
+      installCommand='shadcn add https://tricklekit.dev/r/char-stagger.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -221,12 +221,12 @@ export function CharStaggerStrip() {
   );
 }
 
-export function GradientShiftStrip() {
+export function GradientShiftStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={7} name='GradientShift'
+      index={index} name='GradientShift'
       description='Animated gradient bg-clip-text via @property — angle rotates smoothly.'
-      installCommand='shadcn add @trickle/gradient-shift'
+      installCommand='shadcn add https://tricklekit.dev/r/gradient-shift.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1000, max: 12000, step: 500, unit: 'ms' }
@@ -242,12 +242,12 @@ export function GradientShiftStrip() {
   );
 }
 
-export function ShinyShimmerStrip() {
+export function ShinyShimmerStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={8} name='ShinyShimmer' side='left'
+      index={index} name='ShinyShimmer'
       description='Light glare panning across text. Always-on or hover-only.'
-      installCommand='shadcn add @trickle/shiny-shimmer'
+      installCommand='shadcn add https://tricklekit.dev/r/shiny-shimmer.json'
       spec={SPEC_RSC}
       code={`<ShinyShimmer>Shimmer</ShinyShimmer>`}
     >
@@ -258,12 +258,12 @@ export function ShinyShimmerStrip() {
   );
 }
 
-export function WordRotateStrip() {
+export function WordRotateStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={9} name='WordRotate'
+      index={index} name='WordRotate'
       description='Vertical wheel cycling through a list of words. Crossfade with subtle slide.'
-      installCommand='shadcn add @trickle/word-rotate'
+      installCommand='shadcn add https://tricklekit.dev/r/word-rotate.json'
       spec={SPEC_CLIENT}
       controls={[
         { key: 'duration', label: 'hold', min: 800, max: 5000, step: 200, unit: 'ms' }
@@ -281,12 +281,12 @@ export function WordRotateStrip() {
   );
 }
 
-export function AuroraTextStrip() {
+export function AuroraTextStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={10} name='AuroraText' side='left'
+      index={index} name='AuroraText'
       description='Animated multi-stop aurora gradient — green/sky/violet/amber.'
-      installCommand='shadcn add @trickle/aurora-text'
+      installCommand='shadcn add https://tricklekit.dev/r/aurora-text.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 2000, max: 16000, step: 500, unit: 'ms' }
@@ -302,12 +302,12 @@ export function AuroraTextStrip() {
   );
 }
 
-export function UnderlineDrawStrip() {
+export function UnderlineDrawStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={11} name='UnderlineDraw'
+      index={index} name='UnderlineDraw'
       description='Underline draws left-to-right under the text. Configurable thickness + color.'
-      installCommand='shadcn add @trickle/underline-draw'
+      installCommand='shadcn add https://tricklekit.dev/r/underline-draw.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1500, step: 50, unit: 'ms' }
@@ -328,12 +328,12 @@ export function UnderlineDrawStrip() {
   );
 }
 
-export function DecryptScrambleStrip() {
+export function DecryptScrambleStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={12} name='DecryptScramble' side='left'
+      index={index} name='DecryptScramble'
       description='Random characters scramble into the target text. Configurable charset.'
-      installCommand='shadcn add @trickle/decrypt-scramble'
+      installCommand='shadcn add https://tricklekit.dev/r/decrypt-scramble.json'
       spec={SPEC_CLIENT} replay={6000}
       controls={[
         { key: 'duration', label: 'duration', min: 600, max: 3000, step: 100, unit: 'ms' },
@@ -351,12 +351,12 @@ export function DecryptScrambleStrip() {
   );
 }
 
-export function InkBleedStrip() {
+export function InkBleedStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={13} name='InkBleed'
+      index={index} name='InkBleed'
       description='Reveals via clip-path circle from origin + blur unmask.'
-      installCommand='shadcn add @trickle/ink-bleed'
+      installCommand='shadcn add https://tricklekit.dev/r/ink-bleed.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -375,12 +375,12 @@ export function InkBleedStrip() {
   );
 }
 
-export function ShatterStrip() {
+export function ShatterStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={14} name='Shatter' side='left'
+      index={index} name='Shatter'
       description='Each letter assembles from four triangular shards converging from random offsets.'
-      installCommand='shadcn add @trickle/shatter'
+      installCommand='shadcn add https://tricklekit.dev/r/shatter.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -397,12 +397,12 @@ export function ShatterStrip() {
   );
 }
 
-export function EchoStrip() {
+export function EchoStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={15} name='Echo'
+      index={index} name='Echo'
       description='Five staggered ghost copies pulse outward from the word, fading and blurring as they go.'
-      installCommand='shadcn add @trickle/echo'
+      installCommand='shadcn add https://tricklekit.dev/r/echo.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'ghostCount', label: 'ghosts', min: 2, max: 8, step: 1 },
@@ -421,12 +421,12 @@ export function EchoStrip() {
   );
 }
 
-export function ConfettiTextStrip() {
+export function ConfettiTextStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={16} name='ConfettiText' side='left'
+      index={index} name='ConfettiText'
       description='One-shot burst of small colored squares from each character on mount.'
-      installCommand='shadcn add @trickle/confetti-text'
+      installCommand='shadcn add https://tricklekit.dev/r/confetti-text.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'piecesPerChar', label: 'pieces', min: 2, max: 10, step: 1 },
@@ -444,12 +444,12 @@ export function ConfettiTextStrip() {
   );
 }
 
-export function MorphSwapStrip() {
+export function MorphSwapStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={17} name='MorphSwap'
+      index={index} name='MorphSwap'
       description='Cycles through words with letter-staggered morph between each.'
-      installCommand='shadcn add @trickle/morph-swap'
+      installCommand='shadcn add https://tricklekit.dev/r/morph-swap.json'
       spec={SPEC_CLIENT}
       controls={[
         { key: 'interval', label: 'hold', min: 800, max: 4000, step: 100, unit: 'ms' },
@@ -469,12 +469,12 @@ export function MorphSwapStrip() {
   );
 }
 
-export function NeonFlickerStrip() {
+export function NeonFlickerStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={18} name='NeonFlicker' side='left'
+      index={index} name='NeonFlicker'
       description='Cold-start sputter — sign tries to ignite, sputters out, sputters back, then settles to a steady hum with rare flickers.'
-      installCommand='shadcn add @trickle/neon-flicker'
+      installCommand='shadcn add https://tricklekit.dev/r/neon-flicker.json'
       spec={SPEC_RSC}
       code={`<NeonFlicker color="oklch(72% 0.22 350)">NEON</NeonFlicker>`}
     >
@@ -485,12 +485,12 @@ export function NeonFlickerStrip() {
   );
 }
 
-export function GlitchSplitStrip() {
+export function GlitchSplitStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={19} name='GlitchSplit'
+      index={index} name='GlitchSplit'
       description='Horizontal slices of the text shift sideways in brief stutter bursts. Broken-signal feel.'
-      installCommand='shadcn add @trickle/glitch-split'
+      installCommand='shadcn add https://tricklekit.dev/r/glitch-split.json'
       spec={SPEC_RSC}
       code={`<GlitchSplit>GLITCH</GlitchSplit>`}
     >
@@ -501,12 +501,12 @@ export function GlitchSplitStrip() {
   );
 }
 
-export function ScaleSlamStrip() {
+export function ScaleSlamStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={20} name='ScaleSlam' side='left'
+      index={index} name='ScaleSlam'
       description='Letters slam in from huge to normal with a slight bounce.'
-      installCommand='shadcn add @trickle/scale-slam'
+      installCommand='shadcn add https://tricklekit.dev/r/scale-slam.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -523,12 +523,12 @@ export function ScaleSlamStrip() {
   );
 }
 
-export function StampStrip() {
+export function StampStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={21} name='Stamp'
+      index={index} name='Stamp'
       description='Drops huge from above with motion blur, slams flat with hard impact, recoils, then settles.'
-      installCommand='shadcn add @trickle/stamp'
+      installCommand='shadcn add https://tricklekit.dev/r/stamp.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' }
@@ -546,12 +546,12 @@ export function StampStrip() {
   );
 }
 
-export function MarqueeRibbonStrip() {
+export function MarqueeRibbonStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={22} name='MarqueeRibbon' side='left'
+      index={index} name='MarqueeRibbon'
       description='Horizontally scrolling ribbon with edge-fade gradient masks.'
-      installCommand='shadcn add @trickle/marquee-ribbon'
+      installCommand='shadcn add https://tricklekit.dev/r/marquee-ribbon.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 8, max: 60, step: 2, unit: 's' }
@@ -573,12 +573,12 @@ export function MarqueeRibbonStrip() {
   );
 }
 
-export function WaveStrip() {
+export function WaveStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={23} name='Wave'
+      index={index} name='Wave'
       description='Letters undulate vertically in a sine-wave pattern. Pure CSS infinite loop.'
-      installCommand='shadcn add @trickle/wave'
+      installCommand='shadcn add https://tricklekit.dev/r/wave.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 800, max: 4000, step: 100, unit: 'ms' },
@@ -595,12 +595,12 @@ export function WaveStrip() {
   );
 }
 
-export function StretchStrip() {
+export function StretchStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={25} name='Stretch'
+      index={index} name='Stretch'
       description='Letters stretch wide-and-short, then settle to natural size.'
-      installCommand='shadcn add @trickle/stretch'
+      installCommand='shadcn add https://tricklekit.dev/r/stretch.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -617,12 +617,12 @@ export function StretchStrip() {
   );
 }
 
-export function Wobble3DStrip() {
+export function Wobble3DStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={26} name='Wobble3D' side='left'
+      index={index} name='Wobble3D'
       description='Letters rotate around the Y-axis. Pure CSS perspective + rotateY.'
-      installCommand='shadcn add @trickle/wobble-3d'
+      installCommand='shadcn add https://tricklekit.dev/r/wobble-3d.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1200, max: 5000, step: 100, unit: 'ms' },
@@ -639,12 +639,12 @@ export function Wobble3DStrip() {
   );
 }
 
-export function SpotlightStrip() {
+export function SpotlightStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={27} name='Spotlight'
+      index={index} name='Spotlight'
       description='Bright spot moves across text via radial-gradient bg-clip-text.'
-      installCommand='shadcn add @trickle/spotlight'
+      installCommand='shadcn add https://tricklekit.dev/r/spotlight.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1500, max: 8000, step: 250, unit: 'ms' }
@@ -660,12 +660,12 @@ export function SpotlightStrip() {
   );
 }
 
-export function MagnetizeStrip() {
+export function MagnetizeStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={28} name='Magnetize' side='left'
+      index={index} name='Magnetize'
       description='Letters scattered, then snap into place with a slight overshoot.'
-      installCommand='shadcn add @trickle/magnetize'
+      installCommand='shadcn add https://tricklekit.dev/r/magnetize.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -682,12 +682,12 @@ export function MagnetizeStrip() {
   );
 }
 
-export function FloatStrip() {
+export function FloatStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={29} name='Float'
+      index={index} name='Float'
       description='Letters bob gently up and down with phase-offset stagger.'
-      installCommand='shadcn add @trickle/float'
+      installCommand='shadcn add https://tricklekit.dev/r/float.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1500, max: 6000, step: 100, unit: 'ms' },
@@ -704,12 +704,12 @@ export function FloatStrip() {
   );
 }
 
-export function PulseTextStrip() {
+export function PulseTextStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={30} name='PulseText' side='left'
+      index={index} name='PulseText'
       description='Text breathes with a soft scale pulse while two ring waves radiate outward like a sonar ping.'
-      installCommand='shadcn add @trickle/pulse-text'
+      installCommand='shadcn add https://tricklekit.dev/r/pulse-text.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 800, max: 4000, step: 100, unit: 'ms' }
@@ -725,12 +725,12 @@ export function PulseTextStrip() {
   );
 }
 
-export function RainbowRollStrip() {
+export function RainbowRollStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={31} name='RainbowRoll'
+      index={index} name='RainbowRoll'
       description='Hue rotates through the spectrum, staggered per character.'
-      installCommand='shadcn add @trickle/rainbow-roll'
+      installCommand='shadcn add https://tricklekit.dev/r/rainbow-roll.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 2000, max: 10000, step: 250, unit: 'ms' },
@@ -747,12 +747,12 @@ export function RainbowRollStrip() {
   );
 }
 
-export function PixelateStrip() {
+export function PixelateStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={35} name='Pixelate'
+      index={index} name='Pixelate'
       description='Each letter resolves through a chunky pixel grid that snaps in 6 discrete steps. True 8-bit feel.'
-      installCommand='shadcn add @trickle/pixelate'
+      installCommand='shadcn add https://tricklekit.dev/r/pixelate.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -769,12 +769,12 @@ export function PixelateStrip() {
   );
 }
 
-export function ScanlineStrip() {
+export function ScanlineStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={36} name='Scanline' side='left'
+      index={index} name='Scanline'
       description='CRT-style horizontal scanlines passing over text. Constant grain overlay.'
-      installCommand='shadcn add @trickle/scanline'
+      installCommand='shadcn add https://tricklekit.dev/r/scanline.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1200, max: 6000, step: 200, unit: 'ms' },
@@ -791,12 +791,12 @@ export function ScanlineStrip() {
   );
 }
 
-export function GrainStrip() {
+export function GrainStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={37} name='Grain'
+      index={index} name='Grain'
       description='Text dissolves into a fine dot pattern, then dots merge until the letters resolve solid.'
-      installCommand='shadcn add @trickle/grain'
+      installCommand='shadcn add https://tricklekit.dev/r/grain.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'dotSize', label: 'dot size', min: 2, max: 14, step: 1, unit: 'px' },
@@ -813,12 +813,12 @@ export function GrainStrip() {
   );
 }
 
-export function WireframeStrip() {
+export function WireframeStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={38} name='Wireframe' side='left'
+      index={index} name='Wireframe'
       description='Each letter drops in as a thick outline that scans across, refines to a thin line, then fills.'
-      installCommand='shadcn add @trickle/wireframe'
+      installCommand='shadcn add https://tricklekit.dev/r/wireframe.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -835,12 +835,12 @@ export function WireframeStrip() {
   );
 }
 
-export function HalftoneStrip() {
+export function HalftoneStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={39} name='Halftone'
+      index={index} name='Halftone'
       description='Halftone dots pulse with increasing amplitude (like a heartbeat building) before merging into solid text.'
-      installCommand='shadcn add @trickle/halftone'
+      installCommand='shadcn add https://tricklekit.dev/r/halftone.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -857,12 +857,12 @@ export function HalftoneStrip() {
   );
 }
 
-export function FlutterStrip() {
+export function FlutterStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={34} name='Flutter' side='left'
+      index={index} name='Flutter'
       description='Subtle random tremor per character, infinite loop. Like nervous text.'
-      installCommand='shadcn add @trickle/flutter'
+      installCommand='shadcn add https://tricklekit.dev/r/flutter.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1200, max: 5000, step: 100, unit: 'ms' },
@@ -879,12 +879,12 @@ export function FlutterStrip() {
   );
 }
 
-export function BounceStrip() {
+export function BounceStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={40} name='Bounce'
+      index={index} name='Bounce'
       description='Each letter drops in then bounces in place 2-3 times like a ball settling.'
-      installCommand='shadcn add @trickle/bounce'
+      installCommand='shadcn add https://tricklekit.dev/r/bounce.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -901,12 +901,12 @@ export function BounceStrip() {
   );
 }
 
-export function SpinInStrip() {
+export function SpinInStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={41} name='SpinIn' side='left'
+      index={index} name='SpinIn'
       description='Each letter spins in two full turns on the z-axis, scaling up from zero.'
-      installCommand='shadcn add @trickle/spin-in'
+      installCommand='shadcn add https://tricklekit.dev/r/spin-in.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -923,12 +923,12 @@ export function SpinInStrip() {
   );
 }
 
-export function ShutterStrip() {
+export function ShutterStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={42} name='Shutter'
+      index={index} name='Shutter'
       description='Vertical-bar mask reveal — like venetian blinds opening.'
-      installCommand='shadcn add @trickle/shutter'
+      installCommand='shadcn add https://tricklekit.dev/r/shutter.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -948,12 +948,12 @@ export function ShutterStrip() {
   );
 }
 
-export function PlasmaStrip() {
+export function PlasmaStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={43} name='Plasma' side='left'
+      index={index} name='Plasma'
       description='Flowing colored plasma blobs inside text via bg-clip + multi radial-gradient.'
-      installCommand='shadcn add @trickle/plasma'
+      installCommand='shadcn add https://tricklekit.dev/r/plasma.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 3000, max: 12000, step: 500, unit: 'ms' }
@@ -969,12 +969,12 @@ export function PlasmaStrip() {
   );
 }
 
-export function CompressStrip() {
+export function CompressStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={44} name='Compress'
+      index={index} name='Compress'
       description='Each letter drops in tall, gets slammed flat by a hydraulic press, then springs back to natural size.'
-      installCommand='shadcn add @trickle/compress'
+      installCommand='shadcn add https://tricklekit.dev/r/compress.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -991,12 +991,12 @@ export function CompressStrip() {
   );
 }
 
-export function CarouselFlipStrip() {
+export function CarouselFlipStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={45} name='CarouselFlip' side='left'
+      index={index} name='CarouselFlip'
       description='Letters live around an invisible 3D ring that spins three full revolutions like a globe, then unwrap and snap into the spelled word.'
-      installCommand='shadcn add @trickle/carousel-flip'
+      installCommand='shadcn add https://tricklekit.dev/r/carousel-flip.json'
       spec={SPEC_RSC} replay={6500}
       controls={[
         { key: 'duration', label: 'duration', min: 2500, max: 8000, step: 250, unit: 'ms' },
@@ -1013,12 +1013,12 @@ export function CarouselFlipStrip() {
   );
 }
 
-export function StaticTextStrip() {
+export function StaticTextStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={46} name='StaticText'
+      index={index} name='StaticText'
       description='TV-style static noise overlays text, then fades to clear. Atomic texture reveal.'
-      installCommand='shadcn add @trickle/static-text'
+      installCommand='shadcn add https://tricklekit.dev/r/static-text.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -1035,12 +1035,12 @@ export function StaticTextStrip() {
   );
 }
 
-export function TearStrip() {
+export function TearStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={47} name='Tear' side='left'
+      index={index} name='Tear'
       description='Text rips into top and bottom halves with jagged edges, then heals back together.'
-      installCommand='shadcn add @trickle/tear'
+      installCommand='shadcn add https://tricklekit.dev/r/tear.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },
@@ -1057,12 +1057,12 @@ export function TearStrip() {
   );
 }
 
-export function ReflectStrip() {
+export function ReflectStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={48} name='Reflect'
+      index={index} name='Reflect'
       description='Mirror reflection beneath text with linear-gradient mask fade.'
-      installCommand='shadcn add @trickle/reflect'
+      installCommand='shadcn add https://tricklekit.dev/r/reflect.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'opacity', label: 'opacity', min: 0.1, max: 0.6, step: 0.05 }
@@ -1078,12 +1078,12 @@ export function ReflectStrip() {
   );
 }
 
-export function PhaseStrip() {
+export function PhaseStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={49} name='Phase' side='left'
+      index={index} name='Phase'
       description='Text phases out and back — fades, blurs, and slips sideways like passing through a barrier.'
-      installCommand='shadcn add @trickle/phase'
+      installCommand='shadcn add https://tricklekit.dev/r/phase.json'
       spec={SPEC_RSC}
       controls={[
         { key: 'duration', label: 'duration', min: 1200, max: 5000, step: 100, unit: 'ms' },
@@ -1100,12 +1100,12 @@ export function PhaseStrip() {
   );
 }
 
-export function MosaicStrip() {
+export function MosaicStrip({ index }: { index: number }) {
   return (
     <DemoStrip
-      index={50} name='Mosaic'
+      index={index} name='Mosaic'
       description='Text starts as visible mosaic tiles, then dissolves into clarity as the tiles grow and merge.'
-      installCommand='shadcn add @trickle/mosaic'
+      installCommand='shadcn add https://tricklekit.dev/r/mosaic.json'
       spec={SPEC_RSC} replay={6000}
       controls={[
         { key: 'delay', label: 'delay', min: 0, max: 1000, step: 50, unit: 'ms' },

@@ -22,12 +22,12 @@ export function InstallSnippet({ command, className }: InstallSnippetProps) {
   return (
     <div
       className={cn(
-        'group inline-flex items-center gap-3 rounded-lg border border-black/5 bg-black/[0.03] px-4 py-2.5 font-mono text-sm dark:border-white/5 dark:bg-white/[0.04]',
+        'group flex max-w-full min-w-0 items-center gap-3 rounded-lg border border-black/5 bg-black/[0.03] px-4 py-2.5 font-mono text-sm dark:border-white/5 dark:bg-white/[0.04]',
         className
       )}
     >
-      <span className='text-muted-foreground'>$</span>
-      <code className='text-foreground'>{command}</code>
+      <span className='shrink-0 text-muted-foreground'>$</span>
+      <code className='min-w-0 flex-1 text-foreground [overflow-wrap:anywhere]'>{command}</code>
       <button
         type='button'
         onClick={copy}
