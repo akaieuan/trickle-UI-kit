@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentType } from 'react';
 import {
   BounceStrip,
   CarouselFlipStrip,
@@ -20,7 +20,7 @@ import {
   WireframeStrip
 } from '@/components/site/controlled-strips';
 
-const STRIPS: Record<string, () => ReactNode> = {
+const STRIPS: Record<string, ComponentType<{ index: number }>> = {
   bounce: BounceStrip,
   'spin-in': SpinInStrip,
   shutter: ShutterStrip,
@@ -50,7 +50,7 @@ export default async function AuditPage({
   const Strip = STRIPS[s] ?? BounceStrip;
   return (
     <div className='mx-auto max-w-5xl px-8 sm:px-12 lg:px-16 pt-8'>
-      <Strip key={s} />
+      <Strip key={s} index={1} />
     </div>
   );
 }
