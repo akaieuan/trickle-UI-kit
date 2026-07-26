@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ElementType } from 'react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export interface WordRotateProps {
   words: string[];

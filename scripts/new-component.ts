@@ -35,7 +35,7 @@ if (existsSync(componentFile)) {
 const componentTemplate = `'use client';
 
 import { type ElementType } from 'react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import { useTextRoot } from '@/registry/default/text-root/text-root';
 
 export interface ${pascal}Props {

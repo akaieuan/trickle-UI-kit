@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Check, Copy, Code2, Eye, RotateCcw, Sliders } from 'lucide-react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import { CodeBlock } from '@/components/site/code-block';
 import { ControlPanel, type ControlSpec } from '@/components/site/control-panel';
 import { SpecLine } from '@/components/site/spec-line';

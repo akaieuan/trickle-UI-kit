@@ -63,7 +63,7 @@
       "type": "registry:ui",
       "title": "Typo Correct",
       "description": "A word flies in chaotically, lands misspelled, then corrects itself character-by-character.",
-      "registryDependencies": ["@trickle/text-root"],
+      "registryDependencies": ["https://tricklekit.dev/r/text-root.json"],
       "files": [
         {
           "path": "registry/default/typo-correct/typo-correct.tsx",
@@ -174,7 +174,7 @@
       "type": "registry:ui",
       "title": "Typewriter",
       "description": "Character-by-character typing with optional blinking caret and multi-string cycling.",
-      "registryDependencies": ["@trickle/text-root"],
+      "registryDependencies": ["https://tricklekit.dev/r/text-root.json"],
       "files": [
         {
           "path": "registry/default/typewriter/typewriter.tsx",
@@ -388,7 +388,7 @@
       "type": "registry:ui",
       "title": "Word Rotate",
       "description": "Vertical wheel cycling through a list of words. Pure transform translateY, no JS animation lib.",
-      "registryDependencies": ["@trickle/text-root"],
+      "registryDependencies": ["https://tricklekit.dev/r/text-root.json"],
       "files": [
         {
           "path": "registry/default/word-rotate/word-rotate.tsx",
@@ -515,7 +515,7 @@
       "type": "registry:ui",
       "title": "Decrypt Scramble",
       "description": "Random characters scramble into the target text. Configurable charset (alphanum / binary / hex / katakana / symbols).",
-      "registryDependencies": ["@trickle/text-root"],
+      "registryDependencies": ["https://tricklekit.dev/r/text-root.json"],
       "files": [
         {
           "path": "registry/default/decrypt-scramble/decrypt-scramble.tsx",
@@ -529,7 +529,7 @@
       "type": "registry:ui",
       "title": "Morph Swap",
       "description": "Cycles through a list of words. Each transition fades letters out then back in with stagger.",
-      "registryDependencies": ["@trickle/text-root"],
+      "registryDependencies": ["https://tricklekit.dev/r/text-root.json"],
       "files": [
         {
           "path": "registry/default/morph-swap/morph-swap.tsx",

@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/plasma/plasma.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface PlasmaProps {\n  children: React.ReactNode;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Plasma({ children, duration = 6000, as: Component = 'span', className }: PlasmaProps) {\n  return (\n    <Component\n      className={cn('trickle-plasma inline-block animate-trickle-plasma', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface PlasmaProps {\n  children: React.ReactNode;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Plasma({ children, duration = 6000, as: Component = 'span', className }: PlasmaProps) {\n  return (\n    <Component\n      className={cn('trickle-plasma inline-block animate-trickle-plasma', className)}\n      style={{ animationDuration: `${duration}ms` } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/plasma.tsx"
     }

@@ -1,5 +1,5 @@
 import { type CSSProperties, type ElementType } from 'react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export interface ShinyShimmerProps {
   children: React.ReactNode;

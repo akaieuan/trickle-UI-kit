@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { Check, Copy, RotateCcw } from 'lucide-react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export interface DemoCardProps {
   index: number;

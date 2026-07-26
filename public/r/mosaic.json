@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/mosaic/mosaic.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface MosaicProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Tile size in px. Default 8. */\n  tileSize?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Mosaic({ children, delay = 0, duration = 1500, tileSize = 8, as: Component = 'span', className }: MosaicProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-mosaic', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-mosaic-size' as string]: `${tileSize}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface MosaicProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Tile size in px. Default 8. */\n  tileSize?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Mosaic({ children, delay = 0, duration = 1500, tileSize = 8, as: Component = 'span', className }: MosaicProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-mosaic', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-mosaic-size' as string]: `${tileSize}px`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/mosaic.tsx"
     }

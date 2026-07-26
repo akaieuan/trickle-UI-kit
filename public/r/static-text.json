@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/static-text/static-text.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface StaticTextProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function StaticText({ children, delay = 0, duration = 1400, as: Component = 'span', className }: StaticTextProps) {\n  return (\n    <Component\n      className={cn('trickle-static-text relative inline-block animate-trickle-static-text', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface StaticTextProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function StaticText({ children, delay = 0, duration = 1400, as: Component = 'span', className }: StaticTextProps) {\n  return (\n    <Component\n      className={cn('trickle-static-text relative inline-block animate-trickle-static-text', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/static-text.tsx"
     }

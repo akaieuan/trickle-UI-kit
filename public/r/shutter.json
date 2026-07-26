@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/shutter/shutter.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ShutterProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Number of vertical bars. Default 8. */\n  bars?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Shutter({ children, delay = 0, duration = 1100, bars = 8, as: Component = 'span', className }: ShutterProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-shutter', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-shutter-bars' as string]: `${bars}`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface ShutterProps {\n  children: React.ReactNode;\n  delay?: number;\n  duration?: number;\n  /** Number of vertical bars. Default 8. */\n  bars?: number;\n  as?: ElementType;\n  className?: string;\n}\n\nexport function Shutter({ children, delay = 0, duration = 1100, bars = 8, as: Component = 'span', className }: ShutterProps) {\n  return (\n    <Component\n      className={cn('inline-block animate-trickle-shutter', className)}\n      style={{\n        animationDelay: `${delay}ms`,\n        animationDuration: `${duration}ms`,\n        ['--trickle-shutter-bars' as string]: `${bars}`\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/shutter.tsx"
     }

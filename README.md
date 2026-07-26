@@ -225,7 +225,7 @@ trickle/
 │   └── <name>.json                  one per component, served at tricklekit.dev/r/<name>.json
 ├── registry.json                    ROOT manifest, feeds `shadcn build`
 ├── components.json                  shadcn config for the docs site itself
-├── lib/cn.ts                        tailwind-merge helper
+├── lib/utils.ts                     tailwind-merge helper (shadcn `utils` alias)
 ├── scripts/
 │   ├── new-component.ts             pnpm new <name> — scaffold tsx + registry entry
 │   └── validate-registry.ts         CI: zod-validate every public/r/*.json

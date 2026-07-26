@@ -1,4 +1,4 @@
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export interface SpecLineProps {
   items: { label: string; value: string | number; tone?: 'default' | 'good' | 'warn' }[];
