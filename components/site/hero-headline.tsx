@@ -57,13 +57,20 @@ export function HeroHeadline() {
             reserves the word's natural width. Components animate at different
             scales (Compress squashes, ScaleSlam overshoots), so without this the
             headline reflows and re-wraps on every swap. */}
-        <span className='relative inline-block'>
-          {/* inline-block so the spacer and the animated copy (whose chars are
-              themselves inline-block) share the same box model and baseline. */}
+        <span className='relative inline-block whitespace-nowrap'>
+          {/* Spacer reserving the slot. It splits into per-character
+              inline-blocks to match how the showcase components render, since
+              a plain text run kerns tighter and would reserve too little. */}
           <span className='invisible inline-block' aria-hidden='true'>
-            {WORD}
+            {WORD.split('').map((c, n) => (
+              <span key={n} className='inline-block'>
+                {c}
+              </span>
+            ))}
           </span>
-          <span key={i} className='absolute left-0 top-0 text-primary'>
+          {/* whitespace-nowrap: an absolutely positioned box shrink-to-fits to
+              its containing block, so without this the word wraps mid-slot. */}
+          <span key={i} className='absolute left-0 top-0 whitespace-nowrap text-primary'>
             {current.node}
           </span>
         </span>{' '}
