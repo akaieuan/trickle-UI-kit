@@ -100,7 +100,7 @@ export function DemoStrip({
   const demoContent = render ? render(values) : children;
 
   const meta = (
-    <div className='flex flex-col gap-3 lg:max-w-xs'>
+    <div className='flex flex-col gap-3 lg:w-72 lg:shrink-0'>
       <div className='flex items-baseline gap-3'>
         <span className='font-mono text-xs tabular-nums text-muted-foreground/50'>{indexLabel}</span>
         <h3 className='text-base font-normal tracking-tight text-foreground'>{name}</h3>
@@ -131,7 +131,9 @@ export function DemoStrip({
   );
 
   const stage = (
-    <div ref={stageRef} className='flex w-full flex-1 flex-col gap-3'>
+    // min-w-0 stops the horizontally-scrollable code block from forcing the
+    // row wider and squeezing the meta column.
+    <div ref={stageRef} className='flex w-full min-w-0 flex-1 flex-col gap-3'>
       {(code || controls) && (
         <div className='flex items-center justify-between gap-2'>
           {code ? (
@@ -209,7 +211,9 @@ export function DemoStrip({
           )}
         </button>
       ) : code ? (
-        <CodeBlock code={code} />
+        // Same fixed height as the preview stage: toggling preview <-> code
+        // must not resize the strip and shove the rest of the page around.
+        <CodeBlock code={code} className='h-[400px]' />
       ) : null}
 
       {controls && controls.length > 0 && view === 'preview' && showControls && (

@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/default/shiny-shimmer/shiny-shimmer.tsx",
-      "content": "import { type ElementType } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ShinyShimmerProps {\n  children: React.ReactNode;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  /** Trigger the shimmer only on hover. Default: always animating. */\n  hoverOnly?: boolean;\n  /** Width of the shimmer band as a CSS length. Default `'100%'`. */\n  shimmerWidth?: string;\n}\n\nexport function ShinyShimmer({\n  children,\n  as: Component = 'span',\n  className,\n  hoverOnly = false,\n  shimmerWidth = '100%'\n}: ShinyShimmerProps) {\n  return (\n    <Component\n      data-trickle-shimmer={hoverOnly ? 'hover' : 'always'}\n      className={cn(\n        'trickle-shimmer relative inline-block bg-clip-text text-transparent',\n        !hoverOnly && 'animate-trickle-shimmer',\n        hoverOnly && 'hover:animate-trickle-shimmer',\n        className\n      )}\n      style={{\n        backgroundImage: `linear-gradient(110deg, var(--trickle-shimmer-base, oklch(35% 0 0)) 0%, var(--trickle-shimmer-base, oklch(35% 0 0)) 40%, var(--trickle-shimmer-highlight, oklch(100% 0 0)) 50%, var(--trickle-shimmer-base, oklch(35% 0 0)) 60%, var(--trickle-shimmer-base, oklch(35% 0 0)) 100%)`,\n        backgroundSize: `200% 100%`,\n        backgroundRepeat: 'no-repeat',\n        WebkitBackgroundClip: 'text',\n        backgroundClip: 'text'\n      }}\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type CSSProperties, type ElementType } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface ShinyShimmerProps {\n  children: React.ReactNode;\n  /** Element tag. Defaults to `span`. */\n  as?: ElementType;\n  className?: string;\n  /** Trigger the shimmer only on hover. Default: always animating. */\n  hoverOnly?: boolean;\n  /** Sweep duration in ms. Default 2500. */\n  duration?: number;\n  /**\n   * Width of the bright band, as a percentage of the gradient. Small values\n   * give a tight specular glint, large values a broad wash. Default 20.\n   */\n  shimmerWidth?: number;\n}\n\nexport function ShinyShimmer({\n  children,\n  as: Component = 'span',\n  className,\n  hoverOnly = false,\n  duration = 2500,\n  shimmerWidth = 20\n}: ShinyShimmerProps) {\n  const base = 'var(--trickle-shimmer-base, oklch(35% 0 0))';\n  const highlight = 'var(--trickle-shimmer-highlight, oklch(100% 0 0))';\n  // Band is centred on the gradient midpoint and grows outward symmetrically.\n  const half = Math.min(Math.max(shimmerWidth, 0), 100) / 2;\n\n  return (\n    <Component\n      data-trickle-shimmer={hoverOnly ? 'hover' : 'always'}\n      className={cn(\n        'trickle-shimmer relative inline-block bg-clip-text text-transparent',\n        !hoverOnly && 'animate-trickle-shimmer',\n        hoverOnly && 'hover:animate-trickle-shimmer',\n        className\n      )}\n      style={{\n        animationDuration: `${duration}ms`,\n        backgroundImage: `linear-gradient(110deg, ${base} 0%, ${base} ${50 - half}%, ${highlight} 50%, ${base} ${50 + half}%, ${base} 100%)`,\n        backgroundSize: `200% 100%`,\n        backgroundRepeat: 'no-repeat',\n        WebkitBackgroundClip: 'text',\n        backgroundClip: 'text'\n      } as CSSProperties}\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/shiny-shimmer.tsx"
     }
@@ -18,11 +18,14 @@
   },
   "css": {
     "@keyframes trickle-shimmer": {
-      "0%": {
-        "background-position": "-200% 0"
+      "/* With bg-size 200%, the image is twice the element width.\n     Pan from 0% (highlight on right edge) → -100% (highlight on left edge),\n     then hold offscreen-left briefly so the loop wrap is invisible. */\n  0%": {
+        "background-position": "0% 0"
+      },
+      "60%": {
+        "background-position": "-100% 0"
       },
       "100%": {
-        "background-position": "200% 0"
+        "background-position": "-100% 0"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

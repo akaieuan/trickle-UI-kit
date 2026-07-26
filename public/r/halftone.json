@@ -18,25 +18,41 @@
   },
   "css": {
     "@keyframes trickle-halftone": {
-      "0%": {
-        "-webkit-mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
-        "mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
+      "/* Dots appear small, then PULSE at increasing amplitudes (like a heart-beat\n     building up), then quickly grow huge to merge into the solid letters. */\n  0%": {
         "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
         "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
-        "-webkit-mask-repeat": "round",
-        "mask-repeat": "round",
-        "filter": "contrast(1.3)",
-        "opacity": "0"
+        "opacity": "0",
+        "filter": "contrast(1.4)"
+      },
+      "10%": {
+        "opacity": "1",
+        "filter": "contrast(1.3)"
+      },
+      "18%": {
+        "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6)",
+        "mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6)"
+      },
+      "28%": {
+        "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
+        "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)"
       },
       "40%": {
-        "opacity": "1",
+        "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2)",
+        "mask-size": "calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2)",
         "filter": "contrast(1.15)"
       },
+      "52%": {
+        "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4)",
+        "mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4)"
+      },
+      "68%": {
+        "-webkit-mask-size": "80px 80px",
+        "mask-size": "80px 80px",
+        "filter": "contrast(1.05)"
+      },
       "100%": {
-        "-webkit-mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
-        "mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
-        "-webkit-mask-size": "100% 100%",
-        "mask-size": "100% 100%",
+        "-webkit-mask-size": "800% 800%",
+        "mask-size": "800% 800%",
         "filter": "contrast(1)",
         "opacity": "1"
       }

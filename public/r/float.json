@@ -19,10 +19,22 @@
   "css": {
     "@keyframes trickle-float": {
       "0%, 100%": {
-        "transform": "translateY(0)"
+        "transform": "translate(0, 0) rotate(0)"
       },
-      "50%": {
-        "transform": "translateY(-0.18em)"
+      "20%": {
+        "transform": "translate(0.08em, -0.35em) rotate(2.5deg)"
+      },
+      "40%": {
+        "transform": "translate(-0.05em, -0.55em) rotate(-3deg)"
+      },
+      "55%": {
+        "transform": "translate(-0.1em, -0.45em) rotate(-2deg)"
+      },
+      "70%": {
+        "transform": "translate(0.06em, -0.25em) rotate(1.5deg)"
+      },
+      "85%": {
+        "transform": "translate(0.04em, -0.1em) rotate(0.5deg)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

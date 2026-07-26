@@ -21,33 +21,49 @@
     "@keyframes trickle-tear-top": {
       "0%": {
         "opacity": "0",
-        "clip-path": "polygon(0 0, 100% 0, 100% 50%, 75% 56%, 50% 50%, 25% 56%, 0 50%)",
-        "transform": "translateY(-0.6em) rotate(-2deg)"
+        "clip-path": "polygon(0 0, 100% 0, 100% 60%, 78% 36%, 60% 56%, 38% 32%, 18% 54%, 0 38%)",
+        "transform": "translateY(-1.4em) translateX(-0.15em) rotate(-5deg)"
       },
-      "60%": {
+      "35%": {
+        "opacity": "0.4",
+        "transform": "translateY(-0.7em) translateX(-0.06em) rotate(-3deg)"
+      },
+      "65%": {
         "opacity": "1",
-        "transform": "translateY(0.05em) rotate(0.5deg)"
+        "clip-path": "polygon(0 0, 100% 0, 100% 55%, 75% 50%, 50% 53%, 25% 50%, 0 55%)",
+        "transform": "translateY(0.12em) rotate(0.8deg)"
+      },
+      "85%": {
+        "transform": "translateY(-0.04em) rotate(-0.3deg)"
       },
       "100%": {
         "opacity": "1",
         "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        "transform": "translateY(0) rotate(0)"
+        "transform": "translateY(0) translateX(0) rotate(0)"
       }
     },
     "@keyframes trickle-tear-bottom": {
       "0%": {
         "opacity": "0",
-        "clip-path": "polygon(0 50%, 25% 44%, 50% 50%, 75% 44%, 100% 50%, 100% 100%, 0 100%)",
-        "transform": "translateY(0.6em) rotate(2deg)"
+        "clip-path": "polygon(0 40%, 18% 56%, 38% 30%, 60% 54%, 78% 32%, 100% 56%, 100% 100%, 0 100%)",
+        "transform": "translateY(1.4em) translateX(0.15em) rotate(5deg)"
       },
-      "60%": {
+      "35%": {
+        "opacity": "0.4",
+        "transform": "translateY(0.7em) translateX(0.06em) rotate(3deg)"
+      },
+      "65%": {
         "opacity": "1",
-        "transform": "translateY(-0.05em) rotate(-0.5deg)"
+        "clip-path": "polygon(0 50%, 25% 50%, 50% 53%, 75% 50%, 100% 55%, 100% 100%, 0 100%)",
+        "transform": "translateY(-0.12em) rotate(-0.8deg)"
+      },
+      "85%": {
+        "transform": "translateY(0.04em) rotate(0.3deg)"
       },
       "100%": {
         "opacity": "1",
         "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        "transform": "translateY(0) rotate(0)"
+        "transform": "translateY(0) translateX(0) rotate(0)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

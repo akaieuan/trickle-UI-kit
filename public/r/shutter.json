@@ -22,18 +22,20 @@
     },
     "@keyframes trickle-shutter": {
       "0%": {
-        "-webkit-mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))",
-        "mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))",
+        "-webkit-mask-size": "calc(100% / var(--trickle-shutter-bars, 8)) 100%",
+        "mask-size": "calc(100% / var(--trickle-shutter-bars, 8)) 100%",
         "opacity": "0",
         "transform": "scaleY(0.4)"
       },
       "40%": {
+        "-webkit-mask-size": "calc(150% / var(--trickle-shutter-bars, 8)) 100%",
+        "mask-size": "calc(150% / var(--trickle-shutter-bars, 8)) 100%",
         "opacity": "1",
         "transform": "scaleY(1)"
       },
       "100%": {
-        "-webkit-mask-image": "linear-gradient(black, black)",
-        "mask-image": "linear-gradient(black, black)",
+        "-webkit-mask-size": "200% 100%",
+        "mask-size": "200% 100%",
         "opacity": "1",
         "transform": "scaleY(1)"
       }

@@ -249,12 +249,22 @@ export function ShinyShimmerStrip({ index }: { index: number }) {
       description='Light glare panning across text. Always-on or hover-only.'
       installCommand='shadcn add https://tricklekit.dev/r/shiny-shimmer.json'
       spec={SPEC_RSC}
-      code={`<ShinyShimmer>Shimmer</ShinyShimmer>`}
-    >
-      <h3 className='text-3xl font-medium uppercase tracking-widest sm:text-4xl'>
-        <ShinyShimmer>Shimmer</ShinyShimmer>
-      </h3>
-    </DemoStrip>
+      controls={[
+        { key: 'duration', label: 'duration', min: 800, max: 6000, step: 100, unit: 'ms' },
+        { key: 'shimmerWidth', label: 'band', min: 4, max: 80, step: 2, unit: '%' }
+      ]}
+      defaultValues={{ duration: 2500, shimmerWidth: 20 }}
+      code={`<ShinyShimmer duration={2500} shimmerWidth={20}>
+  Shimmer
+</ShinyShimmer>`}
+      render={(v) => (
+        <h3 className='text-3xl font-medium uppercase tracking-widest sm:text-4xl'>
+          <ShinyShimmer duration={v.duration ?? 2500} shimmerWidth={v.shimmerWidth ?? 20}>
+            Shimmer
+          </ShinyShimmer>
+        </h3>
+      )}
+    />
   );
 }
 
@@ -476,12 +486,26 @@ export function NeonFlickerStrip({ index }: { index: number }) {
       description='Cold-start sputter — sign tries to ignite, sputters out, sputters back, then settles to a steady hum with rare flickers.'
       installCommand='shadcn add https://tricklekit.dev/r/neon-flicker.json'
       spec={SPEC_RSC}
-      code={`<NeonFlicker color="oklch(72% 0.22 350)">NEON</NeonFlicker>`}
-    >
-      <h3 className='text-4xl font-medium uppercase tracking-widest sm:text-5xl'>
-        <NeonFlicker>NEON</NeonFlicker>
-      </h3>
-    </DemoStrip>
+      controls={[
+        { key: 'duration', label: 'duration', min: 1000, max: 8000, step: 250, unit: 'ms' },
+        { key: 'glow', label: 'glow', min: 0, max: 3, step: 0.1, unit: '×' }
+      ]}
+      defaultValues={{ duration: 3000, glow: 1 }}
+      code={`<NeonFlicker
+  color="oklch(72% 0.22 350)"
+  duration={3000}
+  glow={1}
+>
+  NEON
+</NeonFlicker>`}
+      render={(v) => (
+        <h3 className='text-4xl font-medium uppercase tracking-widest sm:text-5xl'>
+          <NeonFlicker duration={v.duration ?? 3000} glow={v.glow ?? 1}>
+            NEON
+          </NeonFlicker>
+        </h3>
+      )}
+    />
   );
 }
 
@@ -492,12 +516,22 @@ export function GlitchSplitStrip({ index }: { index: number }) {
       description='Horizontal slices of the text shift sideways in brief stutter bursts. Broken-signal feel.'
       installCommand='shadcn add https://tricklekit.dev/r/glitch-split.json'
       spec={SPEC_RSC}
-      code={`<GlitchSplit>GLITCH</GlitchSplit>`}
-    >
-      <h3 className='font-mono text-3xl font-medium tracking-tight sm:text-4xl'>
-        <GlitchSplit>GLITCH</GlitchSplit>
-      </h3>
-    </DemoStrip>
+      controls={[
+        { key: 'duration', label: 'duration', min: 800, max: 5000, step: 100, unit: 'ms' },
+        { key: 'offset', label: 'offset', min: 0, max: 3, step: 0.1, unit: '×' }
+      ]}
+      defaultValues={{ duration: 2400, offset: 1 }}
+      code={`<GlitchSplit duration={2400} offset={1}>
+  GLITCH
+</GlitchSplit>`}
+      render={(v) => (
+        <h3 className='font-mono text-3xl font-medium tracking-tight sm:text-4xl'>
+          <GlitchSplit duration={v.duration ?? 2400} offset={v.offset ?? 1}>
+            GLITCH
+          </GlitchSplit>
+        </h3>
+      )}
+    />
   );
 }
 

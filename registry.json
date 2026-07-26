@@ -317,8 +317,9 @@
       },
       "css": {
         "@keyframes trickle-shimmer": {
-          "0%": { "background-position": "-200% 0" },
-          "100%": { "background-position": "200% 0" }
+          "/* With bg-size 200%, the image is twice the element width.\n     Pan from 0% (highlight on right edge) \u2192 -100% (highlight on left edge),\n     then hold offscreen-left briefly so the loop wrap is invisible. */\n  0%": { "background-position": "0% 0" },
+          "60%": { "background-position": "-100% 0" },
+          "100%": { "background-position": "-100% 0" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-shimmer": { "animation": "none" }
@@ -415,8 +416,9 @@
       },
       "css": {
         "@keyframes trickle-echo": {
-          "0%": { "opacity": "var(--trickle-echo-opacity, 0.5)", "transform": "translate(0, 0)" },
-          "100%": { "opacity": "0", "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0))" }
+          "0%": { "opacity": "0", "transform": "translate(0, 0) scale(0.92)", "filter": "blur(0)" },
+          "15%": { "opacity": "var(--trickle-echo-opacity, 0.5)", "transform": "translate(calc(var(--trickle-echo-x, 12px) * 0.08), 0) scale(0.96)", "filter": "blur(0)" },
+          "100%": { "opacity": "0", "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0)) scale(var(--trickle-echo-scale, 1.4))", "filter": "blur(4px)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-echo": { "animation": "none", "opacity": "0" }
@@ -442,14 +444,9 @@
       },
       "css": {
         "@keyframes trickle-ink-bleed": {
-          "from": {
-            "-webkit-mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)",
-            "mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)"
-          },
-          "to": {
-            "-webkit-mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)",
-            "mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)"
-          }
+          "0%": { "opacity": "0", "filter": "blur(8px)", "clip-path": "circle(0% at var(--trickle-ink-origin, 50% 50%))" },
+          "60%": { "opacity": "1", "filter": "blur(2px)" },
+          "100%": { "opacity": "1", "filter": "blur(0)", "clip-path": "circle(120% at var(--trickle-ink-origin, 50% 50%))" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-ink-bleed": {
@@ -582,11 +579,21 @@
       },
       "css": {
         "@keyframes trickle-neon-flicker": {
-          "0%, 7%, 11%, 35%, 41%, 65%, 70%, 87%, 92%, 100%": { "opacity": "1", "filter": "brightness(1.1)" },
-          "8%, 10%": { "opacity": "0.35", "filter": "brightness(0.55)" },
-          "36%, 40%": { "opacity": "0.6", "filter": "brightness(0.8)" },
-          "66%, 69%": { "opacity": "0.4", "filter": "brightness(0.6)" },
-          "88%, 91%": { "opacity": "0.7", "filter": "brightness(0.85)" }
+          "0%, 1%": { "opacity": "0.05", "filter": "brightness(0.2) blur(0.3px)", "text-shadow": "none" },
+          "2%": { "opacity": "0.9", "filter": "brightness(1.1)" },
+          "3%, 4%": { "opacity": "0.05", "filter": "brightness(0.2) blur(0.3px)", "text-shadow": "none" },
+          "5%": { "opacity": "0.7", "filter": "brightness(0.85)" },
+          "6%, 7%": { "opacity": "0.1", "filter": "brightness(0.3) blur(0.3px)" },
+          "8%": { "opacity": "0.95", "filter": "brightness(1.05)" },
+          "9%": { "opacity": "0.4", "filter": "brightness(0.5)" },
+          "11%": { "opacity": "1", "filter": "brightness(1.15)" },
+          "13%, 14%": { "opacity": "0.5", "filter": "brightness(0.65)" },
+          "16%": { "opacity": "1", "filter": "brightness(1.1)" },
+          "20%, 55%": { "opacity": "1", "filter": "brightness(1)" },
+          "56%, 57%": { "opacity": "0.85", "filter": "brightness(0.9)" },
+          "58%, 80%": { "opacity": "1", "filter": "brightness(1)" },
+          "81%": { "opacity": "0.6", "filter": "brightness(0.75)" },
+          "82%, 100%": { "opacity": "1", "filter": "brightness(1)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-neon-flicker": { "animation": "none", "opacity": "1" }
@@ -607,8 +614,8 @@
       ],
       "cssVars": {
         "theme": {
-          "--animate-trickle-glitch-a": "trickle-glitch-a 3s steps(1) infinite",
-          "--animate-trickle-glitch-b": "trickle-glitch-b 3s steps(1) infinite"
+          "--animate-trickle-glitch-a": "trickle-glitch-a 2.4s steps(1) infinite",
+          "--animate-trickle-glitch-b": "trickle-glitch-b 2.4s steps(1) infinite"
         }
       },
       "css": {
@@ -617,32 +624,33 @@
           "position": "absolute",
           "inset": "0",
           "pointer-events": "none",
-          "opacity": "0"
+          "color": "inherit",
+          "background": "inherit"
         },
-        ".trickle-glitch-split::before": { "color": "var(--trickle-glitch-a, oklch(75% 0.22 200))" },
-        ".trickle-glitch-split::after": { "color": "var(--trickle-glitch-b, oklch(70% 0.27 320))" },
-        ".trickle-glitch-loop::before": { "animation": "trickle-glitch-a 3s steps(1) infinite" },
-        ".trickle-glitch-loop::after": { "animation": "trickle-glitch-b 3s steps(1) infinite" },
-        ".trickle-glitch-split:hover::before": { "animation": "trickle-glitch-a 0.4s steps(1) 1" },
-        ".trickle-glitch-split:hover::after": { "animation": "trickle-glitch-b 0.4s steps(1) 1" },
+        ".trickle-glitch-loop::before": { "animation": "trickle-glitch-a var(--trickle-glitch-duration, 2.4s) steps(1) infinite" },
+        ".trickle-glitch-loop::after": { "animation": "trickle-glitch-b var(--trickle-glitch-duration, 2.4s) steps(1) infinite" },
+        ".trickle-glitch-split:hover::before": { "animation": "trickle-glitch-a 0.5s steps(1) 1" },
+        ".trickle-glitch-split:hover::after": { "animation": "trickle-glitch-b 0.5s steps(1) 1" },
         "@keyframes trickle-glitch-a": {
-          "0%, 89%, 100%": { "opacity": "0", "transform": "translate(0, 0)", "clip-path": "inset(0)" },
-          "90%": { "opacity": "1", "transform": "translate(-2px, 0)", "clip-path": "inset(20% 0 60% 0)" },
-          "92%": { "opacity": "1", "transform": "translate(2px, -1px)", "clip-path": "inset(60% 0 10% 0)" },
-          "94%": { "opacity": "1", "transform": "translate(-1px, 1px)", "clip-path": "inset(40% 0 30% 0)" },
-          "96%": { "opacity": "0" },
-          "98%": { "opacity": "1", "transform": "translate(1px, 0)", "clip-path": "inset(10% 0 70% 0)" }
+          "0%, 8%, 18%, 100%": { "transform": "translateX(0)", "clip-path": "inset(0 0 100% 0)" },
+          "10%, 12%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -6px))", "clip-path": "inset(15% 0 70% 0)" },
+          "14%, 16%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 4px))", "clip-path": "inset(40% 0 45% 0)" },
+          "35%, 38%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -8px))", "clip-path": "inset(55% 0 30% 0)" },
+          "40%, 42%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 3px))", "clip-path": "inset(75% 0 12% 0)" },
+          "68%, 70%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -5px))", "clip-path": "inset(8% 0 80% 0)" },
+          "72%, 74%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 2px))", "clip-path": "inset(50% 0 38% 0)" }
         },
         "@keyframes trickle-glitch-b": {
-          "0%, 89%, 100%": { "opacity": "0", "transform": "translate(0, 0)", "clip-path": "inset(0)" },
-          "90%": { "opacity": "1", "transform": "translate(2px, 1px)", "clip-path": "inset(60% 0 20% 0)" },
-          "92%": { "opacity": "1", "transform": "translate(-2px, 0)", "clip-path": "inset(10% 0 70% 0)" },
-          "94%": { "opacity": "1", "transform": "translate(1px, -1px)", "clip-path": "inset(50% 0 30% 0)" },
-          "96%": { "opacity": "0" },
-          "98%": { "opacity": "1", "transform": "translate(-1px, 0)", "clip-path": "inset(70% 0 10% 0)" }
+          "0%, 8%, 18%, 100%": { "transform": "translateX(0)", "clip-path": "inset(100% 0 0 0)" },
+          "10%, 12%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 5px))", "clip-path": "inset(60% 0 25% 0)" },
+          "14%, 16%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -3px))", "clip-path": "inset(28% 0 55% 0)" },
+          "35%, 38%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 7px))", "clip-path": "inset(20% 0 65% 0)" },
+          "40%, 42%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -4px))", "clip-path": "inset(82% 0 5% 0)" },
+          "68%, 70%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 6px))", "clip-path": "inset(38% 0 50% 0)" },
+          "72%, 74%": { "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -2px))", "clip-path": "inset(70% 0 18% 0)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
-          ".trickle-glitch-loop::before, .trickle-glitch-loop::after, .trickle-glitch-split:hover::before, .trickle-glitch-split:hover::after": { "animation": "none", "opacity": "0" }
+          ".trickle-glitch-split::before, .trickle-glitch-split::after": { "animation": "none", "display": "none" }
         }
       }
     },
@@ -725,10 +733,14 @@
       },
       "css": {
         "@keyframes trickle-stamp": {
-          "0%": { "opacity": "0", "transform": "scale(2.2) rotate(0)" },
-          "60%": { "opacity": "1", "transform": "scale(0.92) rotate(var(--trickle-stamp-rotation, -6deg))" },
-          "80%": { "transform": "scale(1.04) rotate(var(--trickle-stamp-rotation, -6deg))" },
-          "100%": { "opacity": "1", "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))" }
+          "0%": { "opacity": "0", "transform": "scale(3) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.2))", "filter": "blur(6px)", "animation-timing-function": "cubic-bezier(0.5, 0, 1, 0.4)" },
+          "35%": { "opacity": "1", "transform": "scale(1.6) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.4))", "filter": "blur(2px)", "animation-timing-function": "cubic-bezier(0.7, 0, 0.3, 1)" },
+          "50%": { "opacity": "1", "transform": "scale(0.85) rotate(var(--trickle-stamp-rotation, -6deg))", "filter": "blur(0)" },
+          "60%": { "transform": "scale(0.85) translate(0.06em, 0.04em) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "68%": { "transform": "scale(0.85) translate(-0.04em, -0.02em) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "78%": { "transform": "scale(1.06) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "90%": { "transform": "scale(0.98) rotate(var(--trickle-stamp-rotation, -6deg))" },
+          "100%": { "opacity": "1", "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))", "filter": "blur(0)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-stamp": {
@@ -810,8 +822,12 @@
       "cssVars": { "theme": { "--animate-trickle-float": "trickle-float 3s ease-in-out infinite" } },
       "css": {
         "@keyframes trickle-float": {
-          "0%, 100%": { "transform": "translateY(0)" },
-          "50%": { "transform": "translateY(-0.18em)" }
+          "0%, 100%": { "transform": "translate(0, 0) rotate(0)" },
+          "20%": { "transform": "translate(0.08em, -0.35em) rotate(2.5deg)" },
+          "40%": { "transform": "translate(-0.05em, -0.55em) rotate(-3deg)" },
+          "55%": { "transform": "translate(-0.1em, -0.45em) rotate(-2deg)" },
+          "70%": { "transform": "translate(0.06em, -0.25em) rotate(1.5deg)" },
+          "85%": { "transform": "translate(0.04em, -0.1em) rotate(0.5deg)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-float": { "animation": "none", "transform": "none" }
@@ -832,12 +848,34 @@
       ],
       "cssVars": { "theme": { "--animate-trickle-pulse-text": "trickle-pulse-text 1.8s ease-in-out infinite" } },
       "css": {
+        ".trickle-pulse-text[data-trickle-pulse-rings='true']::before, .trickle-pulse-text[data-trickle-pulse-rings='true']::after": {
+          "content": "''",
+          "position": "absolute",
+          "inset": "-0.18em -0.4em",
+          "border": "1.5px solid currentColor",
+          "border-radius": "0.5em",
+          "pointer-events": "none",
+          "opacity": "0"
+        },
+        ".trickle-pulse-text[data-trickle-pulse-rings='true']::before": {
+          "animation": "trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite"
+        },
+        ".trickle-pulse-text[data-trickle-pulse-rings='true']::after": {
+          "animation": "trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite",
+          "animation-delay": "calc(var(--trickle-pulse-duration, 1800ms) * 0.5)"
+        },
         "@keyframes trickle-pulse-text": {
-          "0%, 100%": { "transform": "scale(1)", "opacity": "1" },
-          "50%": { "transform": "scale(1.06)", "opacity": "0.85" }
+          "0%, 100%": { "transform": "scale(1)" },
+          "50%": { "transform": "scale(1.06)" }
+        },
+        "@keyframes trickle-pulse-ring": {
+          "0%": { "transform": "scale(0.85)", "opacity": "0" },
+          "18%": { "opacity": "0.6" },
+          "100%": { "transform": "scale(1.6)", "opacity": "0" }
         },
         "@media (prefers-reduced-motion: reduce)": {
-          ".animate-trickle-pulse-text": { "animation": "none", "transform": "none", "opacity": "1" }
+          ".animate-trickle-pulse-text": { "animation": "none", "transform": "none", "opacity": "1" },
+          ".trickle-pulse-text[data-trickle-pulse-rings='true']::before, .trickle-pulse-text[data-trickle-pulse-rings='true']::after": { "animation": "none" }
         }
       }
     },
@@ -901,11 +939,14 @@
       "cssVars": { "theme": { "--animate-trickle-bounce": "trickle-bounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
       "css": {
         "@keyframes trickle-bounce": {
-          "0%": { "opacity": "0", "transform": "translateY(-1.2em) scale(0.6)" },
-          "50%": { "opacity": "1", "transform": "translateY(0.15em) scale(1.05)" },
-          "70%": { "transform": "translateY(-0.05em) scale(0.98)" },
-          "85%": { "transform": "translateY(0.02em) scale(1.01)" },
-          "100%": { "opacity": "1", "transform": "translateY(0) scale(1)" }
+          "0%": { "opacity": "0", "transform": "translateY(-1.4em) scale(0.7, 1.1)", "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)" },
+          "25%": { "opacity": "1", "transform": "translateY(0) scale(1.15, 0.85)", "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)" },
+          "45%": { "transform": "translateY(-0.55em) scale(0.95, 1.05)", "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)" },
+          "60%": { "transform": "translateY(0) scale(1.08, 0.92)", "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)" },
+          "75%": { "transform": "translateY(-0.22em) scale(0.98, 1.02)", "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)" },
+          "85%": { "transform": "translateY(0) scale(1.04, 0.96)", "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)" },
+          "93%": { "transform": "translateY(-0.08em) scale(1, 1)" },
+          "100%": { "opacity": "1", "transform": "translateY(0) scale(1, 1)" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-bounce": { "animation": "none", "opacity": "1", "transform": "none" } }
       }
@@ -919,9 +960,11 @@
       "cssVars": { "theme": { "--animate-trickle-spin-in": "trickle-spin-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both" } },
       "css": {
         "@keyframes trickle-spin-in": {
-          "0%": { "opacity": "0", "transform": "rotateY(90deg) scale(0.7)" },
-          "60%": { "opacity": "1", "transform": "rotateY(-10deg) scale(1.05)" },
-          "100%": { "opacity": "1", "transform": "rotateY(0) scale(1)" }
+          "0%": { "opacity": "0", "transform": "rotate(-720deg) scale(0)" },
+          "35%": { "opacity": "1" },
+          "70%": { "opacity": "1", "transform": "rotate(20deg) scale(1.12)" },
+          "85%": { "transform": "rotate(-8deg) scale(1.02)" },
+          "100%": { "opacity": "1", "transform": "rotate(0) scale(1)" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-spin-in": { "animation": "none", "opacity": "1", "transform": "none" } }
       }
@@ -936,9 +979,9 @@
       "css": {
         ".animate-trickle-shutter": { "--trickle-shutter-bars": "8" },
         "@keyframes trickle-shutter": {
-          "0%": { "-webkit-mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))", "mask-image": "repeating-linear-gradient(to right, black 0, black calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8) / 2), transparent calc(100% / var(--trickle-shutter-bars, 8)))", "opacity": "0", "transform": "scaleY(0.4)" },
-          "40%": { "opacity": "1", "transform": "scaleY(1)" },
-          "100%": { "-webkit-mask-image": "linear-gradient(black, black)", "mask-image": "linear-gradient(black, black)", "opacity": "1", "transform": "scaleY(1)" }
+          "0%": { "-webkit-mask-size": "calc(100% / var(--trickle-shutter-bars, 8)) 100%", "mask-size": "calc(100% / var(--trickle-shutter-bars, 8)) 100%", "opacity": "0", "transform": "scaleY(0.4)" },
+          "40%": { "-webkit-mask-size": "calc(150% / var(--trickle-shutter-bars, 8)) 100%", "mask-size": "calc(150% / var(--trickle-shutter-bars, 8)) 100%", "opacity": "1", "transform": "scaleY(1)" },
+          "100%": { "-webkit-mask-size": "200% 100%", "mask-size": "200% 100%", "opacity": "1", "transform": "scaleY(1)" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-shutter": { "animation": "none", "opacity": "1", "transform": "none", "-webkit-mask-image": "none", "mask-image": "none" } }
       }
@@ -971,10 +1014,14 @@
       "cssVars": { "theme": { "--animate-trickle-compress": "trickle-compress 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
       "css": {
         "@keyframes trickle-compress": {
-          "0%": { "opacity": "0", "transform": "scaleY(0.05) scaleX(1.4)" },
-          "50%": { "opacity": "1", "transform": "scaleY(1.15) scaleX(0.92)" },
-          "75%": { "transform": "scaleY(0.96) scaleX(1.02)" },
-          "100%": { "opacity": "1", "transform": "scaleY(1) scaleX(1)" }
+          "/* Hydraulic-press feel: text drops in tall, gets slammed flat, held compressed,\n     then springs back to normal with diminishing rebound. */\n  0%": { "opacity": "0", "transform": "scaleY(1.6) scaleX(0.78) translateY(-0.25em)", "animation-timing-function": "cubic-bezier(0.4, 0, 1, 0.4)" },
+          "18%": { "opacity": "1", "transform": "scaleY(1.6) scaleX(0.78) translateY(0)", "animation-timing-function": "cubic-bezier(0.7, 0, 0.4, 1)" },
+          "35%": { "transform": "scaleY(0.08) scaleX(1.45) translateY(0)", "animation-timing-function": "linear" },
+          "50%": { "transform": "scaleY(0.08) scaleX(1.45) translateY(0)", "animation-timing-function": "cubic-bezier(0.2, 0.6, 0.4, 1)" },
+          "68%": { "transform": "scaleY(1.28) scaleX(0.88) translateY(0)" },
+          "82%": { "transform": "scaleY(0.94) scaleX(1.04) translateY(0)" },
+          "92%": { "transform": "scaleY(1.03) scaleX(0.99) translateY(0)" },
+          "100%": { "opacity": "1", "transform": "scaleY(1) scaleX(1) translateY(0)" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-compress": { "animation": "none", "opacity": "1", "transform": "none" } }
       }
@@ -987,11 +1034,18 @@
       "files": [{ "path": "registry/default/carousel-flip/carousel-flip.tsx", "type": "registry:ui", "target": "components/trickle/carousel-flip.tsx" }],
       "cssVars": { "theme": { "--animate-trickle-carousel-flip": "trickle-carousel-flip 0.8s cubic-bezier(0.16, 1, 0.3, 1) both" } },
       "css": {
+        ".trickle-carousel-char": {
+          "animation-name": "trickle-carousel-flip",
+          "animation-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "animation-fill-mode": "forwards"
+        },
         "@keyframes trickle-carousel-flip": {
-          "0%": { "opacity": "0", "transform": "rotateX(90deg) translateY(-0.4em)" },
-          "60%": { "opacity": "1", "transform": "rotateX(-12deg) translateY(0)" },
-          "80%": { "transform": "rotateX(4deg)" },
-          "100%": { "opacity": "1", "transform": "rotateX(0) translateY(0)" }
+          "0%": { "transform": "translateX(-50%) translateX(0em) rotateY(var(--char-angle, 0deg)) translateZ(var(--char-radius, 0em))" },
+          "20%": { "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 360deg)) translateZ(var(--char-radius, 0em))" },
+          "40%": { "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 720deg)) translateZ(var(--char-radius, 0em))" },
+          "60%": { "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 1080deg)) translateZ(var(--char-radius, 0em))" },
+          "85%": { "transform": "translateX(-50%) translateX(var(--char-x, 0em)) rotateY(-25deg) translateZ(0em)" },
+          "100%": { "transform": "translateX(-50%) translateX(var(--char-x, 0em)) rotateY(0deg) translateZ(0em)" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-carousel-flip": { "animation": "none", "opacity": "1", "transform": "none" } }
       }
@@ -1019,8 +1073,20 @@
       "files": [{ "path": "registry/default/tear/tear.tsx", "type": "registry:ui", "target": "components/trickle/tear.tsx" }],
       "cssVars": { "theme": { "--animate-trickle-tear-top": "trickle-tear-top 1.2s cubic-bezier(0.16, 1, 0.3, 1) both", "--animate-trickle-tear-bottom": "trickle-tear-bottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) both" } },
       "css": {
-        "@keyframes trickle-tear-top": { "0%": { "opacity": "0", "clip-path": "polygon(0 0, 100% 0, 100% 50%, 75% 56%, 50% 50%, 25% 56%, 0 50%)", "transform": "translateY(-0.6em) rotate(-2deg)" }, "60%": { "opacity": "1", "transform": "translateY(0.05em) rotate(0.5deg)" }, "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) rotate(0)" } },
-        "@keyframes trickle-tear-bottom": { "0%": { "opacity": "0", "clip-path": "polygon(0 50%, 25% 44%, 50% 50%, 75% 44%, 100% 50%, 100% 100%, 0 100%)", "transform": "translateY(0.6em) rotate(2deg)" }, "60%": { "opacity": "1", "transform": "translateY(-0.05em) rotate(-0.5deg)" }, "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) rotate(0)" } },
+        "@keyframes trickle-tear-top": {
+          "0%": { "opacity": "0", "clip-path": "polygon(0 0, 100% 0, 100% 60%, 78% 36%, 60% 56%, 38% 32%, 18% 54%, 0 38%)", "transform": "translateY(-1.4em) translateX(-0.15em) rotate(-5deg)" },
+          "35%": { "opacity": "0.4", "transform": "translateY(-0.7em) translateX(-0.06em) rotate(-3deg)" },
+          "65%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 55%, 75% 50%, 50% 53%, 25% 50%, 0 55%)", "transform": "translateY(0.12em) rotate(0.8deg)" },
+          "85%": { "transform": "translateY(-0.04em) rotate(-0.3deg)" },
+          "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) translateX(0) rotate(0)" }
+        },
+        "@keyframes trickle-tear-bottom": {
+          "0%": { "opacity": "0", "clip-path": "polygon(0 40%, 18% 56%, 38% 30%, 60% 54%, 78% 32%, 100% 56%, 100% 100%, 0 100%)", "transform": "translateY(1.4em) translateX(0.15em) rotate(5deg)" },
+          "35%": { "opacity": "0.4", "transform": "translateY(0.7em) translateX(0.06em) rotate(3deg)" },
+          "65%": { "opacity": "1", "clip-path": "polygon(0 50%, 25% 50%, 50% 53%, 75% 50%, 100% 55%, 100% 100%, 0 100%)", "transform": "translateY(-0.12em) rotate(-0.8deg)" },
+          "85%": { "transform": "translateY(0.04em) rotate(0.3deg)" },
+          "100%": { "opacity": "1", "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0 100%)", "transform": "translateY(0) translateX(0) rotate(0)" }
+        },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-tear-top, .animate-trickle-tear-bottom": { "animation": "none", "opacity": "1", "clip-path": "none", "transform": "none" } }
       }
     },
@@ -1045,7 +1111,10 @@
       "files": [{ "path": "registry/default/phase/phase.tsx", "type": "registry:ui", "target": "components/trickle/phase.tsx" }],
       "cssVars": { "theme": { "--animate-trickle-phase": "trickle-phase 2.4s ease-in-out infinite" } },
       "css": {
-        "@keyframes trickle-phase": { "0%, 100%": { "filter": "brightness(1)", "opacity": "1" }, "50%": { "filter": "brightness(var(--trickle-phase-min, 0.75))", "opacity": "calc(var(--trickle-phase-min, 0.75) + 0.05)" } },
+        "@keyframes trickle-phase": {
+          "0%, 100%": { "opacity": "1", "filter": "blur(0px)", "transform": "translateX(0)" },
+          "50%": { "opacity": "var(--trickle-phase-min, 0.15)", "filter": "blur(calc(var(--trickle-phase-blur, 1) * 2px))", "transform": "translateX(calc(var(--trickle-phase-slip, 1) * 0.05em))" }
+        },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-phase": { "animation": "none", "filter": "none", "opacity": "1" } }
       }
     },
@@ -1058,9 +1127,9 @@
       "cssVars": { "theme": { "--animate-trickle-mosaic": "trickle-mosaic 1.5s cubic-bezier(0.4, 0, 0.2, 1) both" } },
       "css": {
         "@keyframes trickle-mosaic": {
-          "0%": { "-webkit-mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)", "mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)", "-webkit-mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)", "mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)", "opacity": "0", "filter": "blur(2px)" },
-          "40%": { "opacity": "1", "filter": "blur(1px)" },
-          "100%": { "-webkit-mask-image": "linear-gradient(black, black)", "mask-image": "linear-gradient(black, black)", "-webkit-mask-size": "100% 100%", "mask-size": "100% 100%", "opacity": "1", "filter": "blur(0)" }
+          "0%": { "-webkit-mask-size": "var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px)", "mask-size": "var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px)", "opacity": "0" },
+          "20%": { "opacity": "1" },
+          "100%": { "-webkit-mask-size": "500% 500%, 500% 500%", "mask-size": "500% 500%, 500% 500%", "opacity": "1" }
         },
         "@media (prefers-reduced-motion: reduce)": { ".animate-trickle-mosaic": { "animation": "none", "-webkit-mask-image": "none", "mask-image": "none", "filter": "none", "opacity": "1" } }
       }
@@ -1076,10 +1145,9 @@
       "cssVars": { "theme": { "--animate-trickle-pixelate": "trickle-pixelate 1.4s cubic-bezier(0.5, 0, 0.2, 1) both" } },
       "css": {
         "@keyframes trickle-pixelate": {
-          "0%": { "filter": "blur(10px) contrast(1.4) brightness(0.8)", "letter-spacing": "0.15em", "opacity": "0" },
-          "30%": { "filter": "blur(8px) contrast(1.3)", "opacity": "0.6" },
-          "60%": { "filter": "blur(3px) contrast(1.1)", "letter-spacing": "0.02em", "opacity": "0.95" },
-          "100%": { "filter": "blur(0) contrast(1)", "letter-spacing": "0", "opacity": "1" }
+          "0%": { "-webkit-mask-size": "4px 4px, 4px 4px", "mask-size": "4px 4px, 4px 4px", "opacity": "0" },
+          "20%": { "opacity": "1" },
+          "100%": { "-webkit-mask-size": "400% 400%, 400% 400%", "mask-size": "400% 400%, 400% 400%", "opacity": "1" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-pixelate": { "animation": "none", "filter": "none", "opacity": "1", "letter-spacing": "0" }
@@ -1129,22 +1197,32 @@
       "name": "grain",
       "type": "registry:ui",
       "title": "Grain",
-      "description": "Film-grain noise overlay via SVG turbulence. Subtle infinite shimmer.",
+      "description": "Radial dot mask dissolve — the word forms out of a field of dots.",
       "files": [
         { "path": "registry/default/grain/grain.tsx", "type": "registry:ui", "target": "components/trickle/grain.tsx" }
       ],
+      "cssVars": {
+        "theme": {
+          "--animate-trickle-grain-dissolve": "trickle-grain-dissolve 1.6s cubic-bezier(0.4, 0, 0.2, 1) both"
+        }
+      },
       "css": {
-        ".trickle-grain": { "isolation": "isolate" },
-        "@keyframes trickle-grain-shift": {
-          "0%": { "transform": "translate(0, 0)" },
-          "20%": { "transform": "translate(-8%, 4%)" },
-          "40%": { "transform": "translate(6%, -6%)" },
-          "60%": { "transform": "translate(-4%, -8%)" },
-          "80%": { "transform": "translate(8%, 6%)" },
-          "100%": { "transform": "translate(0, 0)" }
+        ".animate-trickle-grain-dissolve": {
+          "-webkit-mask-image": "radial-gradient(circle at center, black 35%, transparent 75%)",
+          "mask-image": "radial-gradient(circle at center, black 35%, transparent 75%)",
+          "-webkit-mask-repeat": "repeat",
+          "mask-repeat": "repeat",
+          "-webkit-mask-position": "center center",
+          "mask-position": "center center"
+        },
+        "@keyframes trickle-grain-dissolve": {
+          "0%": { "-webkit-mask-size": "var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px)", "mask-size": "var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px)", "opacity": "0", "filter": "blur(0.4px)" },
+          "20%": { "opacity": "1", "filter": "blur(0.4px)" },
+          "60%": { "-webkit-mask-size": "60% 60%", "mask-size": "60% 60%", "opacity": "1", "filter": "blur(0.2px)" },
+          "100%": { "-webkit-mask-size": "800% 800%", "mask-size": "800% 800%", "opacity": "1", "filter": "blur(0)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
-          ".trickle-grain::after": { "animation": "none" }
+          ".animate-trickle-grain-dissolve": { "animation": "none", "-webkit-mask-image": "none", "mask-image": "none" }
         }
       }
     },
@@ -1159,10 +1237,13 @@
       "cssVars": { "theme": { "--animate-trickle-wireframe": "trickle-wireframe 1.6s cubic-bezier(0.65, 0, 0.35, 1) both" } },
       "css": {
         "@keyframes trickle-wireframe": {
-          "0%": { "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor", "color": "transparent", "letter-spacing": "0.08em", "opacity": "0" },
-          "20%": { "opacity": "1" },
-          "60%": { "-webkit-text-stroke": "var(--trickle-wireframe-stroke, 1px) currentColor", "color": "transparent", "letter-spacing": "0" },
-          "100%": { "-webkit-text-stroke": "0 currentColor", "color": "currentColor", "letter-spacing": "0", "opacity": "1" }
+          "0%": { "-webkit-text-stroke-width": "var(--trickle-wireframe-stroke, 3px)", "color": "transparent", "transform": "translateY(-0.45em) scale(1.18)", "opacity": "0", "clip-path": "inset(0 100% 0 0)" },
+          "10%": { "-webkit-text-stroke-width": "var(--trickle-wireframe-stroke, 3px)", "color": "transparent", "transform": "translateY(-0.2em) scale(1.1)", "opacity": "1", "clip-path": "inset(0 60% 0 0)" },
+          "25%": { "-webkit-text-stroke-width": "var(--trickle-wireframe-stroke, 3px)", "color": "transparent", "transform": "translateY(0) scale(1)", "opacity": "1", "clip-path": "inset(0 0 0 0)" },
+          "45%": { "-webkit-text-stroke-width": "calc(var(--trickle-wireframe-stroke, 3px) * 0.55)", "color": "transparent", "transform": "translateY(0) scale(1)", "opacity": "1", "clip-path": "inset(0 0 0 0)" },
+          "68%": { "-webkit-text-stroke-width": "calc(var(--trickle-wireframe-stroke, 3px) * 0.2)", "color": "transparent", "transform": "translateY(0) scale(1)", "opacity": "1", "clip-path": "inset(0 0 0 0)" },
+          "85%": { "-webkit-text-stroke-width": "0", "color": "color-mix(in oklab, var(--foreground) 60%, transparent)", "transform": "translateY(0) scale(1)", "opacity": "1", "clip-path": "inset(0 0 0 0)" },
+          "100%": { "-webkit-text-stroke-width": "0", "color": "var(--foreground)", "transform": "translateY(0) scale(1)", "opacity": "1", "clip-path": "inset(0 0 0 0)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-wireframe": { "animation": "none", "color": "currentColor", "-webkit-text-stroke": "0", "opacity": "1" }
@@ -1180,25 +1261,14 @@
       "cssVars": { "theme": { "--animate-trickle-halftone": "trickle-halftone 1.4s cubic-bezier(0.4, 0, 0.2, 1) both" } },
       "css": {
         "@keyframes trickle-halftone": {
-          "0%": {
-            "-webkit-mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
-            "mask-image": "radial-gradient(circle at center, black 0%, transparent 40%)",
-            "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
-            "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)",
-            "-webkit-mask-repeat": "round",
-            "mask-repeat": "round",
-            "filter": "contrast(1.3)",
-            "opacity": "0"
-          },
-          "40%": { "opacity": "1", "filter": "contrast(1.15)" },
-          "100%": {
-            "-webkit-mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
-            "mask-image": "radial-gradient(circle at center, black 100%, transparent 100%)",
-            "-webkit-mask-size": "100% 100%",
-            "mask-size": "100% 100%",
-            "filter": "contrast(1)",
-            "opacity": "1"
-          }
+          "/* Dots appear small, then PULSE at increasing amplitudes (like a heart-beat\n     building up), then quickly grow huge to merge into the solid letters. */\n  0%": { "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)", "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)", "opacity": "0", "filter": "contrast(1.4)" },
+          "10%": { "opacity": "1", "filter": "contrast(1.3)" },
+          "18%": { "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6)", "mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.6) calc(var(--trickle-halftone-size, 6px) * 1.6)" },
+          "28%": { "-webkit-mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)", "mask-size": "var(--trickle-halftone-size, 6px) var(--trickle-halftone-size, 6px)" },
+          "40%": { "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2)", "mask-size": "calc(var(--trickle-halftone-size, 6px) * 2.2) calc(var(--trickle-halftone-size, 6px) * 2.2)", "filter": "contrast(1.15)" },
+          "52%": { "-webkit-mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4)", "mask-size": "calc(var(--trickle-halftone-size, 6px) * 1.4) calc(var(--trickle-halftone-size, 6px) * 1.4)" },
+          "68%": { "-webkit-mask-size": "80px 80px", "mask-size": "80px 80px", "filter": "contrast(1.05)" },
+          "100%": { "-webkit-mask-size": "800% 800%", "mask-size": "800% 800%", "filter": "contrast(1)", "opacity": "1" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-halftone": { "animation": "none", "-webkit-mask-image": "none", "mask-image": "none", "filter": "none", "opacity": "1" }
@@ -1243,9 +1313,9 @@
       "cssVars": { "theme": { "--animate-trickle-stretch": "trickle-stretch 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both" } },
       "css": {
         "@keyframes trickle-stretch": {
-          "0%": { "opacity": "0", "transform": "scaleX(0.2) scaleY(1.4)" },
-          "60%": { "opacity": "1", "transform": "scaleX(1.1) scaleY(0.95)" },
-          "100%": { "opacity": "1", "transform": "scaleX(1) scaleY(1)" }
+          "0%": { "opacity": "0", "transform": "scaleX(0.3)", "letter-spacing": "0.4em" },
+          "60%": { "opacity": "1", "transform": "scaleX(1.4)", "letter-spacing": "0" },
+          "100%": { "opacity": "1", "transform": "scaleX(1)", "letter-spacing": "0" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-stretch": { "animation": "none", "opacity": "1", "transform": "none" }
@@ -1267,8 +1337,10 @@
       "cssVars": { "theme": { "--animate-trickle-wobble-3d": "trickle-wobble-3d 2.4s ease-in-out infinite" } },
       "css": {
         "@keyframes trickle-wobble-3d": {
-          "0%, 100%": { "transform": "rotateY(0deg)" },
-          "50%": { "transform": "rotateY(40deg)" }
+          "0%, 100%": { "transform": "rotateY(0deg) rotateX(0deg)" },
+          "25%": { "transform": "rotateY(70deg) rotateX(-12deg)" },
+          "50%": { "transform": "rotateY(0deg) rotateX(0deg)" },
+          "75%": { "transform": "rotateY(-70deg) rotateX(12deg)" }
         },
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-trickle-wobble-3d": { "animation": "none", "transform": "none" }

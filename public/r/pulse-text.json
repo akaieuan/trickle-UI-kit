@@ -17,14 +17,41 @@
     }
   },
   "css": {
+    ".trickle-pulse-text[data-trickle-pulse-rings='true']::before, .trickle-pulse-text[data-trickle-pulse-rings='true']::after": {
+      "content": "''",
+      "position": "absolute",
+      "inset": "-0.18em -0.4em",
+      "border": "1.5px solid currentColor",
+      "border-radius": "0.5em",
+      "pointer-events": "none",
+      "opacity": "0"
+    },
+    ".trickle-pulse-text[data-trickle-pulse-rings='true']::before": {
+      "animation": "trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite"
+    },
+    ".trickle-pulse-text[data-trickle-pulse-rings='true']::after": {
+      "animation": "trickle-pulse-ring var(--trickle-pulse-duration, 1800ms) cubic-bezier(0, 0, 0.4, 1) infinite",
+      "animation-delay": "calc(var(--trickle-pulse-duration, 1800ms) * 0.5)"
+    },
     "@keyframes trickle-pulse-text": {
       "0%, 100%": {
-        "transform": "scale(1)",
-        "opacity": "1"
+        "transform": "scale(1)"
       },
       "50%": {
-        "transform": "scale(1.06)",
-        "opacity": "0.85"
+        "transform": "scale(1.06)"
+      }
+    },
+    "@keyframes trickle-pulse-ring": {
+      "0%": {
+        "transform": "scale(0.85)",
+        "opacity": "0"
+      },
+      "18%": {
+        "opacity": "0.6"
+      },
+      "100%": {
+        "transform": "scale(1.6)",
+        "opacity": "0"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {
@@ -32,6 +59,9 @@
         "animation": "none",
         "transform": "none",
         "opacity": "1"
+      },
+      ".trickle-pulse-text[data-trickle-pulse-rings='true']::before, .trickle-pulse-text[data-trickle-pulse-rings='true']::after": {
+        "animation": "none"
       }
     }
   },

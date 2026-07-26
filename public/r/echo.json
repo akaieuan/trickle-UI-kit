@@ -19,12 +19,19 @@
   "css": {
     "@keyframes trickle-echo": {
       "0%": {
+        "opacity": "0",
+        "transform": "translate(0, 0) scale(0.92)",
+        "filter": "blur(0)"
+      },
+      "15%": {
         "opacity": "var(--trickle-echo-opacity, 0.5)",
-        "transform": "translate(0, 0)"
+        "transform": "translate(calc(var(--trickle-echo-x, 12px) * 0.08), 0) scale(0.96)",
+        "filter": "blur(0)"
       },
       "100%": {
         "opacity": "0",
-        "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0))"
+        "transform": "translate(var(--trickle-echo-x, 12px), var(--trickle-echo-y, 0)) scale(var(--trickle-echo-scale, 1.4))",
+        "filter": "blur(4px)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

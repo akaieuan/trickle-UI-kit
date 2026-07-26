@@ -20,18 +20,37 @@
     "@keyframes trickle-stamp": {
       "0%": {
         "opacity": "0",
-        "transform": "scale(2.2) rotate(0)"
+        "transform": "scale(3) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.2))",
+        "filter": "blur(6px)",
+        "animation-timing-function": "cubic-bezier(0.5, 0, 1, 0.4)"
+      },
+      "35%": {
+        "opacity": "1",
+        "transform": "scale(1.6) rotate(calc(var(--trickle-stamp-rotation, -6deg) * 0.4))",
+        "filter": "blur(2px)",
+        "animation-timing-function": "cubic-bezier(0.7, 0, 0.3, 1)"
+      },
+      "50%": {
+        "opacity": "1",
+        "transform": "scale(0.85) rotate(var(--trickle-stamp-rotation, -6deg))",
+        "filter": "blur(0)"
       },
       "60%": {
-        "opacity": "1",
-        "transform": "scale(0.92) rotate(var(--trickle-stamp-rotation, -6deg))"
+        "transform": "scale(0.85) translate(0.06em, 0.04em) rotate(var(--trickle-stamp-rotation, -6deg))"
       },
-      "80%": {
-        "transform": "scale(1.04) rotate(var(--trickle-stamp-rotation, -6deg))"
+      "68%": {
+        "transform": "scale(0.85) translate(-0.04em, -0.02em) rotate(var(--trickle-stamp-rotation, -6deg))"
+      },
+      "78%": {
+        "transform": "scale(1.06) rotate(var(--trickle-stamp-rotation, -6deg))"
+      },
+      "90%": {
+        "transform": "scale(0.98) rotate(var(--trickle-stamp-rotation, -6deg))"
       },
       "100%": {
         "opacity": "1",
-        "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))"
+        "transform": "scale(1) rotate(var(--trickle-stamp-rotation, -6deg))",
+        "filter": "blur(0)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

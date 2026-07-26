@@ -6,15 +6,15 @@
   "files": [
     {
       "path": "registry/default/glitch-split/glitch-split.tsx",
-      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface GlitchSplitProps {\n  children: string;\n  /** RGB-split colors as [red-channel, blue-channel]. Default cyan + magenta. */\n  colors?: [string, string];\n  /** Trigger source: `loop` (default) or `hover`. */\n  trigger?: 'loop' | 'hover';\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function GlitchSplit({\n  children,\n  colors = ['oklch(75% 0.22 200)', 'oklch(70% 0.27 320)'],\n  trigger = 'loop',\n  as: Component = 'span',\n  className\n}: GlitchSplitProps) {\n  const [a, b] = colors;\n\n  return (\n    <Component\n      data-text={children}\n      className={cn(\n        'trickle-glitch-split relative inline-block',\n        trigger === 'loop' && 'trickle-glitch-loop',\n        className\n      )}\n      style={\n        {\n          ['--trickle-glitch-a' as string]: a,\n          ['--trickle-glitch-b' as string]: b\n        } as CSSProperties\n      }\n    >\n      {children}\n    </Component>\n  );\n}\n",
+      "content": "import { type ElementType, type CSSProperties } from 'react';\nimport { cn } from '@/lib/cn';\n\nexport interface GlitchSplitProps {\n  children: string;\n  /** RGB-split colors as [red-channel, blue-channel]. Default cyan + magenta. */\n  colors?: [string, string];\n  /** Trigger source: `loop` (default) or `hover`. */\n  trigger?: 'loop' | 'hover';\n  /** Full glitch cycle duration in ms. Default 2400. */\n  duration?: number;\n  /** Slice displacement multiplier. 0 = no shift, 3 = violent. Default 1. */\n  offset?: number;\n  /** Element tag. */\n  as?: ElementType;\n  className?: string;\n}\n\nexport function GlitchSplit({\n  children,\n  colors = ['oklch(75% 0.22 200)', 'oklch(70% 0.27 320)'],\n  trigger = 'loop',\n  duration = 2400,\n  offset = 1,\n  as: Component = 'span',\n  className\n}: GlitchSplitProps) {\n  const [a, b] = colors;\n\n  return (\n    <Component\n      data-text={children}\n      className={cn(\n        'trickle-glitch-split relative inline-block',\n        trigger === 'loop' && 'trickle-glitch-loop',\n        className\n      )}\n      style={\n        {\n          ['--trickle-glitch-a' as string]: a,\n          ['--trickle-glitch-b' as string]: b,\n          // Pseudo-elements inherit these from the host element, so the\n          // keyframes below can scale their displacement and timing.\n          ['--trickle-glitch-duration' as string]: `${duration}ms`,\n          ['--trickle-glitch-offset' as string]: `${offset}`\n        } as CSSProperties\n      }\n    >\n      {children}\n    </Component>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/trickle/glitch-split.tsx"
     }
   ],
   "cssVars": {
     "theme": {
-      "--animate-trickle-glitch-a": "trickle-glitch-a 3s steps(1) infinite",
-      "--animate-trickle-glitch-b": "trickle-glitch-b 3s steps(1) infinite"
+      "--animate-trickle-glitch-a": "trickle-glitch-a 2.4s steps(1) infinite",
+      "--animate-trickle-glitch-b": "trickle-glitch-b 2.4s steps(1) infinite"
     }
   },
   "css": {
@@ -23,90 +23,85 @@
       "position": "absolute",
       "inset": "0",
       "pointer-events": "none",
-      "opacity": "0"
-    },
-    ".trickle-glitch-split::before": {
-      "color": "var(--trickle-glitch-a, oklch(75% 0.22 200))"
-    },
-    ".trickle-glitch-split::after": {
-      "color": "var(--trickle-glitch-b, oklch(70% 0.27 320))"
+      "color": "inherit",
+      "background": "inherit"
     },
     ".trickle-glitch-loop::before": {
-      "animation": "trickle-glitch-a 3s steps(1) infinite"
+      "animation": "trickle-glitch-a var(--trickle-glitch-duration, 2.4s) steps(1) infinite"
     },
     ".trickle-glitch-loop::after": {
-      "animation": "trickle-glitch-b 3s steps(1) infinite"
+      "animation": "trickle-glitch-b var(--trickle-glitch-duration, 2.4s) steps(1) infinite"
     },
     ".trickle-glitch-split:hover::before": {
-      "animation": "trickle-glitch-a 0.4s steps(1) 1"
+      "animation": "trickle-glitch-a 0.5s steps(1) 1"
     },
     ".trickle-glitch-split:hover::after": {
-      "animation": "trickle-glitch-b 0.4s steps(1) 1"
+      "animation": "trickle-glitch-b 0.5s steps(1) 1"
     },
     "@keyframes trickle-glitch-a": {
-      "0%, 89%, 100%": {
-        "opacity": "0",
-        "transform": "translate(0, 0)",
-        "clip-path": "inset(0)"
+      "0%, 8%, 18%, 100%": {
+        "transform": "translateX(0)",
+        "clip-path": "inset(0 0 100% 0)"
       },
-      "90%": {
-        "opacity": "1",
-        "transform": "translate(-2px, 0)",
-        "clip-path": "inset(20% 0 60% 0)"
+      "10%, 12%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -6px))",
+        "clip-path": "inset(15% 0 70% 0)"
       },
-      "92%": {
-        "opacity": "1",
-        "transform": "translate(2px, -1px)",
-        "clip-path": "inset(60% 0 10% 0)"
+      "14%, 16%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 4px))",
+        "clip-path": "inset(40% 0 45% 0)"
       },
-      "94%": {
-        "opacity": "1",
-        "transform": "translate(-1px, 1px)",
-        "clip-path": "inset(40% 0 30% 0)"
+      "35%, 38%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -8px))",
+        "clip-path": "inset(55% 0 30% 0)"
       },
-      "96%": {
-        "opacity": "0"
+      "40%, 42%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 3px))",
+        "clip-path": "inset(75% 0 12% 0)"
       },
-      "98%": {
-        "opacity": "1",
-        "transform": "translate(1px, 0)",
-        "clip-path": "inset(10% 0 70% 0)"
+      "68%, 70%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -5px))",
+        "clip-path": "inset(8% 0 80% 0)"
+      },
+      "72%, 74%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 2px))",
+        "clip-path": "inset(50% 0 38% 0)"
       }
     },
     "@keyframes trickle-glitch-b": {
-      "0%, 89%, 100%": {
-        "opacity": "0",
-        "transform": "translate(0, 0)",
-        "clip-path": "inset(0)"
+      "0%, 8%, 18%, 100%": {
+        "transform": "translateX(0)",
+        "clip-path": "inset(100% 0 0 0)"
       },
-      "90%": {
-        "opacity": "1",
-        "transform": "translate(2px, 1px)",
-        "clip-path": "inset(60% 0 20% 0)"
+      "10%, 12%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 5px))",
+        "clip-path": "inset(60% 0 25% 0)"
       },
-      "92%": {
-        "opacity": "1",
-        "transform": "translate(-2px, 0)",
-        "clip-path": "inset(10% 0 70% 0)"
+      "14%, 16%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -3px))",
+        "clip-path": "inset(28% 0 55% 0)"
       },
-      "94%": {
-        "opacity": "1",
-        "transform": "translate(1px, -1px)",
-        "clip-path": "inset(50% 0 30% 0)"
+      "35%, 38%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 7px))",
+        "clip-path": "inset(20% 0 65% 0)"
       },
-      "96%": {
-        "opacity": "0"
+      "40%, 42%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -4px))",
+        "clip-path": "inset(82% 0 5% 0)"
       },
-      "98%": {
-        "opacity": "1",
-        "transform": "translate(-1px, 0)",
-        "clip-path": "inset(70% 0 10% 0)"
+      "68%, 70%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * 6px))",
+        "clip-path": "inset(38% 0 50% 0)"
+      },
+      "72%, 74%": {
+        "transform": "translateX(calc(var(--trickle-glitch-offset, 1) * -2px))",
+        "clip-path": "inset(70% 0 18% 0)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {
-      ".trickle-glitch-loop::before, .trickle-glitch-loop::after, .trickle-glitch-split:hover::before, .trickle-glitch-split:hover::after": {
+      ".trickle-glitch-split::before, .trickle-glitch-split::after": {
         "animation": "none",
-        "opacity": "0"
+        "display": "none"
       }
     }
   },

@@ -18,13 +18,19 @@
   },
   "css": {
     "@keyframes trickle-ink-bleed": {
-      "from": {
-        "-webkit-mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)",
-        "mask-image": "radial-gradient(circle at 0% 50%, black 0%, transparent 0%)"
+      "0%": {
+        "opacity": "0",
+        "filter": "blur(8px)",
+        "clip-path": "circle(0% at var(--trickle-ink-origin, 50% 50%))"
       },
-      "to": {
-        "-webkit-mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)",
-        "mask-image": "radial-gradient(circle at 50% 50%, black 100%, transparent 130%)"
+      "60%": {
+        "opacity": "1",
+        "filter": "blur(2px)"
+      },
+      "100%": {
+        "opacity": "1",
+        "filter": "blur(0)",
+        "clip-path": "circle(120% at var(--trickle-ink-origin, 50% 50%))"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

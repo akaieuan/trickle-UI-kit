@@ -20,21 +20,36 @@
     "@keyframes trickle-bounce": {
       "0%": {
         "opacity": "0",
-        "transform": "translateY(-1.2em) scale(0.6)"
+        "transform": "translateY(-1.4em) scale(0.7, 1.1)",
+        "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)"
       },
-      "50%": {
+      "25%": {
         "opacity": "1",
-        "transform": "translateY(0.15em) scale(1.05)"
+        "transform": "translateY(0) scale(1.15, 0.85)",
+        "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)"
       },
-      "70%": {
-        "transform": "translateY(-0.05em) scale(0.98)"
+      "45%": {
+        "transform": "translateY(-0.55em) scale(0.95, 1.05)",
+        "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)"
+      },
+      "60%": {
+        "transform": "translateY(0) scale(1.08, 0.92)",
+        "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)"
+      },
+      "75%": {
+        "transform": "translateY(-0.22em) scale(0.98, 1.02)",
+        "animation-timing-function": "cubic-bezier(0.55, 0, 1, 0.45)"
       },
       "85%": {
-        "transform": "translateY(0.02em) scale(1.01)"
+        "transform": "translateY(0) scale(1.04, 0.96)",
+        "animation-timing-function": "cubic-bezier(0, 0.55, 0.45, 1)"
+      },
+      "93%": {
+        "transform": "translateY(-0.08em) scale(1, 1)"
       },
       "100%": {
         "opacity": "1",
-        "transform": "translateY(0) scale(1)"
+        "transform": "translateY(0) scale(1, 1)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

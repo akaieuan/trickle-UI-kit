@@ -18,20 +18,36 @@
   },
   "css": {
     "@keyframes trickle-compress": {
-      "0%": {
+      "/* Hydraulic-press feel: text drops in tall, gets slammed flat, held compressed,\n     then springs back to normal with diminishing rebound. */\n  0%": {
         "opacity": "0",
-        "transform": "scaleY(0.05) scaleX(1.4)"
+        "transform": "scaleY(1.6) scaleX(0.78) translateY(-0.25em)",
+        "animation-timing-function": "cubic-bezier(0.4, 0, 1, 0.4)"
+      },
+      "18%": {
+        "opacity": "1",
+        "transform": "scaleY(1.6) scaleX(0.78) translateY(0)",
+        "animation-timing-function": "cubic-bezier(0.7, 0, 0.4, 1)"
+      },
+      "35%": {
+        "transform": "scaleY(0.08) scaleX(1.45) translateY(0)",
+        "animation-timing-function": "linear"
       },
       "50%": {
-        "opacity": "1",
-        "transform": "scaleY(1.15) scaleX(0.92)"
+        "transform": "scaleY(0.08) scaleX(1.45) translateY(0)",
+        "animation-timing-function": "cubic-bezier(0.2, 0.6, 0.4, 1)"
       },
-      "75%": {
-        "transform": "scaleY(0.96) scaleX(1.02)"
+      "68%": {
+        "transform": "scaleY(1.28) scaleX(0.88) translateY(0)"
+      },
+      "82%": {
+        "transform": "scaleY(0.94) scaleX(1.04) translateY(0)"
+      },
+      "92%": {
+        "transform": "scaleY(1.03) scaleX(0.99) translateY(0)"
       },
       "100%": {
         "opacity": "1",
-        "transform": "scaleY(1) scaleX(1)"
+        "transform": "scaleY(1) scaleX(1) translateY(0)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

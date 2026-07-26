@@ -20,15 +20,21 @@
     "@keyframes trickle-spin-in": {
       "0%": {
         "opacity": "0",
-        "transform": "rotateY(90deg) scale(0.7)"
+        "transform": "rotate(-720deg) scale(0)"
       },
-      "60%": {
+      "35%": {
+        "opacity": "1"
+      },
+      "70%": {
         "opacity": "1",
-        "transform": "rotateY(-10deg) scale(1.05)"
+        "transform": "rotate(20deg) scale(1.12)"
+      },
+      "85%": {
+        "transform": "rotate(-8deg) scale(1.02)"
       },
       "100%": {
         "opacity": "1",
-        "transform": "rotateY(0) scale(1)"
+        "transform": "rotate(0) scale(1)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

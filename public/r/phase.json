@@ -19,12 +19,14 @@
   "css": {
     "@keyframes trickle-phase": {
       "0%, 100%": {
-        "filter": "brightness(1)",
-        "opacity": "1"
+        "opacity": "1",
+        "filter": "blur(0px)",
+        "transform": "translateX(0)"
       },
       "50%": {
-        "filter": "brightness(var(--trickle-phase-min, 0.75))",
-        "opacity": "calc(var(--trickle-phase-min, 0.75) + 0.05)"
+        "opacity": "var(--trickle-phase-min, 0.15)",
+        "filter": "blur(calc(var(--trickle-phase-blur, 1) * 2px))",
+        "transform": "translateX(calc(var(--trickle-phase-slip, 1) * 0.05em))"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

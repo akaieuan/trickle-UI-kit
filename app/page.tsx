@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { InstallSnippet } from '@/components/site/install-snippet';
+import { HeroHeadline } from '@/components/site/hero-headline';
 import {
   AuroraTextStrip,
   BounceStrip,
@@ -50,8 +51,6 @@ import {
   WordRotateStrip
 } from '@/components/site/controlled-strips';
 
-import { CharStagger } from '@/registry/default/char-stagger/char-stagger';
-
 const PAGE_PADDING = 'px-8 sm:px-12 lg:px-16';
 const PAGE_WIDTH = 'mx-auto max-w-5xl';
 
@@ -59,7 +58,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Stats />
       <Philosophy />
       <Catalog />
     </>
@@ -67,63 +65,40 @@ export default function HomePage() {
 }
 
 function Hero() {
-  return (
-    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} pt-6 pb-8 sm:pt-8 sm:pb-10`}>
-      <h1 className='max-w-3xl text-balance text-2xl font-light leading-[1.2] tracking-tight sm:text-3xl md:text-[2.25rem] lg:text-[2.625rem]'>
-        Text animations that{' '}
-        <CharStagger text='trickle' mode='slide' delay={400} stagger={70} />
-        {' '}into any React UI.
-      </h1>
-
-      <div className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-8'>
-        <div id='install' className='scroll-mt-20 flex min-w-0 flex-col gap-2'>
-          <p className='font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60'>
-            Example — every component installs the same way
-          </p>
-          <InstallSnippet command='npx shadcn add https://tricklekit.dev/r/typewriter.json' />
-          <p className='font-mono text-[11px] leading-relaxed text-muted-foreground/50'>
-            → writes <span className='text-foreground/70'>components/trickle/typewriter.tsx</span> + merges{' '}
-            <span className='text-foreground/70'>globals.css</span>
-          </p>
-          <p className='mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60'>
-            <a href='#catalog' className='underline-offset-4 transition-colors hover:text-foreground hover:underline'>
-              browse all 47 ↓
-            </a>
-          </p>
-        </div>
-
-        <dl className='rounded-md border border-border bg-foreground/[0.02] px-4 py-3 font-mono text-[12px] leading-[1.7] text-foreground/80 dark:bg-foreground/[0.025]'>
-          {[
-            ['runtime', '0 deps · pure CSS keyframes'],
-            ['bundle', '<1kb median (gzip) · per component'],
-            ['react', '18.3+ · next 15+ · tailwind v4'],
-            ['ssr', 'safe by construction · 42 of 47 zero-JS']
-          ].map(([k, v]) => (
-            <div key={k} className='grid grid-cols-[64px_auto_1fr] items-baseline gap-x-2'>
-              <dt className='text-foreground/55'>{k}</dt>
-              <span className='text-foreground/40' aria-hidden='true'>:</span>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </section>
-  );
-}
-
-function Stats() {
-  const items: { value: string; label: string }[] = [
+  const stats: { value: string; label: string }[] = [
     { value: '47', label: 'components' },
     { value: '42', label: 'pure server' },
     { value: '<1kb', label: 'median gzip' },
     { value: '0', label: 'anim deps' }
   ];
+
   return (
-    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} pb-8`}>
-      <ul className='flex flex-wrap items-baseline gap-x-5 gap-y-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/55'>
-        {items.map((it, i) => (
+    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} pt-12 pb-12 sm:pt-16`}>
+      <HeroHeadline />
+
+      <div
+        id='install'
+        className='mt-9 flex min-w-0 max-w-2xl scroll-mt-[calc(var(--header-h)+1.5rem)] flex-col gap-2.5'
+      >
+        <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+          Every component installs the same way
+        </p>
+        <InstallSnippet command='npx shadcn add https://tricklekit.dev/r/typewriter.json' />
+        <p className='font-mono text-[11px] leading-relaxed text-muted-foreground/60'>
+          → writes <span className='text-foreground/75'>components/trickle/typewriter.tsx</span>, merges the
+          keyframes into <span className='text-foreground/75'>globals.css</span>. No package, no provider —
+          you own the file.
+        </p>
+      </div>
+
+      <ul className='mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+        {stats.map((it, i) => (
           <li key={it.label} className='flex items-baseline gap-1.5'>
-            {i > 0 && <span aria-hidden='true' className='text-muted-foreground/25'>·</span>}
+            {i > 0 && (
+              <span aria-hidden='true' className='mr-3.5 text-muted-foreground/25'>
+                ·
+              </span>
+            )}
             <span className='tabular-nums text-foreground/85'>{it.value}</span>
             <span>{it.label}</span>
           </li>
@@ -213,26 +188,31 @@ const SECTIONS: CatalogSection[] = [
 function Catalog() {
   let n = 0;
   return (
-    <section id='catalog' className={`${PAGE_WIDTH} ${PAGE_PADDING} scroll-mt-20 pt-10`}>
-      <header className='mb-4 flex items-baseline justify-between gap-6'>
-        <h2 className='text-lg font-normal tracking-tight sm:text-xl'>
+    <section
+      id='catalog'
+      className={`${PAGE_WIDTH} ${PAGE_PADDING} scroll-mt-[var(--header-h)] pt-6`}
+    >
+      <header className='mb-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6'>
+        <h2 className='text-[1.375rem] font-medium tracking-[-0.02em] sm:text-2xl'>
           Catalog
-          <span className='ml-2 font-mono text-[11px] font-light text-muted-foreground/60'>
+          <span className='ml-2.5 font-mono text-[11px] font-normal text-muted-foreground/60'>
             47 components · 7 groups
           </span>
         </h2>
-        <p className='hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/55 sm:block'>
+        <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
           <span className='text-foreground/75'>tweak</span> appears on configurable ·{' '}
           <span className='text-foreground/75'>code</span> &amp;{' '}
           <span className='text-foreground/75'>replay</span> on every strip
         </p>
       </header>
 
+      {/* Pins flush to the header's bottom edge. Both offsets come from
+          --header-h so the nav can never slide underneath it. */}
       <nav
         aria-label='Catalog sections'
-        className='sticky top-[57px] z-30 -mx-8 mb-4 bg-background/85 px-8 backdrop-blur sm:-mx-12 sm:px-12 lg:-mx-16 lg:px-16'
+        className='sticky top-[var(--header-h)] z-30 -mx-8 mb-2 border-b border-border bg-background/90 px-8 backdrop-blur-md sm:-mx-12 sm:px-12 lg:-mx-16 lg:px-16'
       >
-        <ul className='flex flex-nowrap items-center gap-x-5 overflow-x-auto py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:gap-y-2 sm:overflow-visible'>
+        <ul className='flex h-[var(--catalog-nav-h)] flex-nowrap items-center gap-x-5 overflow-x-auto font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible'>
           <li className='shrink-0'>
             <a href='#catalog' className='transition-colors hover:text-foreground'>
               All
@@ -250,16 +230,22 @@ function Catalog() {
       </nav>
 
       {SECTIONS.map((sec) => (
-        <div key={sec.id} id={`catalog-${sec.id}`} className='scroll-mt-28'>
-          <header className='mt-10 mb-1 flex items-baseline gap-3'>
-            <span className='font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60'>
+        <div
+          key={sec.id}
+          id={`catalog-${sec.id}`}
+          className='scroll-mt-[calc(var(--sticky-h)+1.25rem)]'
+        >
+          {/* Generous space above the label, tight space below it, so the
+              label reads as belonging to the group it introduces. */}
+          <header className='mt-14 mb-2 flex items-baseline gap-3 border-t border-border pt-6'>
+            <span className='font-mono text-[11px] uppercase tracking-[0.14em] text-foreground/75'>
               {sec.name}
             </span>
             <span className='font-mono text-[11px] tabular-nums text-muted-foreground/40'>
               {sec.items.length}
             </span>
           </header>
-          <div>
+          <div className='divide-y divide-border/60'>
             {sec.items.map((Strip) => {
               n += 1;
               return <Strip key={n} index={n} />;
@@ -293,13 +279,15 @@ function Philosophy() {
     }
   ];
   return (
-    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} py-10`}>
-      <div className='grid gap-6 sm:grid-cols-3 sm:gap-8'>
+    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} border-t border-border py-12`}>
+      <div className='grid gap-8 sm:grid-cols-3 sm:gap-10'>
         {items.map((it) => (
           <div key={it.tag}>
-            <p className='font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60'>{it.tag}</p>
-            <h3 className='mt-2 text-base font-normal tracking-tight'>{it.title}</h3>
-            <p className='mt-1.5 text-[13px] font-light leading-relaxed text-muted-foreground'>{it.body}</p>
+            <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+              {it.tag}
+            </p>
+            <h3 className='mt-2.5 text-[1.0625rem] font-medium tracking-[-0.015em]'>{it.title}</h3>
+            <p className='mt-2 text-sm leading-[1.65] text-muted-foreground'>{it.body}</p>
           </div>
         ))}
       </div>

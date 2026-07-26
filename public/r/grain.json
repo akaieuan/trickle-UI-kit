@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "grain",
   "title": "Grain",
-  "description": "Film-grain noise overlay via SVG turbulence. Subtle infinite shimmer.",
+  "description": "Radial dot mask dissolve — the word forms out of a field of dots.",
   "files": [
     {
       "path": "registry/default/grain/grain.tsx",
@@ -11,33 +11,49 @@
       "target": "components/trickle/grain.tsx"
     }
   ],
+  "cssVars": {
+    "theme": {
+      "--animate-trickle-grain-dissolve": "trickle-grain-dissolve 1.6s cubic-bezier(0.4, 0, 0.2, 1) both"
+    }
+  },
   "css": {
-    ".trickle-grain": {
-      "isolation": "isolate"
+    ".animate-trickle-grain-dissolve": {
+      "-webkit-mask-image": "radial-gradient(circle at center, black 35%, transparent 75%)",
+      "mask-image": "radial-gradient(circle at center, black 35%, transparent 75%)",
+      "-webkit-mask-repeat": "repeat",
+      "mask-repeat": "repeat",
+      "-webkit-mask-position": "center center",
+      "mask-position": "center center"
     },
-    "@keyframes trickle-grain-shift": {
+    "@keyframes trickle-grain-dissolve": {
       "0%": {
-        "transform": "translate(0, 0)"
+        "-webkit-mask-size": "var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px)",
+        "mask-size": "var(--trickle-grain-dot-size, 5px) var(--trickle-grain-dot-size, 5px)",
+        "opacity": "0",
+        "filter": "blur(0.4px)"
       },
       "20%": {
-        "transform": "translate(-8%, 4%)"
-      },
-      "40%": {
-        "transform": "translate(6%, -6%)"
+        "opacity": "1",
+        "filter": "blur(0.4px)"
       },
       "60%": {
-        "transform": "translate(-4%, -8%)"
-      },
-      "80%": {
-        "transform": "translate(8%, 6%)"
+        "-webkit-mask-size": "60% 60%",
+        "mask-size": "60% 60%",
+        "opacity": "1",
+        "filter": "blur(0.2px)"
       },
       "100%": {
-        "transform": "translate(0, 0)"
+        "-webkit-mask-size": "800% 800%",
+        "mask-size": "800% 800%",
+        "opacity": "1",
+        "filter": "blur(0)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {
-      ".trickle-grain::after": {
-        "animation": "none"
+      ".animate-trickle-grain-dissolve": {
+        "animation": "none",
+        "-webkit-mask-image": "none",
+        "mask-image": "none"
       }
     }
   },

@@ -17,21 +17,29 @@
     }
   },
   "css": {
+    ".trickle-carousel-char": {
+      "animation-name": "trickle-carousel-flip",
+      "animation-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "animation-fill-mode": "forwards"
+    },
     "@keyframes trickle-carousel-flip": {
       "0%": {
-        "opacity": "0",
-        "transform": "rotateX(90deg) translateY(-0.4em)"
+        "transform": "translateX(-50%) translateX(0em) rotateY(var(--char-angle, 0deg)) translateZ(var(--char-radius, 0em))"
+      },
+      "20%": {
+        "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 360deg)) translateZ(var(--char-radius, 0em))"
+      },
+      "40%": {
+        "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 720deg)) translateZ(var(--char-radius, 0em))"
       },
       "60%": {
-        "opacity": "1",
-        "transform": "rotateX(-12deg) translateY(0)"
+        "transform": "translateX(-50%) translateX(0em) rotateY(calc(var(--char-angle, 0deg) - 1080deg)) translateZ(var(--char-radius, 0em))"
       },
-      "80%": {
-        "transform": "rotateX(4deg)"
+      "85%": {
+        "transform": "translateX(-50%) translateX(var(--char-x, 0em)) rotateY(-25deg) translateZ(0em)"
       },
       "100%": {
-        "opacity": "1",
-        "transform": "rotateX(0) translateY(0)"
+        "transform": "translateX(-50%) translateX(var(--char-x, 0em)) rotateY(0deg) translateZ(0em)"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

@@ -19,24 +19,17 @@
   "css": {
     "@keyframes trickle-mosaic": {
       "0%": {
-        "-webkit-mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)",
-        "mask-image": "repeating-conic-gradient(from 0deg at 50% 50%, black 0deg 90deg, transparent 90deg 180deg)",
-        "-webkit-mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)",
-        "mask-size": "var(--trickle-mosaic-size, 8px) var(--trickle-mosaic-size, 8px)",
-        "opacity": "0",
-        "filter": "blur(2px)"
+        "-webkit-mask-size": "var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px)",
+        "mask-size": "var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px), var(--trickle-mosaic-size, 18px) var(--trickle-mosaic-size, 18px)",
+        "opacity": "0"
       },
-      "40%": {
-        "opacity": "1",
-        "filter": "blur(1px)"
+      "20%": {
+        "opacity": "1"
       },
       "100%": {
-        "-webkit-mask-image": "linear-gradient(black, black)",
-        "mask-image": "linear-gradient(black, black)",
-        "-webkit-mask-size": "100% 100%",
-        "mask-size": "100% 100%",
-        "opacity": "1",
-        "filter": "blur(0)"
+        "-webkit-mask-size": "500% 500%, 500% 500%",
+        "mask-size": "500% 500%, 500% 500%",
+        "opacity": "1"
       }
     },
     "@media (prefers-reduced-motion: reduce)": {

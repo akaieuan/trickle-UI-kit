@@ -5,6 +5,16 @@
 
 :root {
   --radius: 0.625rem;
+
+  /* ── Layout rhythm ──────────────────────────────────────────────
+     Single source of truth for the sticky chrome. The site header,
+     the catalog section nav that pins beneath it, and every anchor
+     `scroll-margin-top` all derive from these three values, so the
+     nav can never drift under the header again. */
+  --header-h: 4rem;
+  --catalog-nav-h: 3rem;
+  --sticky-h: calc(var(--header-h) + var(--catalog-nav-h));
+
   --background: oklch(99% 0 0);
   --foreground: oklch(14% 0 0);
   --card: oklch(99% 0 0);
@@ -53,6 +63,9 @@
 }
 
 @theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -204,6 +217,23 @@
   --animate-trickle-reflect: trickle-reflect 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-trickle-phase: trickle-phase 2.4s ease-in-out infinite;
   --animate-trickle-mosaic: trickle-mosaic 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+  /* Geist has proportional figures by default; tabular keeps the spec
+     numbers and slider readouts from jittering as values change. */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 @property --trickle-gradient-angle {
@@ -458,30 +488,41 @@
   color: inherit;
   background: inherit;
 }
-.trickle-glitch-loop::before { animation: trickle-glitch-a 2.4s steps(1) infinite; }
-.trickle-glitch-loop::after { animation: trickle-glitch-b 2.4s steps(1) infinite; }
+.trickle-glitch-loop::before { animation: trickle-glitch-a var(--trickle-glitch-duration, 2.4s) steps(1) infinite; }
+.trickle-glitch-loop::after { animation: trickle-glitch-b var(--trickle-glitch-duration, 2.4s) steps(1) infinite; }
 
 .trickle-glitch-split:hover::before { animation: trickle-glitch-a 0.5s steps(1) 1; }
 .trickle-glitch-split:hover::after { animation: trickle-glitch-b 0.5s steps(1) 1; }
 
-/* Glitch slices: pseudo-element copies of the text get clipped to horizontal bands and displaced sideways. No color shift. The base text underneath stays put. */
+/* Glitch slices: pseudo-element copies of the text get clipped to horizontal bands and displaced sideways. No color shift. The base text underneath stays put.
+   Displacement is scaled by --trickle-glitch-offset (inherited from the host element) so the shift can be tuned without rewriting the keyframes. */
 @keyframes trickle-glitch-a {
   0%, 8%, 18%, 100%  { transform: translateX(0); clip-path: inset(0 0 100% 0); }
-  10%, 12%           { transform: translateX(-6px); clip-path: inset(15% 0 70% 0); }
-  14%, 16%           { transform: translateX(4px); clip-path: inset(40% 0 45% 0); }
-  35%, 38%           { transform: translateX(-8px); clip-path: inset(55% 0 30% 0); }
-  40%, 42%           { transform: translateX(3px); clip-path: inset(75% 0 12% 0); }
-  68%, 70%           { transform: translateX(-5px); clip-path: inset(8% 0 80% 0); }
-  72%, 74%           { transform: translateX(2px); clip-path: inset(50% 0 38% 0); }
+  10%, 12%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -6px)); clip-path: inset(15% 0 70% 0); }
+  14%, 16%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 4px)); clip-path: inset(40% 0 45% 0); }
+  35%, 38%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -8px)); clip-path: inset(55% 0 30% 0); }
+  40%, 42%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 3px)); clip-path: inset(75% 0 12% 0); }
+  68%, 70%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -5px)); clip-path: inset(8% 0 80% 0); }
+  72%, 74%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 2px)); clip-path: inset(50% 0 38% 0); }
 }
 @keyframes trickle-glitch-b {
   0%, 8%, 18%, 100%  { transform: translateX(0); clip-path: inset(100% 0 0 0); }
-  10%, 12%           { transform: translateX(5px); clip-path: inset(60% 0 25% 0); }
-  14%, 16%           { transform: translateX(-3px); clip-path: inset(28% 0 55% 0); }
-  35%, 38%           { transform: translateX(7px); clip-path: inset(20% 0 65% 0); }
-  40%, 42%           { transform: translateX(-4px); clip-path: inset(82% 0 5% 0); }
-  68%, 70%           { transform: translateX(6px); clip-path: inset(38% 0 50% 0); }
-  72%, 74%           { transform: translateX(-2px); clip-path: inset(70% 0 18% 0); }
+  10%, 12%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 5px)); clip-path: inset(60% 0 25% 0); }
+  14%, 16%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -3px)); clip-path: inset(28% 0 55% 0); }
+  35%, 38%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 7px)); clip-path: inset(20% 0 65% 0); }
+  40%, 42%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -4px)); clip-path: inset(82% 0 5% 0); }
+  68%, 70%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * 6px)); clip-path: inset(38% 0 50% 0); }
+  72%, 74%           { transform: translateX(calc(var(--trickle-glitch-offset, 1) * -2px)); clip-path: inset(70% 0 18% 0); }
+}
+/* The slices are hidden by clip-path mid-keyframe, not by opacity, so stopping
+   the animation would leave two un-clipped copies stacked on the base text.
+   Remove them outright instead. */
+@media (prefers-reduced-motion: reduce) {
+  .trickle-glitch-split::before,
+  .trickle-glitch-split::after {
+    animation: none;
+    display: none;
+  }
 }
 
 @keyframes trickle-marquee {
