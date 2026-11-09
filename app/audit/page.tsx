@@ -47,10 +47,22 @@ export default async function AuditPage({
   searchParams: Promise<{ s?: string }>;
 }) {
   const { s = 'bounce' } = await searchParams;
-  const Strip = STRIPS[s] ?? BounceStrip;
+  const key = s in STRIPS ? s : 'bounce';
+  const Strip = STRIPS[key] ?? BounceStrip;
   return (
-    <div className='mx-auto max-w-5xl px-8 sm:px-12 lg:px-16 pt-8'>
-      <Strip key={s} index={1} />
+    <div className='site-inset mx-auto max-w-site py-10'>
+      <div className='flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-rule-soft pb-4'>
+        <h1 className='font-mono text-10 uppercase tracking-[0.14em] text-ink-faint'>
+          audit
+        </h1>
+        <span className='text-ink-faint' aria-hidden='true'>
+          ·
+        </span>
+        <p className='font-mono text-11 text-ink-body'>{key}</p>
+      </div>
+      <div className='mt-8'>
+        <Strip key={key} index={1} />
+      </div>
     </div>
   );
 }

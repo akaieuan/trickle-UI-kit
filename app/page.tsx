@@ -1,58 +1,16 @@
-import type { ComponentType } from 'react';
 import { InstallSnippet } from '@/components/site/install-snippet';
 import { HeroHeadline } from '@/components/site/hero-headline';
-import {
-  AuroraTextStrip,
-  BounceStrip,
-  CarouselFlipStrip,
-  CharStaggerStrip,
-  CompressStrip,
-  ConfettiTextStrip,
-  DecryptScrambleStrip,
-  EchoStrip,
-  FloatStrip,
-  FlutterStrip,
-  GlitchSplitStrip,
-  GradientShiftStrip,
-  GrainStrip,
-  HalftoneStrip,
-  HighlighterSweepStrip,
-  InkBleedStrip,
-  MagnetizeStrip,
-  MarqueeRibbonStrip,
-  MorphSwapStrip,
-  MosaicStrip,
-  NeonFlickerStrip,
-  ShatterStrip,
-  PhaseStrip,
-  PixelateStrip,
-  PlasmaStrip,
-  PulseTextStrip,
-  RainbowRollStrip,
-  ReflectStrip,
-  ScaleSlamStrip,
-  ScanlineStrip,
-  ShinyShimmerStrip,
-  ShutterStrip,
-  SpinInStrip,
-  SpotlightStrip,
-  StampStrip,
-  StaticTextStrip,
-  StretchStrip,
-  TearStrip,
-  TextRevealStrip,
-  TypewriterStrip,
-  TypoCorrectStrip,
-  UnderlineDrawStrip,
-  WaveStrip,
-  WireframeStrip,
-  Wobble3DStrip,
-  WordCascadeStrip,
-  WordRotateStrip
-} from '@/components/site/controlled-strips';
+import { CardGrid } from '@/components/site/component-card';
+import { SECTIONS } from '@/lib/catalog';
 
-const PAGE_PADDING = 'px-8 sm:px-12 lg:px-16';
-const PAGE_WIDTH = 'mx-auto max-w-5xl';
+/* The site measure: 1180px, with the shared gutter. Every section uses
+   this pair, so nothing on the page sets its own edge. */
+const PAGE_WIDTH = 'mx-auto max-w-site';
+const PAGE_INSET = 'site-inset';
+
+/* The sticky nav spans the full measure, so it cancels the gutter with
+   matching negative margins. These mirror .site-inset exactly. */
+const INSET_BLEED = '-mx-5 px-5 sm:-mx-6 sm:px-6 md:-mx-12 md:px-12 lg:-mx-16 lg:px-16';
 
 export default function HomePage() {
   return (
@@ -73,33 +31,33 @@ function Hero() {
   ];
 
   return (
-    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} pt-12 pb-12 sm:pt-16`}>
+    <section className={`${PAGE_WIDTH} ${PAGE_INSET} pt-12 pb-12 sm:pt-16`}>
       <HeroHeadline />
 
       <div
         id='install'
         className='mt-9 flex min-w-0 max-w-2xl scroll-mt-[calc(var(--header-h)+1.5rem)] flex-col gap-2.5'
       >
-        <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+        <p className='font-mono text-11 uppercase tracking-[0.14em] text-ink-quiet'>
           Every component installs the same way
         </p>
         <InstallSnippet command='npx shadcn add https://tricklekit.dev/r/typewriter.json' />
-        <p className='font-mono text-[11px] leading-relaxed text-muted-foreground/60'>
-          → writes <span className='text-foreground/75'>components/trickle/typewriter.tsx</span>, merges the
-          keyframes into <span className='text-foreground/75'>globals.css</span>. No package, no provider —
-          you own the file.
+        <p className='font-mono text-11 leading-relaxed text-ink-faint'>
+          → writes <span className='text-ink-body'>components/trickle/typewriter.tsx</span>, merges
+          the keyframes into <span className='text-ink-body'>globals.css</span>. No package, no
+          provider — you own the file.
         </p>
       </div>
 
-      <ul className='mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+      <ul className='mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 font-mono text-11 uppercase tracking-[0.14em] text-ink-quiet'>
         {stats.map((it, i) => (
           <li key={it.label} className='flex items-baseline gap-1.5'>
             {i > 0 && (
-              <span aria-hidden='true' className='mr-3.5 text-muted-foreground/25'>
+              <span aria-hidden='true' className='mr-3.5 text-ink-faint/50'>
                 ·
               </span>
             )}
-            <span className='tabular-nums text-foreground/85'>{it.value}</span>
+            <span className='tabular-nums text-ink-body'>{it.value}</span>
             <span>{it.label}</span>
           </li>
         ))}
@@ -108,101 +66,21 @@ function Hero() {
   );
 }
 
-type StripComponent = ComponentType<{ index: number }>;
-type CatalogSection = { id: string; name: string; items: StripComponent[] };
-
-const SECTIONS: CatalogSection[] = [
-  {
-    id: 'reveal',
-    name: 'Reveal',
-    items: [
-      TextRevealStrip,
-      TypewriterStrip,
-      WordCascadeStrip,
-      CharStaggerStrip,
-      DecryptScrambleStrip,
-      TypoCorrectStrip,
-      InkBleedStrip
-    ]
-  },
-  {
-    id: 'emphasis',
-    name: 'Emphasis',
-    items: [HighlighterSweepStrip, UnderlineDrawStrip, SpotlightStrip, StampStrip, ConfettiTextStrip]
-  },
-  {
-    id: 'color',
-    name: 'Color',
-    items: [
-      AuroraTextStrip,
-      ShinyShimmerStrip,
-      GradientShiftStrip,
-      RainbowRollStrip,
-      NeonFlickerStrip,
-      PlasmaStrip
-    ]
-  },
-  {
-    id: 'motion',
-    name: 'Motion',
-    items: [
-      BounceStrip,
-      FloatStrip,
-      MagnetizeStrip,
-      ScaleSlamStrip,
-      SpinInStrip,
-      WaveStrip,
-      StretchStrip,
-      CompressStrip,
-      Wobble3DStrip,
-      FlutterStrip,
-      PulseTextStrip
-    ]
-  },
-  {
-    id: 'glitch',
-    name: 'Glitch',
-    items: [GlitchSplitStrip, ShatterStrip, TearStrip, MorphSwapStrip]
-  },
-  {
-    id: 'texture',
-    name: 'Texture',
-    items: [GrainStrip, PixelateStrip, ScanlineStrip, HalftoneStrip, WireframeStrip, MosaicStrip]
-  },
-  {
-    id: 'sequence',
-    name: 'Sequence',
-    items: [
-      WordRotateStrip,
-      CarouselFlipStrip,
-      EchoStrip,
-      PhaseStrip,
-      ShutterStrip,
-      MarqueeRibbonStrip,
-      StaticTextStrip,
-      ReflectStrip
-    ]
-  }
-];
-
 function Catalog() {
   let n = 0;
   return (
     <section
       id='catalog'
-      className={`${PAGE_WIDTH} ${PAGE_PADDING} scroll-mt-[var(--header-h)] pt-6`}
+      className={`${PAGE_WIDTH} ${PAGE_INSET} scroll-mt-[var(--header-h)] pt-6 pb-20`}
     >
       <header className='mb-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6'>
-        <h2 className='text-[1.375rem] font-medium tracking-[-0.02em] sm:text-2xl'>
+        <h2 className='text-20 font-light tracking-tight'>
           Catalog
-          <span className='ml-2.5 font-mono text-[11px] font-normal text-muted-foreground/60'>
-            47 components · 7 groups
-          </span>
+          <span className='ml-2.5 font-mono text-11 text-ink-faint'>47 components · 7 groups</span>
         </h2>
-        <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
-          <span className='text-foreground/75'>tweak</span> appears on configurable ·{' '}
-          <span className='text-foreground/75'>code</span> &amp;{' '}
-          <span className='text-foreground/75'>replay</span> on every strip
+        <p className='font-mono text-11 uppercase tracking-[0.14em] text-ink-quiet'>
+          <span className='text-ink-body'>click</span> a card for its page ·{' '}
+          <span className='text-ink-body'>hover</span> to replay or copy
         </p>
       </header>
 
@@ -210,20 +88,26 @@ function Catalog() {
           --header-h so the nav can never slide underneath it. */}
       <nav
         aria-label='Catalog sections'
-        className='sticky top-[var(--header-h)] z-30 -mx-8 mb-2 border-b border-border bg-background/90 px-8 backdrop-blur-md sm:-mx-12 sm:px-12 lg:-mx-16 lg:px-16'
+        className={`sticky top-[var(--header-h)] z-30 mb-2 border-b border-rule bg-background ${INSET_BLEED}`}
       >
-        <ul className='flex h-[var(--catalog-nav-h)] flex-nowrap items-center gap-x-5 overflow-x-auto font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible'>
+        <ul className='flex h-[var(--catalog-nav-h)] flex-nowrap items-center gap-x-5 overflow-x-auto font-mono text-11 uppercase tracking-[0.14em] text-ink-quiet [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible'>
           <li className='shrink-0'>
-            <a href='#catalog' className='transition-colors hover:text-foreground'>
+            <a
+              href='#catalog'
+              className='transition-colors duration-[var(--dur-hover)] hover:text-foreground'
+            >
               All
             </a>
           </li>
           {SECTIONS.map((sec) => (
             <li key={sec.id} className='flex shrink-0 items-baseline gap-1.5'>
-              <a href={`#catalog-${sec.id}`} className='transition-colors hover:text-foreground'>
+              <a
+                href={`#catalog-${sec.id}`}
+                className='transition-colors duration-[var(--dur-hover)] hover:text-foreground'
+              >
                 {sec.name}
               </a>
-              <span className='tabular-nums text-muted-foreground/35'>{sec.items.length}</span>
+              <span className='tabular-nums text-ink-faint/60'>{sec.items.length}</span>
             </li>
           ))}
         </ul>
@@ -233,24 +117,27 @@ function Catalog() {
         <div
           key={sec.id}
           id={`catalog-${sec.id}`}
+          // --sticky-h is --header-h plus the nav that pins under it; an
+          // anchor that cleared only the header would land behind the nav.
           className='scroll-mt-[calc(var(--sticky-h)+1.25rem)]'
         >
           {/* Generous space above the label, tight space below it, so the
               label reads as belonging to the group it introduces. */}
-          <header className='mt-14 mb-2 flex items-baseline gap-3 border-t border-border pt-6'>
-            <span className='font-mono text-[11px] uppercase tracking-[0.14em] text-foreground/75'>
+          <header className='mt-14 mb-5 flex items-baseline gap-3 border-t border-rule pt-6'>
+            <span className='font-mono text-11 uppercase tracking-[0.14em] text-ink-body'>
               {sec.name}
             </span>
-            <span className='font-mono text-[11px] tabular-nums text-muted-foreground/40'>
+            <span className='font-mono text-11 tabular-nums text-ink-faint'>
               {sec.items.length}
             </span>
           </header>
-          <div className='divide-y divide-border/60'>
-            {sec.items.map((Strip) => {
+
+          <CardGrid tag={sec.name} tint={sec.tint}>
+            {sec.items.map((item) => {
               n += 1;
-              return <Strip key={n} index={n} />;
+              return <item.Component key={item.slug} index={n} />;
             })}
-          </div>
+          </CardGrid>
         </div>
       ))}
     </section>
@@ -279,15 +166,13 @@ function Philosophy() {
     }
   ];
   return (
-    <section className={`${PAGE_WIDTH} ${PAGE_PADDING} border-t border-border py-12`}>
+    <section className={`${PAGE_WIDTH} ${PAGE_INSET} border-t border-rule py-12`}>
       <div className='grid gap-8 sm:grid-cols-3 sm:gap-10'>
         {items.map((it) => (
           <div key={it.tag}>
-            <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
-              {it.tag}
-            </p>
-            <h3 className='mt-2.5 text-[1.0625rem] font-medium tracking-[-0.015em]'>{it.title}</h3>
-            <p className='mt-2 text-sm leading-[1.65] text-muted-foreground'>{it.body}</p>
+            <p className='font-mono text-11 uppercase tracking-[0.14em] text-ink-quiet'>{it.tag}</p>
+            <h3 className='mt-2.5 text-17 font-normal tracking-tight'>{it.title}</h3>
+            <p className='mt-2 text-14 font-light text-ink-body'>{it.body}</p>
           </div>
         ))}
       </div>

@@ -1,20 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+/**
+ * The site defaults to dark; only an explicit stored 'light' opts out.
+ * The control is a 12px filled disc, not a sun/moon pair.
+ */
 export function ThemeToggle({ className }: { className?: string }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
     const stored = localStorage.getItem('theme');
-    const initial: 'light' | 'dark' =
-      stored === 'light' || stored === 'dark'
-        ? stored
-        : window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light';
+    const initial: 'light' | 'dark' = stored === 'light' ? 'light' : 'dark';
     setTheme(initial);
     document.documentElement.classList.toggle('dark', initial === 'dark');
   }, []);
@@ -32,12 +30,15 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={toggle}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
       className={cn(
-        'inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+        'relative inline-flex h-9 w-9 items-center justify-center rounded-full text-ink-quiet transition-colors duration-[var(--dur-hover)] hover:text-foreground',
+        'after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[""]',
         className
       )}
     >
-      <Sun className='h-4 w-4 dark:hidden' aria-hidden='true' />
-      <Moon className='hidden h-4 w-4 dark:block' aria-hidden='true' />
+      <span
+        className='h-3 w-3 rounded-full bg-current'
+        aria-hidden='true'
+      />
     </button>
   );
 }

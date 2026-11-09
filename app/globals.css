@@ -3,67 +3,138 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ══════════════════════════════════════════════════════════════════
+   trickle design language
+   A hybrid of akabuild.dev (ground, ink ladder, green punctuation,
+   plate cards, 1180px measure) and the WavNet design system (glass
+   header pill, concentric corner mechanism, surface ladder, type
+   scale). Dark is the default; light is a full peer, not a fallback.
+   ══════════════════════════════════════════════════════════════════ */
+
 :root {
   --radius: 0.625rem;
+  --radius-card: 12px;
+  --radius-plate: 16%;
 
-  /* ── Layout rhythm ──────────────────────────────────────────────
-     Single source of truth for the sticky chrome. The site header,
-     the catalog section nav that pins beneath it, and every anchor
-     `scroll-margin-top` all derive from these three values, so the
-     nav can never drift under the header again. */
-  --header-h: 4rem;
+  /* Layout rhythm. The sticky header band and every anchor's
+     scroll-margin-top derive from these, so nothing drifts under it. */
+  --header-h: 4.5rem;
   --catalog-nav-h: 3rem;
   --sticky-h: calc(var(--header-h) + var(--catalog-nav-h));
 
-  --background: oklch(99% 0 0);
-  --foreground: oklch(14% 0 0);
-  --card: oklch(99% 0 0);
-  --card-foreground: oklch(14% 0 0);
-  --popover: oklch(99% 0 0);
-  --popover-foreground: oklch(14% 0 0);
-  --primary: oklch(55% 0.18 250);
-  --primary-foreground: oklch(98% 0 0);
-  --secondary: oklch(96% 0 0);
-  --secondary-foreground: oklch(20% 0 0);
-  --muted: oklch(96% 0 0);
-  --muted-foreground: oklch(50% 0.01 250);
-  --accent: oklch(96% 0 0);
-  --accent-foreground: oklch(20% 0 0);
-  --destructive: oklch(60% 0.24 25);
+  /* ── Light theme ── akabuild.dev's paper ground ── */
+  --background: oklch(95.5% 0.002 106);
+  --foreground: oklch(12.2% 0.001 0);
+  --card: oklch(99.3% 0.002 106);
+  --card-foreground: oklch(12.2% 0.001 0);
+  --popover: oklch(99.3% 0.002 106);
+  --popover-foreground: oklch(12.2% 0.001 0);
+  --primary: oklch(20% 0.003 106);
+  --primary-foreground: oklch(98.5% 0.002 106);
+  --secondary: oklch(93% 0.005 95);
+  --secondary-foreground: oklch(21% 0.006 95);
+  --muted: oklch(93% 0.005 95);
+  --muted-foreground: oklch(36% 0.001 0);
+  --accent: oklch(93% 0.005 95);
+  --accent-foreground: oklch(21% 0.006 95);
+  --destructive: oklch(55% 0.2 25);
   --destructive-foreground: oklch(98% 0 0);
-  --border: oklch(92% 0 0);
-  --input: oklch(92% 0 0);
-  --ring: oklch(55% 0.18 250);
+  --border: oklch(88% 0.003 106);
+  --input: oklch(88% 0.003 106);
+  --ring: oklch(40% 0.08 152.2);
+
+  /* The one accent. Punctuation, never a fill. */
+  --select: oklch(40% 0.08 152.2);
+  --status-warn: oklch(58% 0.13 75);
+  --status-danger: oklch(55% 0.2 25);
+
+  /* Glass — the header pill. */
+  --glass: oklch(100% 0 0 / 55%);
+  --glass-border: oklch(19% 0.01 95 / 10%);
+  --glass-glow: 0 0 0 1px oklch(100% 0 0 / 40%) inset, 0 8px 40px oklch(12% 0 0 / 6%);
+  --glass-blur: 14px;
+
   --trickle-shimmer-base: oklch(35% 0 0);
   --trickle-shimmer-highlight: oklch(85% 0 0);
 }
 
 .dark {
-  --background: oklch(13% 0.01 250);
-  --foreground: oklch(97% 0 0);
+  /* ── Dark theme (default) ── akabuild.dev's near-black ── */
+  --background: oklch(9% 0 0);
+  --foreground: oklch(98.5% 0 0);
+  --card: oklch(13% 0 0);
+  --card-foreground: oklch(98.5% 0 0);
+  --popover: oklch(13% 0 0);
+  --popover-foreground: oklch(98.5% 0 0);
+  --primary: oklch(98.5% 0 0);
+  --primary-foreground: oklch(12% 0 0);
+  --secondary: oklch(16% 0 0);
+  --secondary-foreground: oklch(98.5% 0 0);
+  --muted: oklch(16% 0 0);
+  --muted-foreground: oklch(70.8% 0 0);
+  --accent: oklch(16% 0 0);
+  --accent-foreground: oklch(98.5% 0 0);
+  --destructive: oklch(62% 0.2 25);
+  --destructive-foreground: oklch(98% 0 0);
+  --border: oklch(100% 0 0 / 10%);
+  --input: oklch(100% 0 0 / 13%);
+  --ring: oklch(70.7% 0.108 152.216);
+
+  --select: oklch(70.7% 0.108 152.216);
+  --status-warn: oklch(72% 0.13 75);
+  --status-danger: oklch(62% 0.2 25);
+
+  --glass: oklch(100% 0 0 / 3.5%);
+  --glass-border: oklch(100% 0 0 / 9%);
+  --glass-glow: 0 0 0 1px oklch(100% 0 0 / 3%) inset, 0 0 64px oklch(70.7% 0.108 152.216 / 6%);
+
   --trickle-shimmer-base: oklch(55% 0 0);
   --trickle-shimmer-highlight: oklch(100% 0 0);
-  --card: oklch(15% 0.01 250);
-  --card-foreground: oklch(97% 0 0);
-  --popover: oklch(15% 0.01 250);
-  --popover-foreground: oklch(97% 0 0);
-  --primary: oklch(75% 0.18 250);
-  --primary-foreground: oklch(15% 0.01 250);
-  --secondary: oklch(20% 0.01 250);
-  --secondary-foreground: oklch(97% 0 0);
-  --muted: oklch(20% 0.01 250);
-  --muted-foreground: oklch(60% 0.01 250);
-  --accent: oklch(20% 0.01 250);
-  --accent-foreground: oklch(97% 0 0);
-  --destructive: oklch(65% 0.24 25);
-  --destructive-foreground: oklch(98% 0 0);
-  --border: oklch(22% 0.01 250);
-  --input: oklch(22% 0.01 250);
-  --ring: oklch(75% 0.18 250);
+}
+
+/* ── Derived ladders. Defined once; they follow whichever theme is on.
+      Ink = text weight. Surface = raised ground. Rule = hairlines. ── */
+:root,
+.dark {
+  --ink: var(--foreground);
+  --ink-body: color-mix(in oklch, var(--foreground) 82%, transparent);
+  --ink-quiet: color-mix(in oklch, var(--foreground) 62%, transparent);
+  --ink-faint: color-mix(in oklch, var(--foreground) 45%, transparent);
+
+  --surface-1: color-mix(in oklch, var(--foreground) 3%, transparent);
+  --surface-2: color-mix(in oklch, var(--foreground) 5%, transparent);
+  --surface-3: color-mix(in oklch, var(--foreground) 13%, transparent);
+
+  --rule: var(--border);
+  --rule-soft: color-mix(in oklch, var(--border) 60%, transparent);
+  --rule-strong: color-mix(in oklch, var(--foreground) 24%, transparent);
+
+  /* The plate is a neutral panel first: --plate-lift raises it off the
+     page the way every other surface does, and only then does the
+     group's hue go in, at --plate-mix. Keeping the hue this faint is
+     deliberate — a warm tint laid straight onto the ground at any real
+     strength stops reading as a family resemblance and starts reading
+     as a brown or red card. */
+  --plate-lift: 3.5%;
+  --plate-mix: 3.5%;
+
+  --dur-hover: 150ms;
+  --dur-swap: 200ms;
+  --dur-media: 300ms;
+  --dur-enter: 700ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dark {
+  /* Against a near-black ground the same hue goes muddy much faster, so
+     the plate leans on the neutral lift and keeps barely any colour. */
+  --plate-lift: 11%;
+  --plate-mix: 2.5%;
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-background: var(--background);
@@ -88,6 +159,56 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+  --radius-card: var(--radius-card);
+
+  /* ── The one accent, plus the ink and surface ladders, as utilities.
+        text-select, text-ink-quiet, bg-surface-2, border-rule … ── */
+  --color-select: var(--select);
+  --color-status-warn: var(--status-warn);
+  --color-status-danger: var(--status-danger);
+  --color-ink: var(--ink);
+  --color-ink-body: var(--ink-body);
+  --color-ink-quiet: var(--ink-quiet);
+  --color-ink-faint: var(--ink-faint);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-rule-strong: var(--rule-strong);
+
+  /* ── The closed type scale. Sizes are a set, not a continuum. ── */
+  --text-10: 0.625rem;
+  --text-10--line-height: 1.4;
+  --text-11: 0.6875rem;
+  --text-11--line-height: 1.45;
+  --text-12: 0.75rem;
+  --text-12--line-height: 1.5;
+  --text-13: 0.8125rem;
+  --text-13--line-height: 1.55;
+  --text-14: 0.875rem;
+  --text-14--line-height: 1.5;
+  --text-15: 0.9375rem;
+  --text-15--line-height: 1.6;
+  --text-17: 1.0625rem;
+  --text-17--line-height: 1.5;
+  --text-20: 1.25rem;
+  --text-20--line-height: 1.35;
+  /* The page-title step. Sits between the section heading and the hero
+     display, which is the gap a per-component page opens up. */
+  --text-26: 1.625rem;
+  --text-26--line-height: 1.25;
+  --text-26--letter-spacing: -0.015em;
+  --text-display: clamp(2rem, 7cqi, 3.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.02em;
+
+  /* ── Measure and rhythm ── */
+  --container-site: 1180px;
+
+  /* ── Motion ── */
+  --ease-site: var(--ease);
+  --ease-site-out: var(--ease-out);
 
   /* Animation tokens for the docs site. Each registry component ships
      its own copy of the relevant tokens via `cssVars.theme` in registry.json,
@@ -222,6 +343,13 @@
 @layer base {
   html {
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+  body {
+    font-weight: 300;
+    font-feature-settings: 'cv11', 'ss01';
   }
   code,
   pre,
@@ -229,11 +357,122 @@
   samp {
     font-family: var(--font-mono);
   }
-  /* Geist has proportional figures by default; tabular keeps the spec
-     numbers and slider readouts from jittering as values change. */
+  /* Tabular keeps spec numbers and slider readouts from jittering. */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+  ::selection {
+    background: color-mix(in oklch, var(--foreground) 18%, transparent);
+  }
+  :where(a[href], button, [tabindex]:not([tabindex='-1'])):focus-visible {
+    outline: 2px solid var(--select);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* ── Page gutter and measure. Every section uses this pair. ── */
+  .site-inset {
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .site-inset {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .site-inset {
+      padding-inline: 3rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .site-inset {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* ── Glass: the header pill, and nothing else. ── */
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-glow);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+  }
+
+  /* ── Plate: akabuild's card ground. A 4:3 field tinted with the
+        component's own hue, holding a centred square preview. ── */
+  .plate {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: color-mix(
+      in srgb,
+      var(--plate-tint, var(--select)) var(--plate-mix),
+      color-mix(in oklch, var(--foreground) var(--plate-lift), var(--background))
+    );
+    transition: transform 0.5s var(--ease-out);
+  }
+  .group:hover .plate {
+    transform: scale(1.015);
+  }
+
+  /* ── The concentric corner mechanism, from the WavNet system.
+        A nested .corner computes its radius from the parent's minus
+        the inset, so curves stay parallel however deep they nest. ── */
+  .corner {
+    --inset-1: var(--inset);
+    border-radius: max(0px, var(--corner));
+  }
+  .corner .corner {
+    --inset-1: inherit;
+    --inset-2: var(--inset);
+    border-radius: max(0px, var(--corner) - var(--inset-1));
+  }
+  .corner .corner .corner {
+    --inset-1: inherit;
+    --inset-2: inherit;
+    --inset-3: var(--inset);
+    border-radius: max(0px, var(--corner) - var(--inset-1) - var(--inset-2));
+  }
+  .corner-pad {
+    padding: var(--inset);
+  }
+}
+
+@supports (corner-shape: squircle) {
+  .plate,
+  .corner {
+    corner-shape: squircle;
+  }
+}
+
+@property --corner {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --inset {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --inset-1 {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --inset-2 {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --inset-3 {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
 }
 
 @property --trickle-gradient-angle {

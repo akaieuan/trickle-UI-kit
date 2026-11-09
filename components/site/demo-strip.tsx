@@ -1,31 +1,47 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Check, Copy, Code2, Eye, RotateCcw, Sliders } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { CodeBlock } from '@/components/site/code-block';
-import { ControlPanel, type ControlSpec } from '@/components/site/control-panel';
-import { SpecLine } from '@/components/site/spec-line';
+import { createContext, useContext, type ReactNode } from 'react';
+import { ComponentCard } from '@/components/site/component-card';
+import { ComponentDetail } from '@/components/site/component-detail';
+import type { ControlSpec } from '@/components/site/control-panel';
+
+/* DemoStrip is an adapter, not a layout. Every catalog entry in
+   controlled-strips.tsx calls it with the same props it always did; it
+   resolves the demo content and hands it to whichever layout is asking.
+
+   On the home page that is the card, which shows the animation and
+   little else. On /c/[slug] a DetailMode wrapper flips this switch and
+   the same props render in full — code, spec and controls included.
+   Neither layout asks a strip to change. */
+
+const DetailContext = createContext(false);
+
+/** Renders the strips inside it as full component pages, not cards. */
+export function DetailMode({ children }: { children: ReactNode }) {
+  return <DetailContext.Provider value={true}>{children}</DetailContext.Provider>;
+}
 
 export interface DemoStripProps {
   index: number;
   name: string;
   description: string;
   installCommand?: string;
-  /** Source code shown when user toggles to the Code view. */
+  /** Source code. Rendered on the detail page. */
   code?: string;
-  /** Metadata shown in the spec line (gzip, runtime, since, etc). */
+  /** Metadata for the spec line. Rendered on the detail page. */
   spec?: { label: string; value: string | number; tone?: 'default' | 'good' | 'warn' }[];
-  /** If set, the demo remounts every `replay` ms — keeps one-shot animations alive. */
+  /** If set, the demo remounts every `replay` ms while the card is in view. */
   replay?: number;
-  /** Layout direction: 'right' (default) puts demo on right, 'left' puts demo on left. */
+  /** Legacy strip layout hint. Neither layout has sides. */
   side?: 'left' | 'right';
-  /** Optional control panel — pairs with `render` to drive a live, tweakable demo. */
+  /** Tweakable controls. Live on the detail page. */
   controls?: ControlSpec[];
-  /** Default values for the controls (keyed by control.key). */
+  /** Values `render` is called with on the card. */
   defaultValues?: Record<string, number>;
-  /** Render function used when `controls` is set. Receives current values. */
+  /** Render function. Receives `defaultValues` on the card. */
   render?: (values: Record<string, number>) => ReactNode;
+  /** One-word group name. Defaults to the enclosing CardGrid's. */
+  tag?: string;
   className?: string;
   /** Static demo content. Used when `render` is not provided. */
   children?: ReactNode;
@@ -39,216 +55,54 @@ export function DemoStrip({
   code,
   spec,
   replay,
-  side = 'right',
   controls,
   defaultValues,
   render,
+  tag,
   className,
   children
 }: DemoStripProps) {
-  const [tick, setTick] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const [view, setView] = useState<'preview' | 'code'>('preview');
-  const [showControls, setShowControls] = useState(false);
-  const [inView, setInView] = useState(false);
-  const stageRef = useRef<HTMLDivElement | null>(null);
-  const [values, setValues] = useState<Record<string, number>>(
-    () => defaultValues ?? Object.fromEntries((controls ?? []).map((c) => [c.key, c.min]))
-  );
+  const detail = useContext(DetailContext);
 
-  useEffect(() => {
-    const node = stageRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry) return;
-        setInView(entry.isIntersecting);
-      },
-      { threshold: 0.45, rootMargin: '0px 0px -10% 0px' }
+  if (detail) {
+    return (
+      <ComponentDetail
+        name={name}
+        description={description}
+        installCommand={installCommand}
+        code={code}
+        spec={spec}
+        controls={controls}
+        defaultValues={defaultValues}
+        replay={replay}
+        render={render}
+      >
+        {children}
+      </ComponentDetail>
     );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!replay || view === 'code' || !inView) return;
-    const i = window.setInterval(() => setTick((t) => t + 1), replay);
-    return () => window.clearInterval(i);
-  }, [replay, view, inView]);
-
-  useEffect(() => {
-    if (!inView || view !== 'preview') return;
-    setTick((t) => t + 1);
-  }, [inView, view]);
-
-  function copy() {
-    if (!installCommand) return;
-    navigator.clipboard.writeText(`npx ${installCommand}`).then(() => {
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    });
   }
 
-  function resetControls() {
-    if (!controls) return;
-    setValues(defaultValues ?? Object.fromEntries(controls.map((c) => [c.key, c.min])));
-    setTick((t) => t + 1);
-  }
-
-  const indexLabel = String(index ?? 0).padStart(2, '0');
-  const demoContent = render ? render(values) : children;
-
-  const meta = (
-    <div className='flex flex-col gap-3 lg:w-72 lg:shrink-0'>
-      <div className='flex items-baseline gap-3'>
-        <span className='font-mono text-xs tabular-nums text-muted-foreground/50'>{indexLabel}</span>
-        <h3 className='text-base font-normal tracking-tight text-foreground'>{name}</h3>
-      </div>
-      {spec && spec.length > 0 && <SpecLine items={spec} />}
-      <p className='text-sm font-light leading-relaxed text-muted-foreground'>{description}</p>
-      {installCommand && (
-        <button
-          type='button'
-          onClick={copy}
-          aria-label={`Copy install command for ${name}`}
-          className='mt-1 flex w-full items-start gap-2 text-left font-mono text-[11px] text-muted-foreground/60 transition-colors hover:text-foreground'
-        >
-          {copied ? (
-            <>
-              <Check className='mt-[3px] h-3 w-3 shrink-0 text-emerald-500' aria-hidden='true' />
-              <span>Copied</span>
-            </>
-          ) : (
-            <>
-              <Copy className='mt-[3px] h-3 w-3 shrink-0' aria-hidden='true' />
-              <span className='min-w-0 [overflow-wrap:anywhere]'>npx {installCommand}</span>
-            </>
-          )}
-        </button>
-      )}
-    </div>
-  );
-
-  const stage = (
-    // min-w-0 stops the horizontally-scrollable code block from forcing the
-    // row wider and squeezing the meta column.
-    <div ref={stageRef} className='flex w-full min-w-0 flex-1 flex-col gap-3'>
-      {(code || controls) && (
-        <div className='flex items-center justify-between gap-2'>
-          {code ? (
-            <div className='inline-flex rounded-md border border-border bg-foreground/[0.015] p-0.5 text-[11px] font-mono dark:bg-foreground/[0.025]'>
-              <button
-                type='button'
-                onClick={() => setView('preview')}
-                className={cn(
-                  'inline-flex items-center gap-1.5 rounded px-2.5 py-1 transition-colors',
-                  view === 'preview' ? 'bg-background text-foreground' : 'text-muted-foreground/60 hover:text-foreground'
-                )}
-              >
-                <Eye className='h-3 w-3' aria-hidden='true' />
-                preview
-              </button>
-              <button
-                type='button'
-                onClick={() => setView('code')}
-                className={cn(
-                  'inline-flex items-center gap-1.5 rounded px-2.5 py-1 transition-colors',
-                  view === 'code' ? 'bg-background text-foreground' : 'text-muted-foreground/60 hover:text-foreground'
-                )}
-              >
-                <Code2 className='h-3 w-3' aria-hidden='true' />
-                code
-              </button>
-            </div>
-          ) : (
-            <span />
-          )}
-          <div className='flex items-center gap-3'>
-            {controls && controls.length > 0 && view === 'preview' && (
-              <button
-                type='button'
-                onClick={() => setShowControls((s) => !s)}
-                aria-expanded={showControls}
-                className={cn(
-                  'inline-flex items-center gap-1.5 font-mono text-[11px] transition-colors',
-                  showControls ? 'text-foreground' : 'text-muted-foreground/50 hover:text-foreground'
-                )}
-              >
-                <Sliders className='h-3 w-3' aria-hidden='true' />
-                tweak
-              </button>
-            )}
-            {view === 'preview' && (
-              <button
-                type='button'
-                onClick={() => setTick((t) => t + 1)}
-                aria-label='Replay animation'
-                className='inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground'
-              >
-                <RotateCcw className='h-3 w-3' aria-hidden='true' />
-                replay
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {view === 'preview' ? (
-        <button
-          type='button'
-          onClick={() => setTick((t) => t + 1)}
-          aria-label='Replay animation'
-          className='group/demo relative flex h-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-md border border-border bg-foreground/[0.015] px-8 py-10 text-center dark:bg-foreground/[0.025]'
-        >
-          <div key={tick} className='inline-block'>
-            {demoContent}
-          </div>
-          {!code && (
-            <span className='pointer-events-none absolute right-3 top-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground/40 opacity-0 transition-opacity group-hover/demo:opacity-100'>
-              <RotateCcw className='h-3 w-3' aria-hidden='true' />
-            </span>
-          )}
-        </button>
-      ) : code ? (
-        // Same fixed height as the preview stage: toggling preview <-> code
-        // must not resize the strip and shove the rest of the page around.
-        <CodeBlock code={code} className='h-[400px]' />
-      ) : null}
-
-      {controls && controls.length > 0 && view === 'preview' && showControls && (
-        <ControlPanel
-          specs={controls}
-          values={values}
-          onChange={(next) => {
-            setValues(next);
-            setTick((t) => t + 1);
-          }}
-          trailingActions={
-            <button
-              type='button'
-              onClick={resetControls}
-              className='inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/60 transition-colors hover:text-foreground'
-            >
-              <RotateCcw className='h-3 w-3' aria-hidden='true' />
-              reset defaults
-            </button>
-          }
-        />
-      )}
-    </div>
-  );
+  const values = defaultValues ?? Object.fromEntries((controls ?? []).map((c) => [c.key, c.min]));
 
   return (
-    <article
-      className={cn(
-        'group flex flex-col gap-4 py-8 lg:flex-row lg:gap-8',
-        side === 'left' && 'lg:flex-row-reverse',
-        className
-      )}
+    <ComponentCard
+      index={index}
+      name={name}
+      // The card links to the component's own page. The slug is the one
+      // in the install command — /r/<slug>.json — so a card can only
+      // ever point at the component it is showing.
+      href={installCommand ? slugFrom(installCommand) : undefined}
+      tag={tag}
+      installCommand={installCommand}
+      replay={replay}
+      className={className}
     >
-      {meta}
-      {stage}
-    </article>
+      {render ? render(values) : children}
+    </ComponentCard>
   );
+}
+
+function slugFrom(installCommand: string): string | undefined {
+  const match = /\/r\/([a-z0-9-]+)\.json/.exec(installCommand);
+  return match ? `/c/${match[1]}` : undefined;
 }

@@ -48,10 +48,16 @@ export function HeroHeadline() {
 
   return (
     <div
+      // A query container so text-display's `7cqi` term measures this block
+      // rather than falling back to the viewport.
+      className='@container'
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <h1 className='max-w-3xl text-balance text-[1.75rem] font-medium leading-[1.15] tracking-[-0.022em] sm:text-[2.125rem] lg:text-[2.5rem]'>
+      {/* leading is held slightly looser than the text-display token's 1.02:
+          several showcase components translate vertically (Bounce travels a
+          full 1.4em), and the tighter line box let them clip the caption. */}
+      <h1 className='max-w-3xl text-balance text-display font-light leading-[1.08] tracking-tight'>
         Text animations that{' '}
         {/* The animated copy is absolutely positioned over a static spacer that
             reserves the word's natural width. Components animate at different
@@ -77,13 +83,17 @@ export function HeroHeadline() {
         into any React UI.
       </h1>
 
-      <p className='mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60'>
+      {/* mt-6 keeps clear air under the headline's last line so a downward
+          travelling showcase never lands on this caption. */}
+      <p className='mt-6 font-mono text-11 uppercase tracking-[0.14em] text-ink-faint'>
         now showing{' '}
-        <span className='text-foreground/80 normal-case tracking-normal'>{current.name}</span>
-        <span className='mx-2 text-muted-foreground/30'>·</span>
+        <span className='normal-case tracking-normal text-ink-body'>{current.name}</span>
+        <span className='mx-2 text-ink-faint' aria-hidden='true'>
+          ·
+        </span>
         <a
           href='#catalog'
-          className='underline-offset-4 transition-colors hover:text-foreground hover:underline'
+          className='underline-offset-4 transition-colors duration-[var(--dur-hover)] hover:text-select hover:underline'
         >
           one of 47
         </a>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="trickle">
+  <style>
+    .plate { fill: #060606 }
+    .bar { fill: #fafafa }
+    .tip { fill: #69b47f }
+    @media (prefers-color-scheme: dark) {
+      .plate { fill: #f0f0ef }
+      .bar { fill: #060606 }
+      .tip { fill: #205432 }
+    }
+  </style>
+  <rect class="plate" fill="#060606" width="32" height="32" rx="7" />
+  <rect class="bar" fill="#fafafa" x="3.5" y="4" width="3.4" height="24" rx="1.7" />
+  <rect class="bar" fill="#fafafa" x="8.9" y="7" width="3.4" height="18" rx="1.7" />
+  <rect class="bar" fill="#fafafa" x="14.3" y="9.5" width="3.4" height="13" rx="1.7" />
+  <rect class="bar" fill="#fafafa" x="19.7" y="11.5" width="3.4" height="9" rx="1.7" />
+  <rect class="tip" fill="#69b47f" x="25.1" y="13" width="3.4" height="6" rx="1.7" />
+</svg>

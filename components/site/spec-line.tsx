@@ -7,15 +7,21 @@ export interface SpecLineProps {
 
 export function SpecLine({ items, className }: SpecLineProps) {
   return (
-    <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-muted-foreground/70', className)}>
+    <div
+      className={cn(
+        'flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-11 text-ink-quiet',
+        className
+      )}
+    >
       {items.map((item, i) => (
         <span key={i} className='inline-flex items-baseline gap-1.5'>
-          <span className='text-muted-foreground/50'>{item.label}:</span>
+          <span className='text-ink-faint'>{item.label}:</span>
           <span
             className={cn(
-              item.tone === 'good' && 'text-emerald-500',
-              item.tone === 'warn' && 'text-amber-500',
-              !item.tone && 'text-foreground/70'
+              'tabular-nums',
+              item.tone === 'good' && 'text-select',
+              item.tone === 'warn' && 'text-status-warn',
+              !item.tone && 'text-ink-body'
             )}
           >
             {item.value}
