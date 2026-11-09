@@ -3,13 +3,12 @@ import { ImageResponse } from 'next/og';
 export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
-// Mirrors app/icon.svg: a decaying 5-bar waveform, final bar in the accent green.
-const BARS = [
-  { height: 135, color: '#fafafa' },
-  { height: 101, color: '#fafafa' },
-  { height: 73, color: '#fafafa' },
-  { height: 51, color: '#fafafa' },
-  { height: 34, color: '#69b47f' }
+// Mirrors app/icon.svg: four text lines trickling down, the last one in the accent green.
+const LINES = [
+  { width: 112, color: '#fafafa' },
+  { width: 84, color: '#fafafa' },
+  { width: 56, color: '#fafafa' },
+  { width: 28, color: '#69b47f' }
 ];
 
 export default function AppleIcon() {
@@ -18,24 +17,26 @@ export default function AppleIcon() {
       <div
         style={{
           display: 'flex',
+          flexDirection: 'column',
           width: '100%',
           height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 11,
-          background: '#060606',
-          borderRadius: 40
+          gap: 14,
+          background: '#060606'
         }}
       >
-        {BARS.map((bar, i) => (
+        {LINES.map((line, i) => (
           <div
             key={i}
             style={{
               display: 'flex',
-              width: 19,
-              height: bar.height,
-              borderRadius: 10,
-              background: bar.color
+              alignSelf: 'flex-start',
+              marginLeft: 34,
+              width: line.width,
+              height: 16,
+              borderRadius: 8,
+              background: line.color
             }}
           />
         ))}

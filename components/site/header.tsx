@@ -7,7 +7,7 @@ const NAV_LINK =
 const ICON_BUTTON =
   'relative inline-flex h-9 w-9 items-center justify-center rounded-full text-ink-quiet transition-colors duration-[var(--dur-hover)] hover:text-foreground after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[""]';
 
-/** 5-bar equaliser glyph, drawn in currentColor on a surface-3 tile. */
+/** Four text lines trickling down to a short accent tail, on a surface-3 tile. */
 function Mark() {
   return (
     <span
@@ -22,12 +22,18 @@ function Mark() {
         xmlns='http://www.w3.org/2000/svg'
       >
         <g fill='currentColor'>
-          <rect x='0.5' y='5.5' width='1.5' height='3' rx='0.75' />
-          <rect x='3.25' y='3.5' width='1.5' height='7' rx='0.75' />
-          <rect x='6' y='1.5' width='1.5' height='11' rx='0.75' />
-          <rect x='8.75' y='4' width='1.5' height='6' rx='0.75' />
-          <rect x='11.5' y='6' width='1.5' height='2' rx='0.75' />
+          <rect x='1.5' y='1.9' width='11' height='1.5' rx='0.75' />
+          <rect x='1.5' y='4.9' width='8.25' height='1.5' rx='0.75' />
+          <rect x='1.5' y='7.9' width='5.5' height='1.5' rx='0.75' />
         </g>
+        <rect
+          className='fill-select'
+          x='1.5'
+          y='10.9'
+          width='2.75'
+          height='1.5'
+          rx='0.75'
+        />
       </svg>
     </span>
   );

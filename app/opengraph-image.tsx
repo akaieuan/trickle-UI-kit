@@ -4,12 +4,11 @@ export const alt = 'trickle — text animation kit for React';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const BARS = [
-  { height: 96, color: '#fafafa' },
-  { height: 72, color: '#fafafa' },
-  { height: 52, color: '#fafafa' },
-  { height: 36, color: '#fafafa' },
-  { height: 24, color: '#69b47f' }
+const LINES = [
+  { width: 96, color: '#fafafa' },
+  { width: 72, color: '#fafafa' },
+  { width: 48, color: '#fafafa' },
+  { width: 24, color: '#69b47f' }
 ];
 
 export default function OpengraphImage() {
@@ -26,16 +25,23 @@ export default function OpengraphImage() {
           background: '#060606'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {BARS.map((bar, i) => (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: 10
+          }}
+        >
+          {LINES.map((line, i) => (
             <div
               key={i}
               style={{
                 display: 'flex',
-                width: 14,
-                height: bar.height,
+                width: line.width,
+                height: 14,
                 borderRadius: 7,
-                background: bar.color
+                background: line.color
               }}
             />
           ))}
