@@ -57,7 +57,7 @@ function GithubMark() {
 
 export function SiteHeader() {
   return (
-    <header className='site-inset pointer-events-none sticky top-0 z-40 h-[var(--header-h)] w-full pt-3 before:absolute before:inset-x-0 before:top-0 before:-z-10 before:h-[calc(var(--header-h)+0.5rem)] before:bg-gradient-to-b before:from-background before:via-background/85 before:to-transparent before:content-[""]'>
+    <header className='site-inset pointer-events-none sticky top-0 z-40 h-[var(--header-h)] w-full pt-3 before:absolute before:inset-x-0 before:top-0 before:-z-10 before:h-full before:bg-background before:content-[""]'>
       <div className='glass pointer-events-auto mx-auto flex h-12 w-full max-w-[640px] items-center rounded-full pl-2 pr-1.5'>
         <Link
           href='/'
